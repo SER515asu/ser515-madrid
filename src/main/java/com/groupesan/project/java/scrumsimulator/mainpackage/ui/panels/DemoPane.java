@@ -207,11 +207,12 @@ public class DemoPane extends JFrame implements BaseComponent {
 
         // New button for Sprint Variable
         JButton SprintVariableButton = new JButton("Sprint Variables");
-        SprintUIButton.addActionListener(
+        SprintVariableButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        SprintVariablePane sprintVariablePane = new SprintVariablePane();
+                        sprintVariablePane.setVisible(true);
                     }
                 });
         // Adding the button to the panel
