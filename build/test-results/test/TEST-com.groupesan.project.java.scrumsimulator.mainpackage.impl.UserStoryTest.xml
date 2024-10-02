@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-10-02T22:42:11" hostname="LAPTOP-7FGA8VBU" time="0.013">
+  <properties/>
+  <testcase name="testUserStoryRegistered()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryTest" time="0.006"/>
+  <testcase name="testUserStoryUnregistered1()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryTest" time="0.003"/>
+  <testcase name="testUserStoryUnregistered2()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

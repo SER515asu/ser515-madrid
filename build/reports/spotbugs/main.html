@@ -1,0 +1,251 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta charset="UTF-8"/>
+      <title>SpotBugs Report</title>
+      <style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+
+		.tablerow0:hover, .tablerow1:hover {
+			background: #aaffaa;
+		}
+
+		.priority-1 {
+				color: red;
+				font-weight: bold;
+		}
+		.priority-2 {
+				color: orange;
+				font-weight: bold;
+		}
+		.priority-3 {
+				color: green;
+				font-weight: bold;
+		}
+		.priority-4 {
+				color: blue;
+				font-weight: bold;
+		}
+		</style>
+      <script type="text/javascript">
+			function toggleRow(elid) {
+				if (document.getElementById) {
+					element = document.getElementById(elid);
+					if (element) {
+						if (element.style.display == 'none') {
+							element.style.display = 'block';
+							//window.status = 'Toggle on!';
+						} else {
+							element.style.display = 'none';
+							//window.status = 'Toggle off!';
+						}
+					}
+				}
+			}
+		</script>
+   </head>
+   <body>
+      <h1>
+         <a href="https://spotbugs.github.io/">SpotBugs</a> Report</h1>
+      <h2>Project Information</h2>
+      <p>Project: 
+		ser515-madrid (spotbugsMain)</p>
+      <p>SpotBugs version: 4.8.0</p>
+      <p>Code analyzed:</p>
+      <ul>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\Player.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumIdentifier.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumObject.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumRole.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\Simulation.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\Teacher.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\core\User.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\AddUser.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\Developer.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ProductOwner.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\RoleIdentifier.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\RoleStore.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumIdentifierStoreSingleton.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumMaster.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumRoleFactory.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SimulationFactory.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\Sprint.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SprintFactory.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SprintStore.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserIdentifier.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStory.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryFactory.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryIdentifier.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryStore.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\StartSimulator.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\SimulationManager.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\SimulationStateManager.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryCompletedState.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryDeletedState.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStorySelectedState.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryState.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryStateManager.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryUnselectedState.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\App$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\App.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\GeneralPage.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\ParticipantsPage.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\RoleCreateEditDialog.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\RolesPage.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\SimulationWizard.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\UserCreateEditDialog.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$2.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$3.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$4.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$5.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$6.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane$7.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\EditUserStoryForm$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\EditUserStoryForm$2.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\EditUserStoryForm.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\ModifySimulationPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\ModifySimulationPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewSprintForm$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewSprintForm$2.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewSprintForm.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewUserStoryForm$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewUserStoryForm$2.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewUserStoryForm.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\RoleSelectionPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPanel$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPanel$2.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPanel.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationSwitchRolePane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationSwitchRolePane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationUI.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintListPane$1$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintListPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintListPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintUIPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintUIPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UpdateUserStoryPanel$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UpdateUserStoryPanel.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UserStoryListPane$1$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UserStoryListPane$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UserStoryListPane.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\VariantSimulationUI.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\DataModel.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\GridBagConstraintsBuilder.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\SimpleDocumentListener.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\WizardManager.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\BaseComponent.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditDialog.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditDialogHandler.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditMode.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\DataList.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\Dropdown.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\ResuableHeader.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\ScrumLabeledComponent.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\SpinnerInput.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\SprintWidget.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\TextInput$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\TextInput.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\UserStoryWidget$1$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\UserStoryWidget$1.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\UserStoryWidget.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\Wizard$WizardPage.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\Wizard.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\WizardHandler.class</li>
+         <li>E:\ASU\SER515\Project\ser515-madrid\build\classes\java\main\com\groupesan\project\java\scrumsimulator\mainpackage\utils\CustomConstraints.class</li>
+      </ul>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Metrics</h2>
+      <p>2334 lines of code analyzed,
+	in 103 classes, 
+	in 10 packages.</p>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Metric</th>
+            <th align="right">Total</th>
+            <th align="right">Density*</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>High Priority Warnings</td>
+            <td align="right"/>
+            <td align="right">0.00</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>Medium Priority Warnings</td>
+            <td align="right"/>
+            <td align="right">0.00</td>
+         </tr>
+         <tr class="$totalClass">
+            <td>
+               <b>Total Warnings</b>
+            </td>
+            <td align="right">
+               <b>0</b>
+            </td>
+            <td align="right">
+               <b>0.00</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <i>(* Defects per Thousand lines of non-commenting source statements)</i>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li>
+            <a href="#Details">Details</a>
+         </li>
+      </ul>
+      <h1>Summary</h1>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Warning Type</th>
+            <th align="right">Number</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <b>Total</b>
+            </td>
+            <td align="right">
+               <b>0</b>
+            </td>
+         </tr>
+      </table>
+      <h1>Warnings</h1>
+      <p>Click on a warning row to see full context information.</p>
+      <h1>
+         <a name="Details">Details</a>
+      </h1>
+   </body>
+</html>

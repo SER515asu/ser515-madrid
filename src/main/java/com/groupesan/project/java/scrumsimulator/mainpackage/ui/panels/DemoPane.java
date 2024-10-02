@@ -89,22 +89,24 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
+        // *Removed*
         // Simulation button for Demo
-        JButton simulationButton = new JButton("Add User");
-        simulationButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        SimulationPane simulationPane = new SimulationPane();
-                        simulationPane.setVisible(true);
-                    }
-                });
+        // JButton simulationButton = new JButton("Add User");
+        // simulationButton.addActionListener(
+        //         new ActionListener() {
+        //             @Override
+        //             public void actionPerformed(ActionEvent e) {
+        //                 SimulationPane simulationPane = new SimulationPane();
+        //                 simulationPane.setVisible(true);
+        //             }
+        //         });
 
-        myJpanel.add(
-                simulationButton,
-                new CustomConstraints(
-                        7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-
+        // myJpanel.add(
+        //         simulationButton,
+        //         new CustomConstraints(
+        //                 7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+        // *Removed*
+        
         // Modify Simulation button
         JButton modifySimulationButton = new JButton("Modify Simulation");
         modifySimulationButton.addActionListener(

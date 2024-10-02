@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.8">
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\Player.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumIdentifier.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumObject.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumRole.java">
+<error line="32" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\Simulation.java">
+<error line="13" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\Teacher.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\core\User.java">
+<error line="41" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="49" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\AddUser.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\Developer.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ProductOwner.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\RoleIdentifier.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\RoleStore.java">
+<error line="12" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="23" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumIdentifierStoreSingleton.java">
+<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="22" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="38" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumMaster.java">
+<error line="10" severity="warning" message="At-clause should have a non-empty description." source="com.puppycrawl.tools.checkstyle.checks.javadoc.NonEmptyAtclauseDescriptionCheck"/>
+<error line="11" severity="warning" message="At-clause should have a non-empty description." source="com.puppycrawl.tools.checkstyle.checks.javadoc.NonEmptyAtclauseDescriptionCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumRoleFactory.java">
+<error line="11" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="30" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="45" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="60" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SimulationFactory.java">
+<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\Sprint.java">
+<error line="18" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="51" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="58" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="60" column="23" severity="warning" message="Local variable name &apos;USes&apos; must match pattern &apos;^[a-z]([a-z0-9][a-zA-Z0-9]*)?$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SprintFactory.java">
+<error line="6" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\SprintStore.java">
+<error line="9" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserIdentifier.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStory.java">
+<error line="72" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="81" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="90" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="99" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="108" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="117" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="135" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="178" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryFactory.java">
+<error line="7" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="17" severity="warning" message="Abbreviation in name &apos;newUS&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryIdentifier.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryStore.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\StartSimulator.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\SimulationManager.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\SimulationStateManager.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryCompletedState.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryDeletedState.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStorySelectedState.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryState.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryStateManager.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryUnselectedState.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\App.java">
+<error line="9" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="14" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\GeneralPage.java">
+<error line="9" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="10" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="28" severity="warning" message="Distance between variable &apos;container&apos; declaration and its first usage is 4, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\ParticipantsPage.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - com.groupesan.project.java.scrumsimulator.mainpackage.core.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="38" severity="warning" message="Distance between variable &apos;container&apos; declaration and its first usage is 15, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="40" severity="warning" message="Distance between variable &apos;resuableHeader&apos; declaration and its first usage is 12, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="46" severity="warning" message="Distance between variable &apos;rolesPane&apos; declaration and its first usage is 13, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="58" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="68" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="69" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="70" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="71" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="76" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 36, expected level should be 24." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="77" severity="warning" message="&apos;block&apos; child has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="78" severity="warning" message="&apos;block&apos; child has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="79" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 36, expected level should be 24." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="81" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\RoleCreateEditDialog.java">
+<error line="9" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="10" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="15" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\RolesPage.java">
+<error line="10" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="31" severity="warning" message="Distance between variable &apos;container&apos; declaration and its first usage is 16, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="33" severity="warning" message="Distance between variable &apos;resuableHeader&apos; declaration and its first usage is 13, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="36" severity="warning" message="Distance between variable &apos;controls&apos; declaration and its first usage is 8, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="37" severity="warning" message="Distance between variable &apos;create&apos; declaration and its first usage is 5, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="46" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="47" severity="warning" message="&apos;if&apos; has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="48" severity="warning" message="&apos;if&apos; child has incorrect indentation level 24, expected level should be 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="49" severity="warning" message="&apos;if rcurly&apos; has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="50" severity="warning" message="&apos;if&apos; has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="51" severity="warning" message="&apos;if&apos; child has incorrect indentation level 24, expected level should be 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="52" severity="warning" message="&apos;if&apos; child has incorrect indentation level 24, expected level should be 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="53" severity="warning" message="&apos;if rcurly&apos; has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="54" severity="warning" message="&apos;else&apos; child has incorrect indentation level 24, expected level should be 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="55" severity="warning" message="&apos;else&apos; child has incorrect indentation level 24, expected level should be 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="56" severity="warning" message="&apos;else rcurly&apos; has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="57" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="62" severity="warning" message="Distance between variable &apos;rolesPane&apos; declaration and its first usage is 11, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="65" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="70" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="71" severity="warning" message="&apos;block&apos; child has incorrect indentation level 44, expected level should be 32." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="72" severity="warning" message="&apos;block&apos; child has incorrect indentation level 44, expected level should be 32." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="73" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="77" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="78" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="79" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="80" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="84" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 36, expected level should be 24." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="85" severity="warning" message="&apos;block&apos; child has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="86" severity="warning" message="&apos;block&apos; child has incorrect indentation level 40, expected level should be 28." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="87" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 36, expected level should be 24." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="89" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\SimulationWizard.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - com.groupesan.project.java.scrumsimulator.mainpackage.core.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\dialogs\simulation\UserCreateEditDialog.java">
+<error line="8" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="9" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="10" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="21" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="42" severity="warning" message="Distance between variable &apos;container&apos; declaration and its first usage is 4, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPane.java">
+<error line="149" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="150" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="151" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="152" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="165" severity="warning" message="Abbreviation in name &apos;feedbackPanelUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="176" severity="warning" message="Abbreviation in name &apos;variantSimulationUIButton&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="181" severity="warning" message="Abbreviation in name &apos;variantSimulationUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="192" severity="warning" message="Abbreviation in name &apos;SprintUIButton&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="192" column="17" severity="warning" message="Local variable name &apos;SprintUIButton&apos; must match pattern &apos;^[a-z]([a-z0-9][a-zA-Z0-9]*)?$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+<error line="198" severity="warning" message="Abbreviation in name &apos;sprintUIPane&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\EditUserStoryForm.java">
+<error line="36" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\ModifySimulationPane.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewSprintForm.java">
+<error line="43" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="136" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\NewUserStoryForm.java">
+<error line="34" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="112" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\RoleSelectionPane.java">
+<error line="4" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="6" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPane.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPanel.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationSwitchRolePane.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="22" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationUI.java">
+<error line="5" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="14" severity="warning" message="Abbreviation in name &apos;SimulationUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="91" severity="warning" message="Abbreviation in name &apos;updateUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintListPane.java">
+<error line="28" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="38" column="16" severity="warning" message="Local variable name &apos;aSprint&apos; must match pattern &apos;^[a-z]([a-z0-9][a-zA-Z0-9]*)?$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+<error line="39" column="16" severity="warning" message="Local variable name &apos;aSprint2&apos; must match pattern &apos;^[a-z]([a-z0-9][a-zA-Z0-9]*)?$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SprintUIPane.java">
+<error line="30" severity="warning" message="Abbreviation in name &apos;SprintUIPane&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="43" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="117" severity="warning" message="Abbreviation in name &apos;SelectUSButton&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="117" column="17" severity="warning" message="Local variable name &apos;SelectUSButton&apos; must match pattern &apos;^[a-z]([a-z0-9][a-zA-Z0-9]*)?$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
+<error line="122" severity="warning" message="Abbreviation in name &apos;ownedUS&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UpdateUserStoryPanel.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\UserStoryListPane.java">
+<error line="27" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\VariantSimulationUI.java">
+<error line="4" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="6" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="8" severity="warning" message="Abbreviation in name &apos;VariantSimulationUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="63" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="65" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="66" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="66" severity="warning" message="Abbreviation in name &apos;variantSimulationUI&apos; must contain no more than &apos;2&apos; consecutive capital letters." source="com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck"/>
+<error line="67" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="68" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\DataModel.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\GridBagConstraintsBuilder.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\SimpleDocumentListener.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\utils\WizardManager.java">
+<error line="10" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="17" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="19" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 24, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="20" severity="warning" message="&apos;block&apos; child has incorrect indentation level 28, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="21" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 24, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\BaseComponent.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditDialog.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="4" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="13" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="39" severity="warning" message="Distance between variable &apos;footer&apos; declaration and its first usage is 5, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="49" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="50" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="51" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="52" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditDialogHandler.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\CreateEditMode.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\DataList.java">
+<error line="13" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="31" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="39" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="51" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="58" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\Dropdown.java">
+<error line="4" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\ResuableHeader.java">
+<error line="17" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\ScrumLabeledComponent.java">
+<error line="23" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\SpinnerInput.java">
+<error line="6" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="12" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="15" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="16" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="17" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="18" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\SprintWidget.java">
+<error line="20" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="30" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\TextInput.java">
+<error line="14" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\UserStoryWidget.java">
+<error line="25" column="43" severity="warning" message="WhitespaceAround: &apos;{&apos; is not followed by whitespace. Empty blocks may only be represented as {} when not part of a multi-block statement (4.1.3)" source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="25" column="43" severity="warning" message="WhitespaceAround: &apos;}&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="29" severity="warning" message="&apos;method def modifier&apos; has incorrect indentation level 16, expected level should be one of the following: 8, 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="31" severity="warning" message="&apos;method def&apos; child has incorrect indentation level 20, expected level should be one of the following: 12, 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="32" severity="warning" message="&apos;method def&apos; child has incorrect indentation level 20, expected level should be one of the following: 12, 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="34" severity="warning" message="&apos;method def&apos; child has incorrect indentation level 20, expected level should be one of the following: 12, 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="40" severity="warning" message="&apos;method def rcurly&apos; has incorrect indentation level 16, expected level should be one of the following: 8, 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="41" severity="warning" message="&apos;object def rcurly&apos; has incorrect indentation level 12, expected level should be one of the following: 4, 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="43" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="49" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\Wizard.java">
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - java.awt.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="7" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - javax.swing.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="16" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="52" severity="warning" message="Distance between variable &apos;navigation&apos; declaration and its first usage is 8, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="54" severity="warning" message="Distance between variable &apos;cancel&apos; declaration and its first usage is 4, but allowed 3.  Consider making that variable final if you still need to store its value in advance (before method calls that might have side effects on the original value)." source="com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"/>
+<error line="68" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="69" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="70" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="71" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="74" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="75" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="76" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="78" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="79" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="80" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="82" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="83" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="84" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="87" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="88" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="89" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="91" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="92" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="93" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="95" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="96" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="97" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="100" severity="warning" message="&apos;lambda arguments&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="101" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="102" severity="warning" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="103" severity="warning" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="142" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="163" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\ui\widgets\WizardHandler.java">
+</file>
+<file name="E:\ASU\SER515\Project\ser515-madrid\src\main\java\com\groupesan\project\java\scrumsimulator\mainpackage\utils\CustomConstraints.java">
+<error line="7" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="15" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+</checkstyle>
