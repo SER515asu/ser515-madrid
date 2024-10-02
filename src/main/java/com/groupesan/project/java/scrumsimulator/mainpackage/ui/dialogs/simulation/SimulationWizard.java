@@ -29,8 +29,9 @@ public class SimulationWizard extends Wizard<Simulation> {
     protected List<WizardPage> build() {
         return List.of(
                 new GeneralPage(simulationName, sprintCount),
-                new RolesPage(roles),
-                new ParticipantsPage(users, roles));
+                new RolesPage(roles)
+                // new ParticipantsPage(users, roles) *Removed the "new participants" page from the Simulation Panel*
+                );
     }
 
     @Override
