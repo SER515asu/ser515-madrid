@@ -1,5 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.core.User;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
@@ -42,25 +43,71 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
         //        widgets.add(new UserStoryWidget(aUserStory));
         //        widgets.add(new UserStoryWidget(aUserStory2));
 
-        for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            widgets.add(new UserStoryWidget(userStory));
-        }
+//        for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
+//            widgets.add(new UserStoryWidget(userStory));
+//        }
 
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new GridBagLayout());
         int i = 0;
-        for (UserStoryWidget widget : widgets) {
-            subPanel.add(
+
+        // Fetch all user stories and display them with a delete button
+        for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
+            widgets.add(new UserStoryWidget(userStory));
+            UserStoryWidget widget = new UserStoryWidget(userStory);
+
+            // Create a new JPanel to hold both the widget and the delete button
+            JPanel rowPanel = new JPanel(new GridBagLayout());
+
+            // Create delete button for each user story
+            JButton deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Remove the user story from the store
+                    UserStoryStore.getInstance().removeUserStory(userStory);
+                    // Remove the entire row (widget + delete button) from the subPanel
+                    subPanel.remove(rowPanel);
+                    // Refresh the UI
+                    subPanel.revalidate();
+                    subPanel.repaint();
+                }
+            });
+
+            // Add the user story widget and the delete button to the row panel
+            rowPanel.add(
                     widget,
                     new CustomConstraints(
                             0,
-                            i++,
+                            0,
                             GridBagConstraints.WEST,
                             1.0,
                             0.1,
                             GridBagConstraints.HORIZONTAL));
-        }
 
+            rowPanel.add(
+                    deleteButton,
+                    new CustomConstraints(
+                            1,
+                            0,
+                            GridBagConstraints.WEST,
+                            0.1,
+                            0.1,
+                            GridBagConstraints.NONE));
+
+            // Add the row panel (widget + delete button) to the subPanel
+            subPanel.add(
+                    rowPanel,
+                    new CustomConstraints(
+                            0,
+                            i,
+                            GridBagConstraints.WEST,
+                            1.0,
+                            0.1,
+                            GridBagConstraints.HORIZONTAL));
+
+            i++; // Increment row position
+        }
         myJpanel.add(
                 new JScrollPane(subPanel),
                 new CustomConstraints(
