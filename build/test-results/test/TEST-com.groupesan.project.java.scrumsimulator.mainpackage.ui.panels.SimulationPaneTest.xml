@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPaneTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-10-02T22:42:11" hostname="LAPTOP-7FGA8VBU" time="0.006">
-  <properties/>
-  <testcase name="testPaneExistence()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPaneTest" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

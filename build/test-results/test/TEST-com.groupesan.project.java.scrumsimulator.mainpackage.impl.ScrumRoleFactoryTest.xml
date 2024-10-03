@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.groupesan.project.java.scrumsimulator.mainpackage.impl.ScrumRoleFactoryTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-10-02T22:42:11" hostname="LAPTOP-7FGA8VBU" time="0.014">
-  <properties/>
-  <testcase name="testCreateNewProductOwner()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.ScrumRoleFactoryTest" time="0.004"/>
-  <testcase name="testCreateNewDeveloper()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.ScrumRoleFactoryTest" time="0.004"/>
-  <testcase name="testCreateNewScrumMaster()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.impl.ScrumRoleFactoryTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

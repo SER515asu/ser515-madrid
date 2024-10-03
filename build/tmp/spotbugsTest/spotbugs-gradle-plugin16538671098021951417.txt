@@ -1,8 +1,0 @@
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\core\ScrumRoleTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\core\UserTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\impl\ScrumRoleFactoryTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\impl\UserStoryTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\state\SimulationStateTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\state\UserStoryStateTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\DemoPaneTest.class
-E:\ASU\SER515\Project\ser515-madrid\build\classes\java\test\com\groupesan\project\java\scrumsimulator\mainpackage\ui\panels\SimulationPaneTest.class

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-10-02T22:42:11" hostname="LAPTOP-7FGA8VBU" time="0.01">
-  <properties/>
-  <testcase name="testStopSimulation()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateTest" time="0.005"/>
-  <testcase name="testStartSimulation()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateTest" time="0.001"/>
-  <testcase name="testInitialState()" classname="com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
