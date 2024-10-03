@@ -1,23 +1,29 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditUserStoryForm;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class UserStoryWidget extends JPanel implements BaseComponent {
     private JLabel id, points, bv, name, desc;
     private UserStory userStory;
+    private JButton deleteButton;
 
     public UserStoryWidget(UserStory userStory) {
         this.userStory = userStory;
@@ -72,6 +78,20 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
                 form.setVisible(true);
             }
         });
+
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserStoryStore.getInstance().removeUserStory(userStory);
+                Container parent = UserStoryWidget.this.getParent();
+                parent.remove(UserStoryWidget.this);
+                parent.revalidate();
+                parent.repaint();
+            }
+        });
+
+        this.add(deleteButton);
 
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
