@@ -1,11 +1,16 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditSprintForm;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 public class SprintWidget extends JPanel implements BaseComponent {
 
@@ -17,13 +22,37 @@ public class SprintWidget extends JPanel implements BaseComponent {
 
     JLabel numUserStories;
 
+    private Sprint sprint;
+
+    MouseAdapter openEditDialog =
+            new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                    System.out.println("clicked");    
+                    EditSprintForm form = new EditSprintForm(sprint);
+                    form.setVisible(true);
+
+                    form.addWindowListener(
+                            new java.awt.event.WindowAdapter() {
+                                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                    init();
+                                }
+                            });
+                }
+            };
+
     public SprintWidget(Sprint sprint) {
         id = new JLabel(Integer.toString(sprint.getId()));
+        id.addMouseListener(openEditDialog);
         name = new JLabel(sprint.getName());
+        name.addMouseListener(openEditDialog);
         desc = new JLabel(sprint.getDescription());
+        desc.addMouseListener(openEditDialog);
         len = new JLabel(Integer.toString(sprint.getLength()));
         remaining = new JLabel(Integer.toString(sprint.getDaysRemaining()));
         numUserStories = new JLabel(Integer.toString(sprint.getUserStories().size()));
+        this.sprint = sprint;
         this.init();
     }
 
