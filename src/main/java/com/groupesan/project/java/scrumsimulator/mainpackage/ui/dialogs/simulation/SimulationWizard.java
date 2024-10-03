@@ -29,7 +29,7 @@ public class SimulationWizard extends Wizard<Simulation> {
     protected List<WizardPage> build() {
         return List.of(
                 new GeneralPage(simulationName, sprintCount),
-                new RolesPage(roles),
+                // new RolesPage(roles), *Removed in accordance of Issue #6*
                 new ParticipantsPage(users, roles));
     }
 
