@@ -1,10 +1,16 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 /** Reusable component that handles the core functionality of a wizard. */
@@ -23,25 +29,26 @@ public abstract class Wizard<T> extends JFrame implements BaseComponent {
 
     @Override
     public void init() {
-        setSize(800, 600);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
-        setLocationRelativeTo(null);
+    setSize(800, 600);
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    setLayout(new BorderLayout());
+    setLocationRelativeTo(null);
 
-        CardLayout bodyLayout = new CardLayout();
-        JPanel body = new JPanel(bodyLayout);
-        body.setBorder(new EmptyBorder(10, 10, 10, 10));
+    CardLayout bodyLayout = new CardLayout();
+    JPanel body = new JPanel(bodyLayout);
+    body.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        for (WizardPage page : pages) {
-            body.add(page.render(), page.getId());
-        }
+    // Assuming 'pages' has only one page, we display it directly
+    WizardPage singlePage = pages.get(0);  // Get the single page
+    body.add(singlePage.render(), singlePage.getId());  // Add the single page
 
-        JPanel footer = buildFooter(bodyLayout, body);
+    JPanel footer = buildFooter(bodyLayout, body);
 
-        add(body, BorderLayout.CENTER);
-        add(footer, BorderLayout.SOUTH);
+    add(body, BorderLayout.CENTER);
+    add(footer, BorderLayout.SOUTH);
 
-        bodyLayout.show(body, this.pages.get(this.pageNum).getId());
+    // Directly show the single page without checking
+    bodyLayout.show(body, singlePage.getId());
     }
 
     private JPanel buildFooter(CardLayout bodyLayout, JPanel bodyLayoutContainer) {
