@@ -30,7 +30,8 @@ public class SimulationWizard extends Wizard<Simulation> {
         return List.of(
                 new GeneralPage(simulationName, sprintCount),
                 // new RolesPage(roles), *Removed in accordance of Issue #6*
-                new ParticipantsPage(users, roles));
+                // new ParticipantsPage(users, roles) *Removed the "new participants" page from the Simulation Panel*
+                );
     }
 
     @Override
