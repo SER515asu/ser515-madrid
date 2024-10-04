@@ -3,9 +3,8 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -22,6 +21,8 @@ public class EditUserStoryForm extends JFrame implements BaseComponent {
 
     Double[] pointsList = {1.0, 2.0, 3.0, 5.0, 8.0, 11.0, 19.0, 30.0, 49.0};
 
+    Double[] businessValueList = {1.0, 2.0, 3.0, 5.0, 8.0, 11.0, 19.0, 30.0, 49.0};
+
     public EditUserStoryForm(UserStory userStory) {
         this.userStory = userStory;
         this.init();
@@ -32,6 +33,8 @@ public class EditUserStoryForm extends JFrame implements BaseComponent {
     private JTextField nameField = new JTextField();
     private JTextArea descArea = new JTextArea();
     private JComboBox<Double> pointsCombo = new JComboBox<>(pointsList);
+
+    private JComboBox<Double> businessValueCombo = new JComboBox<>(businessValueList);
 
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -82,6 +85,17 @@ public class EditUserStoryForm extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
 
+        JLabel businessValueLabel = new JLabel("Business Value:");
+        myJpanel.add(
+                businessValueLabel,
+                new CustomConstraints(
+                        0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(
+                businessValueCombo,
+                new CustomConstraints(
+                        1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
+
+
         JButton cancelButton = new JButton("Cancel");
 
         cancelButton.addActionListener(
@@ -101,20 +115,22 @@ public class EditUserStoryForm extends JFrame implements BaseComponent {
                         String name = nameField.getText();
                         String description = descArea.getText();
                         Double points = (Double) pointsCombo.getSelectedItem();
+                        Double businessValue = (Double) businessValueCombo.getSelectedItem();
 
                         userStory.setName(name);
                         userStory.setDescription(description);
                         userStory.setPointValue(points);
+                        userStory.setBusinessValue(businessValue);
                         dispose();
                     }
                 });
 
         myJpanel.add(
                 cancelButton,
-                new CustomConstraints(0, 3, GridBagConstraints.EAST, GridBagConstraints.NONE));
+                new CustomConstraints(0, 4, GridBagConstraints.EAST, GridBagConstraints.NONE));
         myJpanel.add(
                 submitButton,
-                new CustomConstraints(1, 3, GridBagConstraints.WEST, GridBagConstraints.NONE));
+                new CustomConstraints(1, 4, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         add(myJpanel);
     }

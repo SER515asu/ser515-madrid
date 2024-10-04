@@ -16,14 +16,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class SprintListPane extends JFrame implements BaseComponent {
+    private List<SprintWidget> widgets = new ArrayList<>();
+    private JPanel subPanel;
+    private JScrollPane scrollPane;
+
     public SprintListPane() {
         this.init();
     }
-
-    private List<SprintWidget> widgets = new ArrayList<>();
 
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -35,34 +38,24 @@ public class SprintListPane extends JFrame implements BaseComponent {
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
 
-        Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("foo", "bar", 2);
-        Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("foo2", "bar2", 4);
-        widgets.add(new SprintWidget(aSprint));
-        widgets.add(new SprintWidget(aSprint2));
-
-        for (Sprint sprint : SprintStore.getInstance().getSprints()) {
-            widgets.add(new SprintWidget(sprint));
-        }
-
-        JPanel subPanel = new JPanel();
+        subPanel = new JPanel();
         subPanel.setLayout(new GridBagLayout());
-        int i = 0;
-        for (SprintWidget widget : widgets) {
-            subPanel.add(
-                    widget,
-                    new CustomConstraints(
-                            0,
-                            i++,
-                            GridBagConstraints.WEST,
-                            1.0,
-                            0.1,
-                            GridBagConstraints.HORIZONTAL));
+
+        // Create initial sprints using SprintFactory only if the store is empty
+        if (SprintStore.getInstance().getSprints().isEmpty()) {
+            Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("foo", "bar", 2);
+            Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("foo2", "bar2", 4);
+            SprintStore.getInstance().addSprint(aSprint);
+            SprintStore.getInstance().addSprint(aSprint2);
         }
 
+        refreshSprintList();
+
+        scrollPane = new JScrollPane(subPanel);
         myJpanel.add(
-                new JScrollPane(subPanel),
+                scrollPane,
                 new CustomConstraints(
-                        0, 0, GridBagConstraints.WEST, 1.0, 0.8, GridBagConstraints.HORIZONTAL));
+                        0, 0, GridBagConstraints.WEST, 1.0, 0.8, GridBagConstraints.BOTH));
 
         JButton newSprintButton = new JButton("New Sprint");
         newSprintButton.addActionListener(
@@ -77,17 +70,15 @@ public class SprintListPane extends JFrame implements BaseComponent {
                                     public void windowClosed(
                                             java.awt.event.WindowEvent windowEvent) {
                                         Sprint newSprint = form.getSprintObject();
-                                        widgets.add(new SprintWidget(newSprint));
-                                        int idx = widgets.size() - 1;
-                                        subPanel.add(
-                                                widgets.get(idx),
-                                                new CustomConstraints(
-                                                        0,
-                                                        idx,
-                                                        GridBagConstraints.WEST,
-                                                        1.0,
-                                                        0.1,
-                                                        GridBagConstraints.HORIZONTAL));
+                                        if (newSprint != null) {
+                                            // The SprintFactory should handle both creation and storage. This is to avoid multiple entries in the SprintStore or the sprint list.
+                                            SprintFactory.getSprintFactory().createNewSprint(
+                                                newSprint.getName(), 
+                                                newSprint.getDescription(), 
+                                                newSprint.getLength()
+                                            );
+                                            refreshSprintList();
+                                        }
                                     }
                                 });
                     }
@@ -98,5 +89,35 @@ public class SprintListPane extends JFrame implements BaseComponent {
                         0, 1, GridBagConstraints.WEST, 1.0, 0.2, GridBagConstraints.HORIZONTAL));
 
         add(myJpanel);
+    }
+
+    // New function to refresh the sprint list as soon as a new sprint is added.
+    private void refreshSprintList() {
+        widgets.clear();
+        subPanel.removeAll();
+
+        for (Sprint sprint : SprintStore.getInstance().getSprints()) {
+            widgets.add(new SprintWidget(sprint));
+        }
+
+        int i = 0;
+        for (SprintWidget widget : widgets) {
+            subPanel.add(
+                    widget,
+                    new CustomConstraints(
+                            0,
+                            i++,
+                            GridBagConstraints.WEST,
+                            1.0,
+                            0.1,
+                            GridBagConstraints.HORIZONTAL));
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            subPanel.revalidate();
+            subPanel.repaint();
+            scrollPane.revalidate();
+            scrollPane.repaint();
+        });
     }
 }
