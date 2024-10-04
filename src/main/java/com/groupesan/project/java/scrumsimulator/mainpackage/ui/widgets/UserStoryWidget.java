@@ -1,82 +1,103 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditUserStoryForm;
-import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class UserStoryWidget extends JPanel implements BaseComponent {
-
-    JLabel id;
-    JLabel points;
-    JLabel name;
-    JLabel desc;
-
-    // TODO: This is a non transient field and this class is supposed to be serializable. this needs
-    // to be dealt with before this object can be serialized
+    private JLabel id, points, bv, name, desc;
     private UserStory userStory;
-
-    ActionListener actionListener = e -> {};
-
-    MouseAdapter openEditDialog =
-            new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    EditUserStoryForm form = new EditUserStoryForm(userStory);
-                    form.setVisible(true);
-
-                    form.addWindowListener(
-                            new java.awt.event.WindowAdapter() {
-                                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                                    init();
-                                }
-                            });
-                }
-            };
+    private JButton deleteButton;
 
     public UserStoryWidget(UserStory userStory) {
         this.userStory = userStory;
-
         this.init();
     }
 
     public void init() {
         removeAll();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
+        // ID column
+        gbc.weightx = 0.1;
+        gbc.gridx = 0;
         id = new JLabel(userStory.getId().toString());
-        id.addMouseListener(openEditDialog);
+        id.setPreferredSize(new Dimension(50, 30));
+        add(id, gbc);
+
+        // Points column
+        gbc.gridx = 1;
         points = new JLabel(Double.toString(userStory.getPointValue()));
-        points.addMouseListener(openEditDialog);
+        points.setPreferredSize(new Dimension(50, 30));
+        add(points, gbc);
+
+        // Business Value column
+        gbc.gridx = 2;
+        bv = new JLabel(Double.toString(userStory.getBusinessValue()));
+        bv.setPreferredSize(new Dimension(50, 30));
+        add(bv, gbc);
+
+        // Name column
+        gbc.gridx = 3;
+        gbc.weightx = 0.2;
         name = new JLabel(userStory.getName());
-        name.addMouseListener(openEditDialog);
-        desc = new JLabel(userStory.getDescription());
-        desc.addMouseListener(openEditDialog);
+        name.setPreferredSize(new Dimension(100, 30));
+        add(name, gbc);
 
-        GridBagLayout myGridBagLayout = new GridBagLayout();
+        // Description column with text truncation
+        gbc.gridx = 4;
+        gbc.weightx = 0.5;
+        desc = new JLabel("<html>" + truncateText(userStory.getDescription(), 40) + "</html>");
+        desc.setPreferredSize(new Dimension(200, 30));
+        add(desc, gbc);
 
-        setLayout(myGridBagLayout);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Pass the existing user story to the form for editing
+                EditUserStoryForm form = new EditUserStoryForm(userStory);
+                form.setVisible(true);
+            }
+        });
 
-        add(
-                id,
-                new CustomConstraints(
-                        0, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
-        add(
-                points,
-                new CustomConstraints(
-                        1, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
-        add(
-                name,
-                new CustomConstraints(
-                        2, 0, GridBagConstraints.WEST, 0.2, 0.0, GridBagConstraints.HORIZONTAL));
-        add(
-                desc,
-                new CustomConstraints(
-                        3, 0, GridBagConstraints.WEST, 0.7, 0.0, GridBagConstraints.HORIZONTAL));
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserStoryStore.getInstance().removeUserStory(userStory);
+                Container parent = UserStoryWidget.this.getParent();
+                parent.remove(UserStoryWidget.this);
+                parent.revalidate();
+                parent.repaint();
+            }
+        });
+
+        this.add(deleteButton);
+
+        setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
+    }
+
+    private String truncateText(String text, int maxLength) {
+        return text.length() > maxLength ? text.substring(0, maxLength) + "..." : text;
     }
 }
