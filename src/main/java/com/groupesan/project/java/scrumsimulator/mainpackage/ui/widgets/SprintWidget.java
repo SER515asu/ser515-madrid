@@ -1,9 +1,12 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SprintDetailsPane;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,6 +28,14 @@ public class SprintWidget extends JPanel implements BaseComponent {
         remaining = new JLabel(Integer.toString(sprint.getDaysRemaining()));
         numUserStories = new JLabel(Integer.toString(sprint.getUserStories().size()));
         this.init();
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SprintDetailsPane detailsPane = new SprintDetailsPane(sprint);
+                detailsPane.setVisible(true);
+            }
+        });
     }
 
     public void init() {
