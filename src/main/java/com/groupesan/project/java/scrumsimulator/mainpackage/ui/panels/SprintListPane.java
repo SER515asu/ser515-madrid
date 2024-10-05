@@ -6,8 +6,8 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.SprintWidget;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -88,13 +88,12 @@ public class SprintListPane extends JFrame implements BaseComponent {
                     }
                 });
 
-        JButton sprintVariablesButton = new JButton("Sprint Variables");
+        JButton sprintVariablesButton = new JButton("Create Sprint Cycle");
         sprintVariablesButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Assuming SprintVariablePane is a separate JFrame as before
-                        SprintVariablePane sprintVariablePane = new SprintVariablePane();
+                        SprintVariablePane sprintVariablePane = new SprintVariablePane(SprintListPane.this);
                         sprintVariablePane.setVisible(true);
                     }
                 });
@@ -126,18 +125,24 @@ public class SprintListPane extends JFrame implements BaseComponent {
                     widget,
                     new CustomConstraints(
                             0,
-                            GridBagConstraints.RELATIVE,
+                            i++,
                             GridBagConstraints.WEST,
                             1.0,
                             0.1,
                             GridBagConstraints.HORIZONTAL));
         }
 
-        SwingUtilities.invokeLater(() -> {
-            subPanel.revalidate();
-            subPanel.repaint();
-            scrollPane.revalidate();
-            scrollPane.repaint();
-        });
+        subPanel.revalidate();
+        subPanel.repaint();
+    }
+    public void addSprints(int numberOfSprints) {
+        for (int i = 1; i <= numberOfSprints; i++) {
+            String name = "Sprint " + i;
+            String description = "Sprint Description " + i;
+            int length = 2; // Predefined length of sprint
+            Sprint newSprint = SprintFactory.getSprintFactory().createNewSprint(name, description, length);
+            SprintStore.getInstance().addSprint(newSprint);
+        }
+        refreshSprintList();
     }
 }
