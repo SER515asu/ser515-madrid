@@ -45,9 +45,17 @@ public class SprintDetailsPane extends JFrame{
         myJpanel.add(sprintDescValue,
                 new CustomConstraints(1, 1, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
 
+        JLabel sprintLengthLabel = new JLabel("Length");
+        myJpanel.add(sprintLengthLabel,
+                new CustomConstraints(0, 2, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
+
+        JLabel sprintLengthValue = new JLabel(String.valueOf(sprint.getLength()));
+        myJpanel.add(sprintLengthValue,
+                new CustomConstraints(1, 2, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
+
         JLabel userStoriesLabel = new JLabel("User Stories:");
         myJpanel.add(userStoriesLabel,
-                new CustomConstraints(0, 2, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
+                new CustomConstraints(0, 3, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
 
         //Display all user stories in the sprint
         List<UserStory> userStories = sprint.getUserStories();
@@ -60,7 +68,7 @@ public class SprintDetailsPane extends JFrame{
 
         myJpanel.add(
                 scrollPane,
-                new CustomConstraints(1, 2, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.BOTH)
+                new CustomConstraints(1, 3, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.BOTH)
         );
         //Allow developer to cancel saving added changes
         JButton cancelButton = new JButton("Cancel");
