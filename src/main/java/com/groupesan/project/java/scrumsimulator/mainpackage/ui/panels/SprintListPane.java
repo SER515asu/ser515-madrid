@@ -135,12 +135,11 @@ public class SprintListPane extends JFrame implements BaseComponent {
         subPanel.revalidate();
         subPanel.repaint();
     }
-    public void addSprints(int numberOfSprints) {
+    public void addSprints(int numberOfSprints, int sprintDuration) {
         for (int i = 1; i <= numberOfSprints; i++) {
             String name = "Sprint " + i;
-            String description = "Sprint Description " + i;
-            int length = 2; // Predefined length of sprint
-            Sprint newSprint = SprintFactory.getSprintFactory().createNewSprint(name, description, length);
+            String description = "";
+            Sprint newSprint = SprintFactory.getSprintFactory().createNewSprint(name, description, sprintDuration);
             SprintStore.getInstance().addSprint(newSprint);
         }
         refreshSprintList();

@@ -8,10 +8,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class SprintVariablePane extends JFrame implements BaseComponent {
     private JTextArea simulationIdDisplay;
     private SprintListPane sprintListPane;
+
+    Random random = new Random();
 
     public SprintVariablePane(SprintListPane sprintListPane){
         this.sprintListPane = sprintListPane;
@@ -71,7 +74,13 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int numberOfSprints = Integer.parseInt(numberOfSprintsField.getText());
-                    sprintListPane.addSprints(numberOfSprints);
+                    int lowerBound = Integer.parseInt(sprintDurationField1.getText());
+                    int upperBound = Integer.parseInt(sprintDurationField2.getText());
+
+
+                    int duration = random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+
+                    sprintListPane.addSprints(numberOfSprints, duration);
                     dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(panel, "Please enter a valid number", "Error", JOptionPane.ERROR_MESSAGE);
