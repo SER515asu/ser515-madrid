@@ -35,16 +35,32 @@ public class Sprint {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getLength() {
         return length;
     }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     public int getDaysRemaining() {
         return remainingDays;
+    }
+
+    public void setDaysRemaining(int remainingDays) {
+        this.remainingDays = remainingDays;
     }
 
     public void decrementRemainingDays() {
