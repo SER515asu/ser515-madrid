@@ -204,24 +204,6 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         8, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-
-        // New button for Sprint Variable
-        JButton SprintVariableButton = new JButton("Sprint Variables");
-        SprintVariableButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        SprintVariablePane sprintVariablePane = new SprintVariablePane();
-                        sprintVariablePane.setVisible(true);
-                    }
-                });
-        // Adding the button to the panel
-        myJpanel.add(
-                SprintVariableButton,
-                new CustomConstraints(
-                        9, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-
-
         add(myJpanel);
     }
 }

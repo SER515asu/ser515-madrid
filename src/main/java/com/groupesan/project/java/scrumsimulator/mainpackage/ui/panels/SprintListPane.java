@@ -31,7 +31,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Sprints list");
-        setSize(400, 300);
+        setSize(600, 300);
+        setLocationRelativeTo(null);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
@@ -52,10 +53,13 @@ public class SprintListPane extends JFrame implements BaseComponent {
         refreshSprintList();
 
         scrollPane = new JScrollPane(subPanel);
+        GridBagConstraints scrollPaneConstraint = new CustomConstraints(
+                0, 0, GridBagConstraints.NORTH, 1.0, 1.0, GridBagConstraints.BOTH);
+        scrollPaneConstraint.gridwidth = 2;
         myJpanel.add(
                 scrollPane,
-                new CustomConstraints(
-                        0, 0, GridBagConstraints.WEST, 1.0, 0.8, GridBagConstraints.BOTH));
+                scrollPaneConstraint
+                );
 
         JButton newSprintButton = new JButton("New Sprint");
         newSprintButton.addActionListener(
@@ -83,10 +87,26 @@ public class SprintListPane extends JFrame implements BaseComponent {
                                 });
                     }
                 });
+
+        JButton sprintVariablesButton = new JButton("Sprint Variables");
+        sprintVariablesButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Assuming SprintVariablePane is a separate JFrame as before
+                        SprintVariablePane sprintVariablePane = new SprintVariablePane();
+                        sprintVariablePane.setVisible(true);
+                    }
+                });
         myJpanel.add(
                 newSprintButton,
                 new CustomConstraints(
-                        0, 1, GridBagConstraints.WEST, 1.0, 0.2, GridBagConstraints.HORIZONTAL));
+                        0, 1, GridBagConstraints.WEST, 0.5, 0.2, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(
+                sprintVariablesButton,
+                new CustomConstraints(
+                        1, 1, GridBagConstraints.WEST, 0.5, 0.2, GridBagConstraints.HORIZONTAL));
+
 
         add(myJpanel);
     }
@@ -106,7 +126,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
                     widget,
                     new CustomConstraints(
                             0,
-                            i++,
+                            GridBagConstraints.RELATIVE,
                             GridBagConstraints.WEST,
                             1.0,
                             0.1,
