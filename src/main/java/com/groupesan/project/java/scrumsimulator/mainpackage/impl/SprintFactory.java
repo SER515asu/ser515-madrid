@@ -21,4 +21,9 @@ public class SprintFactory {
         Sprint newSprint = new Sprint(name, description, length, ++numSprints);
         return newSprint;
     }
+
+    public static void resetSprintFactory() {
+        sprintFactory = new SprintFactory();
+    }
+
 }

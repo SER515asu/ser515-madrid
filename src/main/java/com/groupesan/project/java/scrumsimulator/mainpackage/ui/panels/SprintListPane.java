@@ -149,4 +149,5 @@ public class SprintListPane extends JFrame implements BaseComponent {
         }
         refreshSprintList();
     }
+
 }

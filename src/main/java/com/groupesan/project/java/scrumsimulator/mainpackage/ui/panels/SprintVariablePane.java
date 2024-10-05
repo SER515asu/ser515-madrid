@@ -1,5 +1,7 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintFactory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 
@@ -74,6 +76,30 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
 
                     int lowerBound = Integer.parseInt(sprintDurationField1.getText());
                     int upperBound = Integer.parseInt(sprintDurationField2.getText());
+
+                    if(lowerBound>upperBound){
+                        sprintDurationField1.setText("");
+                        sprintDurationField2.setText("");
+
+                        JOptionPane.showMessageDialog(panel, "Lower bound cannot be greater than upper bound. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
+                    if(lowerBound<0 || upperBound<0 || numberOfSprints<0){
+                        JOptionPane.showMessageDialog(panel, "Cannot accept negative values. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
+                    if(numberOfSprints==0){
+                        JOptionPane.showMessageDialog(panel, "numberOfSprints cannot be zero. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
+                    SprintStore.getInstance().clearSprintList();
+                    SprintFactory.resetSprintFactory();
 
                     sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound);
                     dispose();
