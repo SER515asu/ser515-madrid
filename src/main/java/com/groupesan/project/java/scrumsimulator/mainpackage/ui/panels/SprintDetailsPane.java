@@ -91,6 +91,19 @@ public class SprintDetailsPane extends JFrame{
                 new CustomConstraints(1, 4, GridBagConstraints.WEST, GridBagConstraints.NONE)
         );
 
+        JButton editButton = new JButton("Edit");
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Edit button clicked");
+                EditSprintForm form = new EditSprintForm(sprint);
+                form.setVisible(true);
+            }
+        });
+        myJpanel.add(editButton,
+                new CustomConstraints(3, 4, GridBagConstraints.WEST, 0.1, 0.1, GridBagConstraints.HORIZONTAL));
+
+
         add(myJpanel);
     }
 }
