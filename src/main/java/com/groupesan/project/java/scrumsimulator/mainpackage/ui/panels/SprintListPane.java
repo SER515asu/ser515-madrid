@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +24,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
     private List<SprintWidget> widgets = new ArrayList<>();
     private JPanel subPanel;
     private JScrollPane scrollPane;
+
+    Random random = new Random();
 
     public SprintListPane() {
         this.init();
@@ -135,8 +138,10 @@ public class SprintListPane extends JFrame implements BaseComponent {
         subPanel.revalidate();
         subPanel.repaint();
     }
-    public void addSprints(int numberOfSprints, int sprintDuration) {
+    public void addSprints(int numberOfSprints, int lowerBound, int upperBound) {
         for (int i = 1; i <= numberOfSprints; i++) {
+            int sprintDuration = random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+
             String name = "Sprint " + i;
             String description = "";
             Sprint newSprint = SprintFactory.getSprintFactory().createNewSprint(name, description, sprintDuration);
