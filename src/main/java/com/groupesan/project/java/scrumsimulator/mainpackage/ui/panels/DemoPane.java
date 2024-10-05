@@ -211,7 +211,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        BlockersPane blockersPane = new BlockersPane();
+                        BlockersListPane blockersPane = new BlockersListPane();
                         blockersPane.setVisible(true);
                     }
                 });

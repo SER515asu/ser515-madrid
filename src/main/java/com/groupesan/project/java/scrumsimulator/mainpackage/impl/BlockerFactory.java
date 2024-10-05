@@ -1,7 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 
 public class BlockerFactory {
-
     private static BlockerFactory blockerFactory;
 
     public static BlockerFactory getInstance() {
@@ -13,8 +12,8 @@ public class BlockerFactory {
 
     private BlockerFactory() {}
 
-    public Blocker createNewBlocker(String name, String description, UserStory userStory) {
-        Blocker newBlocker = new Blocker(name, description, userStory);
+    public Blocker createNewBlocker(String title, String description, String status) {
+        Blocker newBlocker = new Blocker(title, description, status);
         return newBlocker;
     }
 }

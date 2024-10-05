@@ -1,51 +1,39 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifier;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumObject;
+import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifier;
 
-public class Blocker extends ScrumObject{
-
+public class Blocker extends ScrumObject {
     private BlockerIdentifier id;
     private String name;
     private String description;
-    private UserStory userStory;
+    private String status;
 
-    public Blocker(BlockerIdentifier id, String name, UserStory userStory) {
-        this.id = id;
+    public Blocker(String name, String description, String status) {
         this.name = name;
-        this.description = "";
-        this.userStory = userStory;
-        register();
+        this.description = description;
+        this.status = status;
     }
 
-    public Blocker(String name2, String description2, UserStory userStory2) {
-        this.name = name2;
-        this.description = description2;
-        this.userStory = userStory2;
-        register();
-    }
-
-    @Override
     protected void register() {
         this.id = new BlockerIdentifier(ScrumIdentifierStoreSingleton.get().getNextId());
     }
 
-    @Override
     public ScrumIdentifier getId() {
+        if (!isRegistered()) {
+            throw new IllegalStateException("This Blocker has not been registered and does not have an ID yet!");
+        }
         return id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "Blocker [id=" + id + ", name=" + name + ", description=" + description + ", userStory=" + userStory + "]";
+    public void setName(String name) {
+        this.name = name;
     }
-    
-    // getters and setters for description and userStory
+
     public String getDescription() {
         return description;
     }
@@ -54,12 +42,19 @@ public class Blocker extends ScrumObject{
         this.description = description;
     }
 
-    public UserStory getUserStory() {
-        return userStory;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUserStory(UserStory userStory) {
-        this.userStory = userStory;
+    public void setStatus(String status) {
+        this.status = status;
     }
-    
+
+    @Override
+    public String toString() {
+        if (isRegistered()) {
+            return this.getId().toString() + " - " + name;
+        }
+        return "(unregistered) - " + getName();
+    }
 }
