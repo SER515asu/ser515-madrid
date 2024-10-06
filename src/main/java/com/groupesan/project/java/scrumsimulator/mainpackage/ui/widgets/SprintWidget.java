@@ -2,8 +2,8 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,7 +20,9 @@ public class SprintWidget extends JPanel implements BaseComponent {
     public SprintWidget(Sprint sprint) {
         id = new JLabel(Integer.toString(sprint.getId()));
         name = new JLabel(sprint.getName());
+        name.setPreferredSize(new Dimension(100, 20));
         desc = new JLabel(sprint.getDescription());
+        desc.setPreferredSize(new Dimension(200, 20));
         len = new JLabel(Integer.toString(sprint.getLength()));
         remaining = new JLabel(Integer.toString(sprint.getDaysRemaining()));
         numUserStories = new JLabel(Integer.toString(sprint.getUserStories().size()));

@@ -6,12 +6,13 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.SprintWidget;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +25,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
     private JPanel subPanel;
     private JScrollPane scrollPane;
 
+    Random random = new Random();
+
     public SprintListPane() {
         this.init();
     }
@@ -31,7 +34,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Sprints list");
-        setSize(400, 300);
+        setSize(600, 300);
+        setLocationRelativeTo(null);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
@@ -52,10 +56,13 @@ public class SprintListPane extends JFrame implements BaseComponent {
         refreshSprintList();
 
         scrollPane = new JScrollPane(subPanel);
+        GridBagConstraints scrollPaneConstraint = new CustomConstraints(
+                0, 0, GridBagConstraints.NORTH, 1.0, 1.0, GridBagConstraints.BOTH);
+        scrollPaneConstraint.gridwidth = 2;
         myJpanel.add(
                 scrollPane,
-                new CustomConstraints(
-                        0, 0, GridBagConstraints.WEST, 1.0, 0.8, GridBagConstraints.BOTH));
+                scrollPaneConstraint
+                );
 
         JButton newSprintButton = new JButton("New Sprint");
         newSprintButton.addActionListener(
@@ -83,10 +90,25 @@ public class SprintListPane extends JFrame implements BaseComponent {
                                 });
                     }
                 });
+
+        JButton sprintVariablesButton = new JButton("Create Sprint Cycle");
+        sprintVariablesButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        SprintVariablePane sprintVariablePane = new SprintVariablePane(SprintListPane.this);
+                        sprintVariablePane.setVisible(true);
+                    }
+                });
         myJpanel.add(
                 newSprintButton,
                 new CustomConstraints(
-                        0, 1, GridBagConstraints.WEST, 1.0, 0.2, GridBagConstraints.HORIZONTAL));
+                        0, 1, GridBagConstraints.WEST, 0.5, 0.2, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(
+                sprintVariablesButton,
+                new CustomConstraints(
+                        1, 1, GridBagConstraints.WEST, 0.5, 0.2, GridBagConstraints.HORIZONTAL));
+
 
         add(myJpanel);
     }
@@ -113,11 +135,19 @@ public class SprintListPane extends JFrame implements BaseComponent {
                             GridBagConstraints.HORIZONTAL));
         }
 
-        SwingUtilities.invokeLater(() -> {
-            subPanel.revalidate();
-            subPanel.repaint();
-            scrollPane.revalidate();
-            scrollPane.repaint();
-        });
+        subPanel.revalidate();
+        subPanel.repaint();
     }
+    public void addSprints(int numberOfSprints, int lowerBound, int upperBound) {
+        for (int i = 1; i <= numberOfSprints; i++) {
+            int sprintDuration = random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+
+            String name = "Sprint " + i;
+            String description = "";
+            Sprint newSprint = SprintFactory.getSprintFactory().createNewSprint(name, description, sprintDuration);
+            SprintStore.getInstance().addSprint(newSprint);
+        }
+        refreshSprintList();
+    }
+
 }
