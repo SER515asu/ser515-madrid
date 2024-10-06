@@ -38,7 +38,7 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
         JTextField sprintDurationField2 = new JTextField(10);
         JTextField numberOfSprintsField = new JTextField(20);
 
-        JLabel nameLabel = new JLabel("Range for Sprint Duration(in Days):");
+        JLabel nameLabel = new JLabel("Range for Each Sprint Duration(in Days):");
         JLabel sprintsLabel = new JLabel("Number of Sprints:");
 
         panel.add(
@@ -77,6 +77,15 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                     int lowerBound = Integer.parseInt(sprintDurationField1.getText());
                     int upperBound = Integer.parseInt(sprintDurationField2.getText());
 
+                    if(lowerBound==0 || upperBound==0){
+                        sprintDurationField1.setText("");
+                        sprintDurationField2.setText("");
+
+                        JOptionPane.showMessageDialog(panel, "Minimum Sprint Duration can't be set to 0.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
                     if(lowerBound>upperBound){
                         sprintDurationField1.setText("");
                         sprintDurationField2.setText("");
@@ -93,7 +102,7 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                     }
 
                     if(numberOfSprints==0){
-                        JOptionPane.showMessageDialog(panel, "numberOfSprints cannot be zero. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Number Of Sprints cannot be zero. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
 
                         return;
                     }
@@ -104,7 +113,7 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                     sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound);
                     dispose();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(panel, "Please enter a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
