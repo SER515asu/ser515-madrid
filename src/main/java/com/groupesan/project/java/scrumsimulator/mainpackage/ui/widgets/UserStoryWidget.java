@@ -3,6 +3,7 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditUserStoryForm;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.UserStoryListPane;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -24,9 +25,11 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
     private JLabel id, points, bv, name, desc;
     private UserStory userStory;
     private JButton deleteButton;
+    private UserStoryListPane parentPane;
 
-    public UserStoryWidget(UserStory userStory) {
+    public UserStoryWidget(UserStory userStory, UserStoryListPane parentPane) {
         this.userStory = userStory;
+        this.parentPane = parentPane; // Issue50: Updated the constructor to accept a parentPane for refreshing the user stories list
         this.init();
     }
 
@@ -70,12 +73,20 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
         desc.setPreferredSize(new Dimension(200, 30));
         add(desc, gbc);
 
-        addMouseListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() { // mouseClicked event listener is for editing user story
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Pass the existing user story to the form for editing
-                EditUserStoryForm form = new EditUserStoryForm(userStory);
+                EditUserStoryForm form = new EditUserStoryForm(userStory, parentPane);
                 form.setVisible(true);
+                form.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        updateWidgetContent();
+                        if (parentPane != null) {
+                            parentPane.refreshUserStories(); // Issue50: Updated the event handler to refresh the user stories list as the form is submitted.
+                        }
+                    }
+                });
             }
         });
 
@@ -88,6 +99,9 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
                 parent.remove(UserStoryWidget.this);
                 parent.revalidate();
                 parent.repaint();
+                if (parentPane != null) {
+                    parentPane.refreshUserStories(); // Issue50: Updated the delete button event handler to refresh the user stories list
+                }
             }
         });
 
@@ -99,5 +113,16 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
 
     private String truncateText(String text, int maxLength) {
         return text.length() > maxLength ? text.substring(0, maxLength) + "..." : text;
+    }
+
+    // Issue50: Added the updateWidgetContent method to update the user story widget content
+    private void updateWidgetContent() {
+        id.setText(userStory.getId().toString());
+        points.setText(Double.toString(userStory.getPointValue()));
+        bv.setText(Double.toString(userStory.getBusinessValue()));
+        name.setText(userStory.getName());
+        desc.setText("<html>" + truncateText(userStory.getDescription(), 40) + "</html>");
+        revalidate();
+        repaint();
     }
 }
