@@ -21,6 +21,7 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         this.blocker = blocker;
         this.init();
         populateUserStories();
+        restoreSelectedUserStory();
     }
 
     public void init() {
@@ -96,6 +97,10 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         gbc.weightx = 0.1;
         add(userStoryDropdown, gbc);
 
+        if (blocker.getUserStory() != null) {
+            userStoryDropdown.setSelectedItem(blocker.getUserStory().getName());
+        }
+
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
     }
@@ -114,12 +119,18 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     }
 
     public void populateUserStories() {
-        userStoryDropdown.removeAllItems(); // Clear existing items
+        // userStoryDropdown.removeAllItems(); // Clear existing items
         UserStoryStore userStoryStore = UserStoryStore.getInstance();
         UserStory[] userStories = userStoryStore.getUserStories().toArray(new UserStory[0]);
         userStoryDropdown.addItem("Select User Story");
         for (UserStory userStory : userStories) {
             userStoryDropdown.addItem(userStory.getName());
+        }
+    }
+
+    public void restoreSelectedUserStory() {
+        if (blocker.getUserStory() != null) {
+            userStoryDropdown.setSelectedItem(blocker.getUserStory().getName());
         }
     }
 }
