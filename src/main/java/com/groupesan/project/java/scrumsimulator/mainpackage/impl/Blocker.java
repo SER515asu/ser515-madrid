@@ -8,11 +8,13 @@ public class Blocker extends ScrumObject {
     private String name;
     private String description;
     private String status;
+    private UserStory userStory;
 
-    public Blocker(String name, String description, String status) {
+    public Blocker(String name, String description, String status, UserStory userStory) {
         this.name = name;
         this.description = description;
         this.status = status;
+        this.userStory = userStory;
     }
 
     protected void register() {
@@ -58,7 +60,11 @@ public class Blocker extends ScrumObject {
         return "(unregistered) - " + getName();
     }
 
-    public void setUserStory(UserStory userStory) {
+    public UserStory getUserStory() {
+        return userStory;
+    }
 
+    public void setUserStory(UserStory userStory) {
+        this.userStory = userStory;
     }
 }
