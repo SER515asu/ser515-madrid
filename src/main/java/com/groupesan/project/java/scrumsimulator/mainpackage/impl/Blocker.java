@@ -57,4 +57,8 @@ public class Blocker extends ScrumObject {
         }
         return "(unregistered) - " + getName();
     }
+
+    public void setUserStory(UserStory userStory) {
+
+    }
 }

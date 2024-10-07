@@ -2,8 +2,9 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Blocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerForm;
-import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,12 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     private JLabel id, status, name, desc;
     private Blocker blocker;
     private JButton deleteButton;
+    private JComboBox<String> userStoryDropdown;
 
     public BlockerWidget(Blocker blocker) {
         this.blocker = blocker;
         this.init();
+        populateUserStories();
     }
 
     public void init() {
@@ -79,7 +82,19 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
         gbc.gridx = 4;
         gbc.weightx = 0.1;
-        this.add(deleteButton, gbc);
+        add(deleteButton, gbc);        
+
+        userStoryDropdown = new JComboBox<>();
+        userStoryDropdown.addActionListener(e -> {
+            String selectedUserStory = (String) userStoryDropdown.getSelectedItem();
+            if (selectedUserStory != null && !selectedUserStory.equals("Select User Story")) {
+                UserStory userStory = UserStoryStore.getInstance().getUserStoryByName(selectedUserStory);
+                blocker.setUserStory(userStory);
+            }
+        });
+        gbc.gridx = 5;
+        gbc.weightx = 0.1;
+        add(userStoryDropdown, gbc);
 
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
@@ -96,5 +111,15 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         desc.setText("<html>" + truncateText(blocker.getDescription(), 40) + "</html>");
         revalidate();
         repaint();
+    }
+
+    public void populateUserStories() {
+        userStoryDropdown.removeAllItems(); // Clear existing items
+        UserStoryStore userStoryStore = UserStoryStore.getInstance();
+        UserStory[] userStories = userStoryStore.getUserStories().toArray(new UserStory[0]);
+        userStoryDropdown.addItem("Select User Story");
+        for (UserStory userStory : userStories) {
+            userStoryDropdown.addItem(userStory.getName());
+        }
     }
 }
