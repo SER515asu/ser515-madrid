@@ -20,9 +20,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class SprintListPane extends JFrame implements BaseComponent {
-    private List<SprintWidget> widgets = new ArrayList<>();
-    private JPanel subPanel;
-    private JScrollPane scrollPane;
+    private static List<SprintWidget> widgets = new ArrayList<>();
+    private static JPanel subPanel;
+    private static JScrollPane scrollPane;
 
     public SprintListPane() {
         this.init();
@@ -92,7 +92,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
     }
 
     // New function to refresh the sprint list as soon as a new sprint is added.
-    private void refreshSprintList() {
+    public static void refreshSprintList() {
         widgets.clear();
         subPanel.removeAll();
 

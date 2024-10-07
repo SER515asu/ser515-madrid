@@ -106,9 +106,17 @@ JLabel descLabel = new JLabel("Description:");
                             String name = nameField.getText();
                             String description = descArea.getText();
                             Integer length = (Integer) sprintDays.getValue();
+                            sprint.getUserStories().clear();
+                            usList.getSelectedValuesList().forEach(us -> {
+                                UserStoryStore.getInstance().getUserStories().stream()
+                                        .findFirst()
+                                        .ifPresent(sprint::addUserStory);
+
+                            });
 
                             SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
                             dispose();
+                            SprintListPane.refreshSprintList();
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             //Refresh the form with original sprint variables in case of error.
@@ -128,6 +136,13 @@ JLabel descLabel = new JLabel("Description:");
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        for (int i = 0; i < UserStoryStore.getInstance().getUserStories().size(); i++) {
+            if (sprint.getUserStories().contains(UserStoryStore.getInstance().getUserStories().get(i))) {
+                usList.addSelectionInterval(i, i);
+            }
+        }
+
         JScrollPane scrollPane = new JScrollPane(usList);
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
