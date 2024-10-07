@@ -1,11 +1,5 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.core.User;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.UserStoryWidget;
-
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -23,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.UserStoryWidget;
 
 public class UserStoryListPane extends JFrame implements BaseComponent {
     private List<UserStoryWidget> widgets = new ArrayList<>();
@@ -66,7 +65,7 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
                     public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                         UserStory userStory = form.getUserStoryObject();
                         UserStoryStore.getInstance().addUserStory(userStory);
-                        addUserStoryWidget(new UserStoryWidget(userStory));
+                        addUserStoryWidget(new UserStoryWidget(userStory, null));
                     }
                 });
             }
@@ -102,7 +101,7 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
 
     private void loadUserStories() {
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            addUserStoryWidget(new UserStoryWidget(userStory));
+            addUserStoryWidget(new UserStoryWidget(userStory, null));
         }
     }
 
@@ -112,4 +111,12 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
         storiesPanel.revalidate();
         storiesPanel.repaint();
     }
+    
+    // Issue50: Added the refreshUserStories method to refresh the user stories, as the form is submitted.
+    public void refreshUserStories() {
+    storiesPanel.removeAll();
+    loadUserStories();
+    storiesPanel.revalidate();
+    storiesPanel.repaint();
+}
 }

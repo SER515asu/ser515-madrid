@@ -23,6 +23,10 @@ public class SprintStore {
         sprints.add(sprint);
     }
 
+    public void clearSprintList(){
+        sprints = new ArrayList<>();
+    }
+
     public List<Sprint> getSprints() {
         return new ArrayList<>(sprints);
     }
