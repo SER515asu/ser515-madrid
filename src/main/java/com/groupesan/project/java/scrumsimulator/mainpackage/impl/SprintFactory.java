@@ -32,7 +32,7 @@ public class SprintFactory {
         Random random = new Random();
         double errorChance = random.nextDouble();
 
-        if (errorChance <= 0.25) { // 25% chance of error set for the scope of this project.
+        if (errorChance <= 0.15) { // 10% chance of error set for the scope of this project.
             throw new Exception("Error occurred while updating the sprint. Please try again!");
         }
 
@@ -46,4 +46,7 @@ public class SprintFactory {
     // throw new Exception("Error occurred while updating the sprint. Please try again!");
     // }
 
+    public static void resetSprintFactory() {
+        sprintFactory = new SprintFactory();
+    }
 }
