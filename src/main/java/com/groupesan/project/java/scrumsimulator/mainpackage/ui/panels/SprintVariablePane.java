@@ -135,7 +135,7 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                     SprintStore.getInstance().clearSprintList();
                     SprintFactory.resetSprintFactory();
 
-                    sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound);
+                    sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound, storyPoints);
                     dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(panel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);

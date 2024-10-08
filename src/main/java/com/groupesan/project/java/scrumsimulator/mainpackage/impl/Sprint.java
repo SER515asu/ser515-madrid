@@ -15,6 +15,17 @@ public class Sprint {
 
     private int id;
 
+    private int storyPoints;
+
+    public Sprint(String name, String description, int length, int id, int storyPoints) {
+        this.name = name;
+        this.description = description;
+        this.length = length;
+        this.remainingDays = length;
+        this.id = id;
+        this.storyPoints = storyPoints;
+    }
+
     public Sprint(String name, String description, int length, int id) {
         this.name = name;
         this.description = description;
@@ -53,6 +64,14 @@ public class Sprint {
 
     public int getId() {
         return id;
+    }
+
+    public int getStoryPoints() {
+        return storyPoints;
+    }
+
+    public int setStoryPoints(int storyPoints) {
+        return this.storyPoints = storyPoints;
     }
 
     public String toString() {
