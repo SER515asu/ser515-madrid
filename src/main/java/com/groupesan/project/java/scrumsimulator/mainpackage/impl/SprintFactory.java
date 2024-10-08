@@ -32,7 +32,7 @@ public class SprintFactory {
         Random random = new Random();
         double errorChance = random.nextDouble();
 
-        if (errorChance <= 0.001) {
+        if (errorChance <= 0.25) { // 25% chance of error set for the scope of this project.
             throw new Exception("Error occurred while updating the sprint. Please try again!");
         }
 
@@ -40,5 +40,10 @@ public class SprintFactory {
         sprint.setDescription(description);
         sprint.setLength(length);
     }
+
+    // Error probability set to 100% for testing:
+    // public void updateSprint(Sprint sprint, String name, String description, int length) throws Exception {
+    // throw new Exception("Error occurred while updating the sprint. Please try again!");
+    // }
 
 }

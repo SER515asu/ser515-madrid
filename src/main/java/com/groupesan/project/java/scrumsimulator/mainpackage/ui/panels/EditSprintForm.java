@@ -7,7 +7,19 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
@@ -111,7 +123,6 @@ JLabel descLabel = new JLabel("Description:");
                                 UserStoryStore.getInstance().getUserStories().stream()
                                         .findFirst()
                                         .ifPresent(sprint::addUserStory);
-
                             });
 
                             SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
@@ -119,12 +130,8 @@ JLabel descLabel = new JLabel("Description:");
                             SprintListPane.refreshSprintList();
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            //Refresh the form with original sprint variables in case of error.
-                            nameField.setText(sprint.getName());
-                            descArea.setText(sprint.getDescription());
-                            sprintDays.setValue(sprint.getLength());
-                            revalidate();
-                            repaint();
+                            // US-25, Task #57: Edit sprint variable window closes after error message is dismissed.
+                            dispose();
                         }
                     }
                 });
