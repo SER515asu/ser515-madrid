@@ -1,12 +1,17 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SprintDetailsPane;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-
-import java.awt.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class SprintWidget extends JPanel implements BaseComponent {
 
