@@ -22,11 +22,13 @@ import javax.swing.border.EmptyBorder;
 public class NewSprintForm extends JFrame implements BaseComponent {
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
-    SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
-    JSpinner sprintDays = new JSpinner(spinnerNumberModel);
-    JSpinner sprintStoryPoints = new JSpinner(spinnerNumberModel);
+    SpinnerNumberModel sprintDaysSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
+    SpinnerNumberModel sprintPointsSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
+    JSpinner sprintDays = new JSpinner( sprintDaysSpinnerNumberModel);
+    JSpinner sprintStoryPoints = new JSpinner(sprintPointsSpinnerNumberModel);
 
     DefaultListModel<String> listModel;
+    List<UserStory> sprintBacklog = null;
     JList<String> usList;
 
     public NewSprintForm() {
@@ -119,7 +121,7 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
                         }
                         SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
-                        List<UserStory> sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int)sprintStoryPoints.getValue());
+                        sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int)sprintStoryPoints.getValue());
                         if (sprintBacklog.isEmpty()) {
                             JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits","Error", JOptionPane.ERROR_MESSAGE);
                             return ;
@@ -178,19 +180,25 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
-
         SprintFactory sprintFactory = SprintFactory.getSprintFactory();
 
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
 
         int[] selectedIdx = usList.getSelectedIndices();
 
-        for (int idx : selectedIdx) {
-            String stringIdentifier = listModel.getElementAt(idx);
-            for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-                if (stringIdentifier.equals(userStory.toString())) {
-                    mySprint.addUserStory(userStory);
-                    break;
+        if(sprintBacklog !=null && sprintBacklog.size()>0){
+            for (UserStory userStory : sprintBacklog) {
+                mySprint.addUserStory(userStory);
+            }
+        }
+        else{
+            for (int idx : selectedIdx) {
+                String stringIdentifier = listModel.getElementAt(idx);
+                for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
+                    if (stringIdentifier.equals(userStory.toString())) {
+                        mySprint.addUserStory(userStory);
+                        break;
+                    }
                 }
             }
         }
