@@ -5,6 +5,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintFactory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.SprintBacklogManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 import java.awt.BorderLayout;
@@ -13,19 +14,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class NewSprintForm extends JFrame implements BaseComponent {
@@ -121,10 +112,31 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         List<UserStory> userStoryList =  UserStoryStore.getInstance().getUserStories();
+                        if (userStoryList.isEmpty()) {
+                            System.out.println("No user stories available.");
+                            JOptionPane.showMessageDialog(myJpanel, "No user stories available.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
 
+                        }
+                        SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
+                        List<UserStory> sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int)sprintStoryPoints.getValue());
+                        if (sprintBacklog.isEmpty()) {
+                            JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits","Error", JOptionPane.ERROR_MESSAGE);
+                            return ;
+                        }
 
+                        listModel.clear();
+                        for (UserStory userStory : sprintBacklog) {
+                            System.out.println("userstory: "+userStory.getName());
+                            listModel.addElement(userStory.toString());
+
+                        }
+                        usList.setModel(listModel);
+                        usList.repaint();
+                        usList.revalidate();
                     }
                 });
+
 
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
