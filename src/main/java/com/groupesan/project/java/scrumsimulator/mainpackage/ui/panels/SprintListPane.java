@@ -132,6 +132,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
         subPanel.revalidate();
         subPanel.repaint();
+        scrollPane.setViewportView(subPanel);
     }
     public void addSprints(int numberOfSprints, int lowerBound, int upperBound) {
         for (int i = 1; i <= numberOfSprints; i++) {
