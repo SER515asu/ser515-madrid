@@ -17,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
+    private JButton productBacklogButton;
+    private String currentRole = "Scrum Master";
 
     public DemoPane() {
         this.init();
@@ -59,18 +61,18 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         0, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        JButton userStoriesButton = new JButton("User Stories");
-        userStoriesButton.addActionListener(
+        productBacklogButton = new JButton("Product Backlog");
+        productBacklogButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        UserStoryListPane form = new UserStoryListPane();
+                        UserStoryListPane form = new UserStoryListPane(currentRole);
                         form.setVisible(true);
                     }
                 });
 
         myJpanel.add(
-                userStoriesButton,
+                productBacklogButton,
                 new CustomConstraints(
                         1, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
@@ -160,7 +162,13 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SimulationSwitchRolePane feedbackPanelUI = new SimulationSwitchRolePane();
+                        SimulationSwitchRolePane feedbackPanelUI = new SimulationSwitchRolePane(new RoleUpdateListener() {
+                            @Override
+                            public void onRoleUpdate(String newRole) {
+                                currentRole = newRole;
+                                System.out.println("Role Updated to: " + currentRole);
+                            }
+                        });
                         feedbackPanelUI.setVisible(true);
                     }
                 });
@@ -193,7 +201,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // Load SprintUIPane
-                        SprintUIPane sprintUIPane = new SprintUIPane(player);
+                        SprintUIPane sprintUIPane = new SprintUIPane(player, currentRole);
                         sprintUIPane.setVisible(true);
                     }
                 });
@@ -206,4 +214,12 @@ public class DemoPane extends JFrame implements BaseComponent {
 
         add(myJpanel);
     }
+
+//    private void updateEditPermission() {
+//        if("Scrum Master".equals(currentRole)) {
+//            productBacklogButton.setEnabled(true);
+//        } else {
+//            productBacklogButton.setEnabled(false);
+//        }
+//    }
 }
