@@ -20,6 +20,7 @@ public class DemoPane extends JFrame implements BaseComponent {
 
     public DemoPane() {
         this.init();
+	//hello
         player.doRegister();
     }
 
