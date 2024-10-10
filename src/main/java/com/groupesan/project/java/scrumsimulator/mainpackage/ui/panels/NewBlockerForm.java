@@ -13,6 +13,7 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
     private JTextField nameField = new JTextField();
     private JTextArea descArea = new JTextArea();
     private JComboBox<String> statusCombo = new JComboBox<>(new String[]{"Open", "In Progress", "Resolved"});
+    private boolean isFormSubmitted = false;
 
     public NewBlockerForm() {
         this.init();
@@ -36,11 +37,23 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         myJpanel.add(statusCombo, new CustomConstraints(1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> dispose());
+
+        cancelButton.addActionListener(e -> {
+            isFormSubmitted = false;
+            dispose();
+        });
+
 
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            dispose();
+            if (validateForm()) {
+                isFormSubmitted = true;
+                Blocker blocker = getBlockerObject();
+                if (blocker != null) {
+                    dispose();
+                }
+            }
+
         });
 
         myJpanel.add(cancelButton, new CustomConstraints(0, 3, GridBagConstraints.EAST, GridBagConstraints.NONE));
@@ -49,7 +62,24 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         add(myJpanel);
     }
 
+
+    public boolean validateForm() {
+        String title = nameField.getText();
+        String description = descArea.getText();
+        String status = (String) statusCombo.getSelectedItem();
+
+        if (title.isEmpty() || description.isEmpty() || status.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
     public Blocker getBlockerObject() {
+        if(!isFormSubmitted) {
+            return null;
+        }
         String title = nameField.getText();
         String description = descArea.getText();
         String status = (String) statusCombo.getSelectedItem();
