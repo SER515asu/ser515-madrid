@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class NewSprintForm extends JFrame implements BaseComponent {
@@ -102,7 +103,25 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        dispose();
+                        // Field validation
+                        String name = nameField.getText().trim();
+                        String description = descArea.getText().trim();
+                        Integer length = (Integer) sprintDays.getValue();
+
+                        if (name.isEmpty() || description.isEmpty() || length <= 0) {
+                            // Display error message
+                            JOptionPane.showMessageDialog(
+                                    NewSprintForm.this,
+                                    "All fields are required and must be valid.",
+                                    "Validation Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        Sprint newSprint = getSprintObject();
+                        if (newSprint != null) {
+                            dispose();
+                        }
                     }
                 });
 
@@ -163,9 +182,9 @@ public class NewSprintForm extends JFrame implements BaseComponent {
             mySprint.addUserStory(selectedUserStory);
         }
 
-        SprintStore.getInstance().addSprint(mySprint);
-
-        System.out.println(mySprint);
+//        SprintStore.getInstance().addSprint(mySprint);
+//
+//        System.out.println(mySprint);
 
         return mySprint;
     }
