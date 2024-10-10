@@ -9,14 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class NewUserStoryForm extends JFrame implements BaseComponent {
@@ -33,6 +26,7 @@ public class NewUserStoryForm extends JFrame implements BaseComponent {
     private JTextArea descArea = new JTextArea();
     private JComboBox<Double> pointsCombo = new JComboBox<>(pointsList);
     private JComboBox<Double> businessValueCombo = new JComboBox<>(businessValueList);
+    private JButton submitButton;
 
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -102,9 +96,22 @@ public class NewUserStoryForm extends JFrame implements BaseComponent {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
 
-        JButton submitButton = new JButton("Submit");
+        submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            dispose();
+            if (nameField.getText().trim().isEmpty() || descArea.getText().trim().isEmpty()
+                    || pointsCombo.getSelectedItem() == null || businessValueCombo.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(
+                        NewUserStoryForm.this,
+                        "All fields are required.",
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            UserStory userStory = getUserStoryObject();
+            if (userStory != null) {
+                userStory.doRegister();
+                dispose();
+            }
             
         });
 
@@ -114,17 +121,23 @@ public class NewUserStoryForm extends JFrame implements BaseComponent {
         add(myJpanel);
     }
 
+    public JButton getSubmitButton() {
+        return submitButton;
+    }
+
     public UserStory getUserStoryObject() {
         String name = nameField.getText();
         String description = descArea.getText();
         Double points = (Double) pointsCombo.getSelectedItem();
         Double businessValue = (Double) businessValueCombo.getSelectedItem();
 
+        if (name.isEmpty() || description.isEmpty() || points == null || businessValue == null) {
+            return null;
+        }
+
         UserStoryFactory userStoryFactory = UserStoryFactory.getInstance();
         UserStory userStory = userStoryFactory.createNewUserStory(name, description, points, businessValue);
         userStory.doRegister();
-
-        System.out.println(userStory);
         return userStory;
     }
 }
