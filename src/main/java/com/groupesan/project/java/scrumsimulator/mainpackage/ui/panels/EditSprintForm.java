@@ -1,5 +1,27 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
+
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintFactory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
@@ -7,16 +29,11 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
-public class NewSprintForm extends JFrame implements BaseComponent {
+public class EditSprintForm extends JFrame implements BaseComponent {
+
+    private Sprint sprint;
+
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
     SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
@@ -25,12 +42,17 @@ public class NewSprintForm extends JFrame implements BaseComponent {
     DefaultListModel<String> listModel;
     JList<String> usList;
 
-    public NewSprintForm() {
+    public EditSprintForm(Sprint sprint) {
+        this.sprint = sprint;
         this.init();
     }
 
+
+
+    @Override
     public void init() {
-        setTitle("New Sprint");
+
+        setTitle("Edit Sprint");
         setSize(400, 300);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
@@ -42,6 +64,10 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         setLayout(myBorderLayout);
 
+        nameField = new JTextField(sprint.getName());
+        descArea = new JTextArea(sprint.getDescription());
+        sprintDays = new JSpinner(new SpinnerNumberModel(5, 1, 999999, 1));
+
         JLabel nameLabel = new JLabel("Name:");
         myJpanel.add(
                 nameLabel,
@@ -51,8 +77,8 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 nameField,
                 new CustomConstraints(
                         1, 0, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
-
-        JLabel descLabel = new JLabel("Description:");
+        
+JLabel descLabel = new JLabel("Description:");
         myJpanel.add(
                 descLabel,
                 new CustomConstraints(
@@ -88,28 +114,28 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Field validation
-                        String name = nameField.getText().trim();
-                        String description = descArea.getText().trim();
-                        Integer length = (Integer) sprintDays.getValue();
+                        try {
+                            String name = nameField.getText();
+                            String description = descArea.getText();
+                            Integer length = (Integer) sprintDays.getValue();
+                            sprint.getUserStories().clear();
+                            usList.getSelectedValuesList().forEach(us -> {
+                                UserStoryStore.getInstance().getUserStories().stream()
+                                        .findFirst()
+                                        .ifPresent(sprint::addUserStory);
+                            });
 
-                        if (name.isEmpty() || description.isEmpty() || length <= 0) {
-                            // Display error message
-                            JOptionPane.showMessageDialog(
-                                    NewSprintForm.this,
-                                    "All fields are required and must be valid.",
-                                    "Validation Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-
-                        Sprint newSprint = getSprintObject();
-                        if (newSprint != null) {
+                            SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
+                            dispose();
+                            SprintListPane.refreshSprintList();
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            // US-25, Task #57: Edit sprint variable window closes after error message is dismissed.
                             dispose();
                         }
                     }
                 });
-
+        
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
             listModel.addElement(userStory.toString());
@@ -117,6 +143,13 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        for (int i = 0; i < UserStoryStore.getInstance().getUserStories().size(); i++) {
+            if (sprint.getUserStories().contains(UserStoryStore.getInstance().getUserStories().get(i))) {
+                usList.addSelectionInterval(i, i);
+            }
+        }
+
         JScrollPane scrollPane = new JScrollPane(usList);
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
@@ -161,10 +194,13 @@ public class NewSprintForm extends JFrame implements BaseComponent {
             }
         }
 
-//        SprintStore.getInstance().addSprint(mySprint);
-//
-//        System.out.println(mySprint);
+        SprintStore.getInstance().addSprint(mySprint);
+
+        System.out.println(mySprint);
 
         return mySprint;
+
     }
+   
+    
 }

@@ -10,22 +10,21 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class SprintListPane extends JFrame implements BaseComponent {
-    private List<SprintWidget> widgets = new ArrayList<>();
-    private JPanel subPanel;
-    private JScrollPane scrollPane;
+    private static List<SprintWidget> widgets = new ArrayList<>();
+    private static JPanel subPanel = new JPanel(new GridBagLayout());
+    private static JScrollPane scrollPane = new JScrollPane();
 
-    Random random = new Random();
+    SecureRandom secureRandom = new SecureRandom();
 
     public SprintListPane() {
         this.init();
@@ -42,9 +41,6 @@ public class SprintListPane extends JFrame implements BaseComponent {
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
 
-        subPanel = new JPanel();
-        subPanel.setLayout(new GridBagLayout());
-
         // Create initial sprints using SprintFactory only if the store is empty
         if (SprintStore.getInstance().getSprints().isEmpty()) {
             Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("foo", "bar", 2);
@@ -55,7 +51,6 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
         refreshSprintList();
 
-        scrollPane = new JScrollPane(subPanel);
         GridBagConstraints scrollPaneConstraint = new CustomConstraints(
                 0, 0, GridBagConstraints.NORTH, 1.0, 1.0, GridBagConstraints.BOTH);
         scrollPaneConstraint.gridwidth = 2;
@@ -114,7 +109,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
     }
 
     // New function to refresh the sprint list as soon as a new sprint is added.
-    private void refreshSprintList() {
+    public static void refreshSprintList() {
         widgets.clear();
         subPanel.removeAll();
 
@@ -137,10 +132,11 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
         subPanel.revalidate();
         subPanel.repaint();
+        scrollPane.setViewportView(subPanel);
     }
     public void addSprints(int numberOfSprints, int lowerBound, int upperBound) {
         for (int i = 1; i <= numberOfSprints; i++) {
-            int sprintDuration = random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+            int sprintDuration = secureRandom.nextInt((upperBound - lowerBound) + 1) + lowerBound;
 
             String name = "Sprint " + i;
             String description = "";
