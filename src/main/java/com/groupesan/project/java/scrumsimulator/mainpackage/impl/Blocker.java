@@ -3,18 +3,21 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumObject;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Blocker extends ScrumObject {
     private BlockerIdentifier id;
     private String name;
     private String description;
     private String status;
-    private UserStory userStory;
+    private List<UserStory> userStories = new ArrayList<>();
 
-    public Blocker(String name, String description, String status, UserStory userStory) {
+    public Blocker(String name, String description, String status, List<UserStory> userStories) {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.userStory = userStory;
+        this.userStories = userStories;
     }
 
     protected void register() {
@@ -60,11 +63,20 @@ public class Blocker extends ScrumObject {
         return "(unregistered) - " + getName();
     }
 
-    public UserStory getUserStory() {
-        return userStory;
+    public List<UserStory> getUserStories() {
+        if (userStories == null) {
+            userStories = new ArrayList<>();
+        }
+        return userStories;
     }
 
-    public void setUserStory(UserStory userStory) {
-        this.userStory = userStory;
+    public void addUserStory(UserStory userStory) {
+        if (!userStories.contains(userStory)) {
+            userStories.add(userStory);
+        }
+    }
+
+    public void removeUserStory(UserStory userStory) {
+        userStories.remove(userStory);
     }
 }

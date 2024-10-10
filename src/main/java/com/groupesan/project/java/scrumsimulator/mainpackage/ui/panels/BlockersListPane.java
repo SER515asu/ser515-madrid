@@ -45,8 +45,10 @@ public class BlockersListPane extends JFrame implements BaseComponent {
             form.addWindowListener(new java.awt.event.WindowAdapter() {
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                     Blocker blocker = form.getBlockerObject();
-                    BlockerStore.getInstance().addBlocker(blocker);
-                    addBlockerWidget(new BlockerWidget(blocker));
+                    if (blocker != null) {
+                        BlockerStore.getInstance().addBlocker(blocker);
+                        addBlockerWidget(new BlockerWidget(blocker));
+                    }
                 }
             });
         });

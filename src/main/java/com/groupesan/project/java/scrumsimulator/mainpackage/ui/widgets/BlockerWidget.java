@@ -15,7 +15,9 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     private JLabel id, status, name, desc;
     private Blocker blocker;
     private JButton deleteButton;
-    private JComboBox<String> userStoryDropdown;
+    private JButton userStoryDropdownButton;
+    private JPopupMenu userStoryPopupMenu;
+
 
     public BlockerWidget(Blocker blocker) {
         this.blocker = blocker;
@@ -83,26 +85,38 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
         gbc.gridx = 4;
         gbc.weightx = 0.1;
-        add(deleteButton, gbc);        
+        add(deleteButton, gbc);
 
-        userStoryDropdown = new JComboBox<>();
-        userStoryDropdown.addActionListener(e -> {
-            String selectedUserStory = (String) userStoryDropdown.getSelectedItem();
-            if (selectedUserStory != null && !selectedUserStory.equals("Select User Story")) {
-                UserStory userStory = UserStoryStore.getInstance().getUserStoryByName(selectedUserStory);
-                blocker.setUserStory(userStory);
-            }
-        });
-        gbc.gridx = 5;
-        gbc.weightx = 0.1;
-        add(userStoryDropdown, gbc);
+        userStoryDropdownButton = new JButton("Edit User Stories");
+        userStoryDropdownButton.addActionListener(e -> showUserStoryPopupMenu());
+        gbc.gridx = 4;
+        gbc.weightx = 0.3;
+        add(userStoryDropdownButton, gbc);
 
-        if (blocker.getUserStory() != null) {
-            userStoryDropdown.setSelectedItem(blocker.getUserStory().getName());
-        }
 
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
+    }
+
+    private void showUserStoryPopupMenu() {
+        // Clear existing popup menu items if already populated
+        if (userStoryPopupMenu != null) {
+            userStoryPopupMenu.removeAll();
+        } else {
+            userStoryPopupMenu = new JPopupMenu();
+        }
+
+        // Allow to select multiple user stories for one blocker
+        UserStoryStore userStoryStore = UserStoryStore.getInstance();
+        for (UserStory userStory : userStoryStore.getUserStories()) {
+            JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(userStory.getName());
+            menuItem.setSelected(blocker.getUserStories().contains(userStory));
+            menuItem.addActionListener(e -> updateSelectedUserStories(menuItem, userStory));
+            userStoryPopupMenu.add(menuItem);
+        }
+
+        // Show the popup menu below the button
+        userStoryPopupMenu.show(userStoryDropdownButton, 0, userStoryDropdownButton.getHeight());
     }
 
     private String truncateText(String text, int maxLength) {
@@ -118,19 +132,29 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         repaint();
     }
 
+    private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {
+        if (menuItem.isSelected()) {
+            blocker.addUserStory(userStory);
+        } else {
+            blocker.removeUserStory(userStory);
+        }
+    }
+
     public void populateUserStories() {
-        // userStoryDropdown.removeAllItems(); // Clear existing items
-        UserStoryStore userStoryStore = UserStoryStore.getInstance();
-        UserStory[] userStories = userStoryStore.getUserStories().toArray(new UserStory[0]);
-        userStoryDropdown.addItem("Select User Story");
-        for (UserStory userStory : userStories) {
-            userStoryDropdown.addItem(userStory.getName());
+        if (userStoryPopupMenu != null) {
+            userStoryPopupMenu.removeAll();
         }
     }
 
     public void restoreSelectedUserStory() {
-        if (blocker.getUserStory() != null) {
-            userStoryDropdown.setSelectedItem(blocker.getUserStory().getName());
+        if (userStoryPopupMenu != null) {
+            for (Component component : userStoryPopupMenu.getComponents()) {
+                if (component instanceof JCheckBoxMenuItem) {
+                    JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) component;
+                    UserStory userStory = UserStoryStore.getInstance().getUserStoryByName(menuItem.getText());
+                    menuItem.setSelected(userStory != null && blocker.getUserStories().contains(userStory));
+                }
+            }
         }
     }
 }
