@@ -33,6 +33,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 public class EditSprintForm extends JFrame implements BaseComponent {
 
     private Sprint sprint;
+    private SprintDetailsPane sprintDetailsPane;
 
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
@@ -42,8 +43,9 @@ public class EditSprintForm extends JFrame implements BaseComponent {
     DefaultListModel<String> listModel;
     JList<String> usList;
 
-    public EditSprintForm(Sprint sprint) {
+    public EditSprintForm(Sprint sprint, SprintDetailsPane sprintDetailsPane) {
         this.sprint = sprint;
+        this.sprintDetailsPane = sprintDetailsPane;
         this.init();
     }
 
@@ -121,17 +123,24 @@ JLabel descLabel = new JLabel("Description:");
                             sprint.getUserStories().clear();
                             usList.getSelectedValuesList().forEach(us -> {
                                 UserStoryStore.getInstance().getUserStories().stream()
+                                        .filter(story -> story.toString().equals(us))
                                         .findFirst()
                                         .ifPresent(sprint::addUserStory);
                             });
 
                             SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
                             dispose();
+                            if (sprintDetailsPane != null) {
+                                sprintDetailsPane.dispose();
+                            }
                             SprintListPane.refreshSprintList();
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                             // US-25, Task #57: Edit sprint variable window closes after error message is dismissed.
                             dispose();
+                            if (sprintDetailsPane != null) {
+                                sprintDetailsPane.dispose();
+                            }
                         }
                     }
                 });
