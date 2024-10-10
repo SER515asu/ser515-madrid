@@ -59,7 +59,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         0, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        JButton userStoriesButton = new JButton("User Stories");
+        JButton userStoriesButton = new JButton("Product Backlog");
         userStoriesButton.addActionListener(
                 new ActionListener() {
                     @Override

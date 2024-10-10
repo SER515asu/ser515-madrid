@@ -34,7 +34,7 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
 
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("User Story list");
+        setTitle("Product Backlog");
         setSize(800, 600);
     
         JPanel mainPanel = new JPanel(new BorderLayout());
