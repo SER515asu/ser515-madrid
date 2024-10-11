@@ -60,12 +60,35 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
             public void actionPerformed(ActionEvent e) {
                 NewUserStoryForm form = new NewUserStoryForm();
                 form.setVisible(true);
+                final boolean[] isSubmitted = {false};
     
                 form.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    private boolean isSubmitted = false;
+
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        // This event triggers when the window is closing without pressing submit
+                        isSubmitted[0] = false;
+                    }
                     public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                        UserStory userStory = form.getUserStoryObject();
-                        UserStoryStore.getInstance().addUserStory(userStory);
-                        addUserStoryWidget(new UserStoryWidget(userStory, null));
+                        if (isSubmitted[0]) {
+                            UserStory userStory = form.getUserStoryObject();
+                            if (userStory != null) {
+                                UserStoryStore.getInstance().addUserStory(userStory);
+                                refreshUserStories();
+                            }
+                        }
+//                        UserStory userStory = form.getUserStoryObject();
+//                        UserStoryStore.getInstance().addUserStory(userStory);
+//                        addUserStoryWidget(new UserStoryWidget(userStory, null));
+                    }
+                });
+                form.getSubmitButton().addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Indicate that the form was submitted
+                        isSubmitted[0] = true;
+                        form.dispose();
                     }
                 });
             }
