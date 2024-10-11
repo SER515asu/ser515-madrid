@@ -221,5 +221,5 @@ public class DemoPane extends JFrame implements BaseComponent {
                         8, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         add(myJpanel);
-    }
+            }
 }

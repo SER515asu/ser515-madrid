@@ -2,19 +2,33 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintFactory;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
 
 public class NewSprintForm extends JFrame implements BaseComponent {
     JTextField nameField = new JTextField();
@@ -22,8 +36,8 @@ public class NewSprintForm extends JFrame implements BaseComponent {
     SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
     JSpinner sprintDays = new JSpinner(spinnerNumberModel);
 
-    DefaultListModel<String> listModel;
-    JList<String> usList;
+    DefaultListModel<UserStory> listModel;
+    JList<UserStory> usList;
 
     public NewSprintForm() {
         this.init();
@@ -112,11 +126,25 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            listModel.addElement(userStory.toString());
+            listModel.addElement(userStory);
         }
+
+        // usList = new JList<>(listModel);
+        // usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        usList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof UserStory) {
+                    setText(((UserStory) value).toString());
+                }
+                return c;
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(usList);
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
@@ -149,16 +177,8 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
 
-        int[] selectedIdx = usList.getSelectedIndices();
-
-        for (int idx : selectedIdx) {
-            String stringIdentifier = listModel.getElementAt(idx);
-            for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-                if (stringIdentifier.equals(userStory.toString())) {
-                    mySprint.addUserStory(userStory);
-                    break;
-                }
-            }
+        for (UserStory selectedUserStory : usList.getSelectedValuesList()) {
+            mySprint.addUserStory(selectedUserStory);
         }
 
 //        SprintStore.getInstance().addSprint(mySprint);
