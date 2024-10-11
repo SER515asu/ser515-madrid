@@ -21,19 +21,14 @@ import javax.swing.border.EmptyBorder;
 
 public class SprintListPane extends JFrame implements BaseComponent {
     private static List<SprintWidget> widgets = new ArrayList<>();
-    private static JPanel subPanel;
-    private static JScrollPane scrollPane;
+    private static JPanel subPanel = new JPanel(new GridBagLayout());
+    private static JScrollPane scrollPane = new JScrollPane();
 
-    private static SecureRandom RANDOM = new SecureRandom();
+    SecureRandom secureRandom = new SecureRandom();
 
     public SprintListPane() {
         this.init();
     }
-    static {
-        subPanel = new JPanel();
-        scrollPane = new JScrollPane(subPanel);
-    }
-
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Sprints list");
@@ -44,8 +39,6 @@ public class SprintListPane extends JFrame implements BaseComponent {
         JPanel myJpanel = new JPanel();
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
-
-        subPanel.setLayout(new GridBagLayout());
 
         // Create initial sprints using SprintFactory only if the store is empty
         if (SprintStore.getInstance().getSprints().isEmpty()) {
@@ -80,12 +73,13 @@ public class SprintListPane extends JFrame implements BaseComponent {
                                         Sprint newSprint = form.getSprintObject();
                                         if (newSprint != null) {
                                             // The SprintFactory should handle both creation and storage. This is to avoid multiple entries in the SprintStore or the sprint list.
-                                            SprintFactory.getSprintFactory().createNewSprint(
+                                            Sprint createdSprint = SprintFactory.getSprintFactory().createNewSprint(
                                                 newSprint.getName(), 
                                                 newSprint.getDescription(), 
                                                 newSprint.getLength(),
                                                 newSprint.getStoryPoints()
                                             );
+                                            SprintStore.getInstance().addSprint(createdSprint);
                                             refreshSprintList();
                                         }
                                     }
@@ -139,10 +133,11 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
         subPanel.revalidate();
         subPanel.repaint();
+        scrollPane.setViewportView(subPanel);
     }
     public void addSprints(int numberOfSprints, int lowerBound, int upperBound, int storyPoints) {
         for (int i = 1; i <= numberOfSprints; i++) {
-            int sprintDuration = RANDOM.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+            int sprintDuration = secureRandom.nextInt((upperBound - lowerBound) + 1) + lowerBound;
 
             String name = "Sprint " + i;
             String description = "";

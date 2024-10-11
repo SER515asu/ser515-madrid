@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 
 public class SprintFactory {
     private static SprintFactory sprintFactory;
-    private static SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     public static SprintFactory getSprintFactory() {
         if (sprintFactory == null) {
@@ -36,9 +36,9 @@ public class SprintFactory {
      * */
     public void updateSprint(Sprint sprint, String name, String description, int length) throws Exception {
 
-        double errorChance = SECURE_RANDOM.nextDouble();
+        double errorChance = secureRandom.nextDouble();
 
-        if (errorChance <= 0.15) { // 10% chance of error set for the scope of this project.
+        if (errorChance <= 0.10) { // 10% chance of error set for the scope of this project.
             throw new Exception("Error occurred while updating the sprint. Please try again!");
         }
 

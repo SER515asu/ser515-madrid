@@ -34,7 +34,7 @@ public class EditSprintForm extends JFrame implements BaseComponent {
     JList<String> usList;
     JList<String> sprintList;
 
-    public EditSprintForm(Sprint sprint) {
+    public EditSprintForm(Sprint sprint, SprintDetailsPane sprintDetailsPane) {
         this.sprint = sprint;
         this.init();
     }

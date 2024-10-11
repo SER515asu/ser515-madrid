@@ -6,18 +6,37 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.SprintBacklogManager;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
+
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
 
 public class NewSprintForm extends JFrame implements BaseComponent {
     JTextField nameField = new JTextField();
@@ -27,9 +46,11 @@ public class NewSprintForm extends JFrame implements BaseComponent {
     JSpinner sprintDays = new JSpinner( sprintDaysSpinnerNumberModel);
     JSpinner sprintStoryPoints = new JSpinner(sprintPointsSpinnerNumberModel);
 
+
     DefaultListModel<String> listModel;
     List<UserStory> sprintBacklog = null;
     JList<String> usList;
+    private boolean isSubmitted = false;
 
     public NewSprintForm() {
         this.init();
@@ -90,13 +111,10 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         JButton cancelButton = new JButton("Cancel");
 
-        cancelButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        dispose();
-                    }
-                });
+        cancelButton.addActionListener(e -> {
+            isSubmitted = false;
+            dispose();
+        });
 
         JButton submitButton = new JButton("Submit");
 
@@ -104,7 +122,24 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        dispose();
+                        // Field validation
+                        String name = nameField.getText().trim();
+                        String description = descArea.getText().trim();
+                        Integer length = (Integer) sprintDays.getValue();
+                        if (name.isEmpty() || description.isEmpty() || length <= 0) {
+                            // Display error message
+                            JOptionPane.showMessageDialog(
+                                    NewSprintForm.this,
+                                    "All fields are required and must be valid.",
+                                    "Validation Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        isSubmitted = true;
+                        Sprint newSprint = getSprintObject();
+                        if (newSprint != null) {
+                            dispose();
+                        }
                     }
                 });
 
@@ -142,11 +177,22 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            listModel.addElement(userStory.toString());
+            listModel.addElement(String.valueOf(userStory));
         }
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        usList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof UserStory) {
+                    setText(((UserStory) value).toString());
+                }
+                return c;
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(usList);
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
@@ -176,7 +222,26 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         add(myJpanel);
     }
 
+//    @Override
+//    public void dispose() {
+//        if (isSubmitted) {
+//            Sprint sprint = getSprintObject();
+//            if (sprint == null) {
+//                // Handle the case where the sprint was not created
+//                System.out.println("No sprint to add, submission was canceled.");
+//            } else {
+//                // Proceed with adding the sprint to the store or further processing
+//                SprintStore.getInstance().addSprint(sprint);
+//                System.out.println("Sprint added: " + sprint);
+//            }
+//        }
+//        super.dispose(); // Always call the superclass dispose method
+//    }
+
     public Sprint getSprintObject() {
+        if (!isSubmitted) {
+            return null;
+        }
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
@@ -203,9 +268,9 @@ public class NewSprintForm extends JFrame implements BaseComponent {
             }
         }
 
-        SprintStore.getInstance().addSprint(mySprint);
+//        SprintStore.getInstance().addSprint(mySprint);
 
-        System.out.println(mySprint);
+//        System.out.println(mySprint);
 
         return mySprint;
     }
