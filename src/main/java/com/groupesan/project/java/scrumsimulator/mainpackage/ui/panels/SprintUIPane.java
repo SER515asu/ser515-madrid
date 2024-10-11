@@ -30,8 +30,10 @@ import javax.swing.border.EmptyBorder;
 public class SprintUIPane extends JFrame implements BaseComponent {
 
     private static final int MAX_IN_PROGRESS = 2;
+    private String currentRole;
 
-    public SprintUIPane(Player player) {
+    public SprintUIPane(Player player, String currentRole) {
+        this.currentRole = currentRole;
         this.currentPlayer = player;
         this.init();
     }
@@ -60,7 +62,7 @@ public class SprintUIPane extends JFrame implements BaseComponent {
             // only display unselected states
             if (userStory.getUserStoryState() instanceof UserStoryUnselectedState) {
                 selectComboBox.addItem(userStory.toString());
-                widgets.add(new UserStoryWidget(userStory, null));
+                widgets.add(new UserStoryWidget(userStory, null, currentRole));
             }
         }
 
@@ -92,7 +94,7 @@ public class SprintUIPane extends JFrame implements BaseComponent {
             if (userStory.getUserStoryState() instanceof UserStorySelectedState
                     && currentPlayer.equals(userStory.getOwner())) {
                 selectedSubPanel.add(
-                        new UserStoryWidget(userStory, null),
+                        new UserStoryWidget(userStory, null, currentRole),
                         new CustomConstraints(
                                 0,
                                 i++,
@@ -143,7 +145,7 @@ public class SprintUIPane extends JFrame implements BaseComponent {
                             // only display unselected states
                             if (userStory.getUserStoryState() instanceof UserStoryUnselectedState) {
                                 selectComboBox.addItem(userStory.toString());
-                                widgets.add(new UserStoryWidget(userStory, null));
+                                widgets.add(new UserStoryWidget(userStory, null, currentRole));
                             }
                         }
 
@@ -168,7 +170,7 @@ public class SprintUIPane extends JFrame implements BaseComponent {
                             if (userStory.getUserStoryState() instanceof UserStorySelectedState
                                     && currentPlayer.equals(userStory.getOwner())) {
                                 selectedSubPanel.add(
-                                        new UserStoryWidget(userStory, null),
+                                        new UserStoryWidget(userStory, null, currentRole),
                                         new CustomConstraints(
                                                 0,
                                                 i++,
