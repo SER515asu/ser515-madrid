@@ -6,14 +6,14 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifie
 import java.util.ArrayList;
 import java.util.List;
 
-public class Blocker extends ScrumObject {
+public class SprintBlocker extends ScrumObject {
     private BlockerIdentifier id;
     private String name;
     private String description;
     private String status;
     private List<UserStory> userStories = new ArrayList<>();
 
-    public Blocker(String name, String description, String status, List<UserStory> userStories) {
+    public SprintBlocker(String name, String description, String status, List<UserStory> userStories) {
         this.name = name;
         this.description = description;
         this.status = status;

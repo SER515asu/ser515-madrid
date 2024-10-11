@@ -1,6 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Blocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
@@ -13,13 +13,13 @@ import java.awt.event.MouseEvent;
 
 public class BlockerWidget extends JPanel implements BaseComponent {
     private JLabel id, status, name, desc;
-    private Blocker blocker;
+    private SprintBlocker blocker;
     private JButton deleteButton;
     private JButton userStoryDropdownButton;
     private JPopupMenu userStoryPopupMenu;
 
 
-    public BlockerWidget(Blocker blocker) {
+    public BlockerWidget(SprintBlocker blocker) {
         this.blocker = blocker;
         this.init();
         populateUserStories();

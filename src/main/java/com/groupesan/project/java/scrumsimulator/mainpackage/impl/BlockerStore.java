@@ -13,7 +13,7 @@ public class BlockerStore {
         return blockerStore;
     }
 
-    private List<Blocker> blockers;
+    private List<SprintBlocker> blockers;
 
     private BlockerStore() {
         blockers = new ArrayList<>();
@@ -30,16 +30,16 @@ public class BlockerStore {
         addBlocker(factory.createNewBlocker("Role heirarchy", "Need to implement role heirarchies.", "In Progress"));
     }
 
-    public void addBlocker(Blocker blocker) {
+    public void addBlocker(SprintBlocker blocker) {
         blocker.doRegister();  // Ensure the blocker is registered
         blockers.add(blocker);
     }
 
-    public List<Blocker> getBlockers() {
+    public List<SprintBlocker> getBlockers() {
         return new ArrayList<>(blockers);
     }
 
-    public void removeBlocker(Blocker blocker) {
+    public void removeBlocker(SprintBlocker blocker) {
         blockers.remove(blocker);
     }
 }

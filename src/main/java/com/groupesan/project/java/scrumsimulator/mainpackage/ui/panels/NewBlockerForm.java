@@ -1,6 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Blocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerFactory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
@@ -48,7 +48,7 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         submitButton.addActionListener(e -> {
             if (validateForm()) {
                 isFormSubmitted = true;
-                Blocker blocker = getBlockerObject();
+                SprintBlocker blocker = getBlockerObject();
                 if (blocker != null) {
                     dispose();
                 }
@@ -76,7 +76,7 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         return true;
     }
 
-    public Blocker getBlockerObject() {
+    public SprintBlocker getBlockerObject() {
         if(!isFormSubmitted) {
             return null;
         }
@@ -85,7 +85,7 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         String status = (String) statusCombo.getSelectedItem();
 
         BlockerFactory blockerFactory = BlockerFactory.getInstance();
-        Blocker blocker = blockerFactory.createNewBlocker(title, description, status);
+        SprintBlocker blocker = blockerFactory.createNewBlocker(title, description, status);
         blocker.doRegister();
 
         System.out.println(blocker);

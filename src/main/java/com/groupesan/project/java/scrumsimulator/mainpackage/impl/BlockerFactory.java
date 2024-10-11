@@ -12,8 +12,8 @@ public class BlockerFactory {
 
     private BlockerFactory() {}
 
-    public Blocker createNewBlocker(String title, String description, String status) {
-        Blocker newBlocker = new Blocker(title, description, status, null);
+    public SprintBlocker createNewBlocker(String title, String description, String status) {
+        SprintBlocker newBlocker = new SprintBlocker(title, description, status, null);
         return newBlocker;
     }
 }

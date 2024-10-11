@@ -1,6 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Blocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BlockerWidget;
@@ -44,7 +44,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
             form.addWindowListener(new java.awt.event.WindowAdapter() {
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                    Blocker blocker = form.getBlockerObject();
+                    SprintBlocker blocker = form.getBlockerObject();
                     if (blocker != null) {
                         BlockerStore.getInstance().addBlocker(blocker);
                         addBlockerWidget(new BlockerWidget(blocker));
@@ -81,7 +81,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
     }
 
     private void loadBlockers() {
-        for (Blocker blocker : BlockerStore.getInstance().getBlockers()) {
+        for (SprintBlocker blocker : BlockerStore.getInstance().getBlockers()) {
             addBlockerWidget(new BlockerWidget(blocker));
         }
     }
