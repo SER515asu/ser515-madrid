@@ -5,7 +5,6 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryFactory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.DemoPane;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import javax.swing.*;
 
 public class App {
@@ -13,7 +12,6 @@ public class App {
 
     public void start() {
         this.loadTheme();
-        WizardManager.get().showSimulationWizard();
         SwingUtilities.invokeLater(
                 new Runnable() {
                     @Override
