@@ -129,6 +129,11 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                                         .ifPresent(sprint::addUserStory);
                             });
 
+                            
+                            for (UserStory selectedUserStory : usList.getSelectedValuesList()) {
+                                sprint.addUserStory(selectedUserStory);
+                            }
+        
                             SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
 
                             dispose();
