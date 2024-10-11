@@ -80,12 +80,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
                                         Sprint newSprint = form.getSprintObject();
                                         if (newSprint != null) {
                                             // The SprintFactory should handle both creation and storage. This is to avoid multiple entries in the SprintStore or the sprint list.
-                                            SprintFactory.getSprintFactory().createNewSprint(
-                                                newSprint.getName(), 
-                                                newSprint.getDescription(), 
-                                                newSprint.getLength(),
-                                                newSprint.getStoryPoints()
-                                            );
+                                            SprintStore.getInstance().addSprint(newSprint);
                                             refreshSprintList();
                                         }
                                     }
