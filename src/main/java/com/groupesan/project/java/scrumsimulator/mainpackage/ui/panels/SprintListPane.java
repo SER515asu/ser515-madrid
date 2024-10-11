@@ -10,9 +10,9 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,10 +24,14 @@ public class SprintListPane extends JFrame implements BaseComponent {
     private static JPanel subPanel;
     private static JScrollPane scrollPane;
 
-    Random random = new Random();
+    private static SecureRandom RANDOM = new SecureRandom();
 
     public SprintListPane() {
         this.init();
+    }
+    static {
+        subPanel = new JPanel();
+        scrollPane = new JScrollPane(subPanel);
     }
 
     public void init() {
@@ -41,7 +45,6 @@ public class SprintListPane extends JFrame implements BaseComponent {
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
 
-        subPanel = new JPanel();
         subPanel.setLayout(new GridBagLayout());
 
         // Create initial sprints using SprintFactory only if the store is empty
@@ -54,7 +57,6 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
         refreshSprintList();
 
-        scrollPane = new JScrollPane(subPanel);
         GridBagConstraints scrollPaneConstraint = new CustomConstraints(
                 0, 0, GridBagConstraints.NORTH, 1.0, 1.0, GridBagConstraints.BOTH);
         scrollPaneConstraint.gridwidth = 2;
@@ -140,7 +142,7 @@ public class SprintListPane extends JFrame implements BaseComponent {
     }
     public void addSprints(int numberOfSprints, int lowerBound, int upperBound, int storyPoints) {
         for (int i = 1; i <= numberOfSprints; i++) {
-            int sprintDuration = random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+            int sprintDuration = RANDOM.nextInt((upperBound - lowerBound) + 1) + lowerBound;
 
             String name = "Sprint " + i;
             String description = "";

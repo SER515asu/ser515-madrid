@@ -32,7 +32,7 @@ public class SprintUIPane extends JFrame implements BaseComponent {
     private static final int MAX_IN_PROGRESS = 2;
     private String currentRole;
 
-    public SprintUIPane(Player player, String CurrentRole) {
+    public SprintUIPane(Player player, String currentRole) {
         this.currentRole = currentRole;
         this.currentPlayer = player;
         this.init();
