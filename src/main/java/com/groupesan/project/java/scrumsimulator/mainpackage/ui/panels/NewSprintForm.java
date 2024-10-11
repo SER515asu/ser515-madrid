@@ -163,8 +163,9 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
                         availableUserStories.sort((us1, us2) -> Integer.compare((int) us2.getBusinessValue(), (int) us1.getBusinessValue()));
 
-                        sprintBacklog = findOptimalStories(availableUserStories, targetStoryPoints); ;
-//                        sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int)sprintStoryPoints.getValue());
+                        SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
+//                        sprintBacklog = findOptimalStories(availableUserStories, targetStoryPoints); ;
+                        sprintBacklog = sprintBacklogManager.generateSprintBacklog(availableUserStories, (int)sprintStoryPoints.getValue());
                         if (sprintBacklog.isEmpty()) {
                             JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits","Error", JOptionPane.ERROR_MESSAGE);
                             return ;
@@ -229,51 +230,51 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
         add(myJpanel);
     }
-    /**
-     * find the optimal combination of user stories that add up to the target story points.
-     * This maximizes the business value.
-     */
-    private List<UserStory> findOptimalStories(List<UserStory> availableUserStories, int targetStoryPoints) {
-        List<UserStory> result = new ArrayList<>();
-        List<UserStory> temp = new ArrayList<>();
-        backtrack(availableUserStories, result, temp, 0, targetStoryPoints, 0, 0);
-        return result;
-    }
-
-    /**
-     * Helper function for the backtracking process.
-     */
-    private void backtrack(List<UserStory> stories, List<UserStory> result, List<UserStory> temp, int start, int targetPoints, int currentPoints, int currentValue) {
-        if (currentPoints == targetPoints) {
-            if (calculateBusinessValue(temp) > calculateBusinessValue(result)) {
-                result.clear();
-                result.addAll(temp);
-            }
-            return;
-        }
-
-        for (int i = start; i < stories.size(); i++) {
-            UserStory story = stories.get(i);
-            int storyPoints = (int) story.getBusinessValue();
-
-            if (currentPoints + storyPoints <= targetPoints) {
-                temp.add(story);
-                backtrack(stories, result, temp, i + 1, targetPoints, currentPoints + storyPoints, (int) (currentValue + story.getBusinessValue()));
-                temp.remove(temp.size() - 1);
-            }
-        }
-    }
-
-    /**
-     * Helper function to calculate total business value of a list of user stories.
-     */
-    private int calculateBusinessValue(List<UserStory> userStories) {
-        int totalValue = 0;
-        for (UserStory us : userStories) {
-            totalValue += us.getBusinessValue();
-        }
-        return totalValue;
-    }
+//    /**
+//     * find the optimal combination of user stories that add up to the target story points.
+//     * This maximizes the business value.
+//     */
+//    private List<UserStory> findOptimalStories(List<UserStory> availableUserStories, int targetStoryPoints) {
+//        List<UserStory> result = new ArrayList<>();
+//        List<UserStory> temp = new ArrayList<>();
+//        backtrack(availableUserStories, result, temp, 0, targetStoryPoints, 0, 0);
+//        return result;
+//    }
+//
+//    /**
+//     * Helper function for the backtracking process.
+//     */
+//    private void backtrack(List<UserStory> stories, List<UserStory> result, List<UserStory> temp, int start, int targetPoints, int currentPoints, int currentValue) {
+//        if (currentPoints == targetPoints) {
+//            if (calculateBusinessValue(temp) > calculateBusinessValue(result)) {
+//                result.clear();
+//                result.addAll(temp);
+//            }
+//            return;
+//        }
+//
+//        for (int i = start; i < stories.size(); i++) {
+//            UserStory story = stories.get(i);
+//            int storyPoints = (int) story.getBusinessValue();
+//
+//            if (currentPoints + storyPoints <= targetPoints) {
+//                temp.add(story);
+//                backtrack(stories, result, temp, i + 1, targetPoints, currentPoints + storyPoints, (int) (currentValue + story.getBusinessValue()));
+//                temp.remove(temp.size() - 1);
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Helper function to calculate total business value of a list of user stories.
+//     */
+//    private int calculateBusinessValue(List<UserStory> userStories) {
+//        int totalValue = 0;
+//        for (UserStory us : userStories) {
+//            totalValue += us.getBusinessValue();
+//        }
+//        return totalValue;
+//    }
 
     public Sprint getSprintObject() {
         if (!isSubmitted) {
