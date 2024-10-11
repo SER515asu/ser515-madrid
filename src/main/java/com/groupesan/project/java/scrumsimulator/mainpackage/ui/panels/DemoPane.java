@@ -18,15 +18,22 @@ import javax.swing.border.EmptyBorder;
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
 
+    // Fields to store references to opened windows
+    private SprintListPane sprintListPane;
+    private UserStoryListPane userStoryListPane;
+    private UpdateUserStoryPanel updateUserStoryPanel;
+    private SimulationPane simulationPane;
+    private ModifySimulationPane modifySimulationPane;
+    private SimulationUI simulationUserInterface;
+    private SimulationSwitchRolePane simulationSwitchRolePane;
+    private VariantSimulationUI variantSimulationUI;
+    private SprintUIPane sprintUIPane;
+
     public DemoPane() {
         this.init();
         player.doRegister();
     }
 
-    /**
-     * Initialization of Demo Pane. Demonstrates creation of User stories, Sprints, and Simulation
-     * start.
-     */
     public void init() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Demo");
@@ -42,8 +49,12 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SprintListPane form = new SprintListPane();
-                        form.setVisible(true);
+                        if (sprintListPane == null || !sprintListPane.isDisplayable()) {
+                            sprintListPane = new SprintListPane();
+                            sprintListPane.setVisible(true);
+                        } else {
+                            sprintListPane.toFront();
+                        }
                     }
                 });
 
@@ -64,8 +75,12 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        UserStoryListPane form = new UserStoryListPane();
-                        form.setVisible(true);
+                        if (userStoryListPane == null || !userStoryListPane.isDisplayable()) {
+                            userStoryListPane = new UserStoryListPane();
+                            userStoryListPane.setVisible(true);
+                        } else {
+                            userStoryListPane.toFront();
+                        }
                     }
                 });
 
@@ -79,8 +94,12 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        UpdateUserStoryPanel form = new UpdateUserStoryPanel();
-                        form.setVisible(true);
+                        if (updateUserStoryPanel == null || !updateUserStoryPanel.isDisplayable()) {
+                            updateUserStoryPanel = new UpdateUserStoryPanel();
+                            updateUserStoryPanel.setVisible(true);
+                        } else {
+                            updateUserStoryPanel.toFront();
+                        }
                     }
                 });
 
@@ -89,14 +108,17 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        // Add user button for Demo
         JButton simulationButton = new JButton("Add User");
         simulationButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SimulationPane simulationPane = new SimulationPane();
-                        simulationPane.setVisible(true);
+                        if (simulationPane == null || !simulationPane.isDisplayable()) {
+                            simulationPane = new SimulationPane();
+                            simulationPane.setVisible(true);
+                        } else {
+                            simulationPane.toFront();
+                        }
                     }
                 });
 
@@ -105,48 +127,35 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        // Modify Simulation button
         JButton modifySimulationButton = new JButton("Modify Simulation");
         modifySimulationButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SimulationManager simulationManager = new SimulationManager();
-                        ModifySimulationPane modifySimulationPane =
-                                new ModifySimulationPane(simulationManager);
-                        modifySimulationPane.setVisible(true);
+                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
+                            SimulationManager simulationManager = new SimulationManager();
+                            modifySimulationPane = new ModifySimulationPane(simulationManager);
+                            modifySimulationPane.setVisible(true);
+                        } else {
+                            modifySimulationPane.toFront();
+                        }
                     }
                 });
 
-        // Add the button to the panel
         myJpanel.add(
                 modifySimulationButton,
                 new CustomConstraints(
                         5, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        // *** Role Selection now through SimulationUI ***
-        // JButton roleSelectionButton = new JButton("Role Selection");
-        // roleSelectionButton.addActionListener(
-        //         new ActionListener() {
-        //             @Override
-        //             public void actionPerformed(ActionEvent e) {
-        //                 RoleSelectionPane roleSelectionPane = new RoleSelectionPane();
-        //                 roleSelectionPane.setVisible(true);
-        //             }
-        //         });
-
-        // myJpanel.add(
-        //         roleSelectionButton,
-        //         new CustomConstraints(
-        //                 4, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-        // *** Role Selection now through SimulationUI ***
-
-        // Join Simulation button
         JButton joinSimulationButton = new JButton("Join Simulation");
         joinSimulationButton.addActionListener(
                 e -> {
-                    SimulationUI simulationUserInterface = new SimulationUI();
-                    simulationUserInterface.setVisible(true);
+                    if (simulationUserInterface == null || !simulationUserInterface.isDisplayable()) {
+                        simulationUserInterface = new SimulationUI();
+                        simulationUserInterface.setVisible(true);
+                    } else {
+                        simulationUserInterface.toFront();
+                    }
                 });
 
         myJpanel.add(
@@ -154,14 +163,17 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         6, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        // Simulation button for Demo
         JButton simulationSwitchRoleButton = new JButton("Switch Role");
         simulationSwitchRoleButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SimulationSwitchRolePane feedbackPanelUI = new SimulationSwitchRolePane();
-                        feedbackPanelUI.setVisible(true);
+                        if (simulationSwitchRolePane == null || !simulationSwitchRolePane.isDisplayable()) {
+                            simulationSwitchRolePane = new SimulationSwitchRolePane();
+                            simulationSwitchRolePane.setVisible(true);
+                        } else {
+                            simulationSwitchRolePane.toFront();
+                        }
                     }
                 });
 
@@ -170,18 +182,20 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         1, 1, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        // New button for Variant Simulation UI
         JButton variantSimulationUIButton = new JButton("Variant Simulation UI");
         variantSimulationUIButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        VariantSimulationUI variantSimulationUI = new VariantSimulationUI();
-                        variantSimulationUI.setVisible(true);
+                        if (variantSimulationUI == null || !variantSimulationUI.isDisplayable()) {
+                            variantSimulationUI = new VariantSimulationUI();
+                            variantSimulationUI.setVisible(true);
+                        } else {
+                            variantSimulationUI.toFront();
+                        }
                     }
                 });
 
-        // Adding the button to the panel
         myJpanel.add(
                 variantSimulationUIButton,
                 new CustomConstraints(
@@ -192,13 +206,15 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Load SprintUIPane
-                        SprintUIPane sprintUIPane = new SprintUIPane(player);
-                        sprintUIPane.setVisible(true);
+                        if (sprintUIPane == null || !sprintUIPane.isDisplayable()) {
+                            sprintUIPane = new SprintUIPane(player);
+                            sprintUIPane.setVisible(true);
+                        } else {
+                            sprintUIPane.toFront();
+                        }
                     }
                 });
 
-        // Adding the button to the panel
         myJpanel.add(
                 SprintUIButton,
                 new CustomConstraints(
