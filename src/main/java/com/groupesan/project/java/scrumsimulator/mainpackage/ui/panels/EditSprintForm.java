@@ -1,26 +1,11 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
@@ -35,7 +20,6 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 public class EditSprintForm extends JFrame implements BaseComponent {
 
     private Sprint sprint;
-
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
     SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
@@ -46,20 +30,19 @@ public class EditSprintForm extends JFrame implements BaseComponent {
 
     List<UserStory> sprintBacklog = null;
     DefaultListModel<String> listModel;
+    DefaultListModel<String> sprintListModel;
     JList<String> usList;
+    JList<String> sprintList;
 
     public EditSprintForm(Sprint sprint) {
         this.sprint = sprint;
         this.init();
     }
 
-
-
     @Override
     public void init() {
-
         setTitle("Edit Sprint");
-        setSize(400, 300);
+        setSize(800, 600);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
@@ -67,7 +50,6 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         myJpanel.setLayout(myGridbagLayout);
 
         BorderLayout myBorderLayout = new BorderLayout();
-
         setLayout(myBorderLayout);
 
         nameField = new JTextField(sprint.getName());
@@ -75,114 +57,22 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         sprintDays = new JSpinner(new SpinnerNumberModel(5, 1, 999999, 1));
 
         JLabel nameLabel = new JLabel("Name:");
-        myJpanel.add(
-                nameLabel,
-                new CustomConstraints(
-                        0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                nameField,
-                new CustomConstraints(
-                        1, 0, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
-        
-JLabel descLabel = new JLabel("Description:");
-        myJpanel.add(
-                descLabel,
-                new CustomConstraints(
-                        0, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                new JScrollPane(descArea),
-                new CustomConstraints(
-                        1, 1, GridBagConstraints.EAST, 1.0, 0.3, GridBagConstraints.BOTH));
+        myJpanel.add(nameLabel, new CustomConstraints(0, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(nameField, new CustomConstraints(1, 0, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
+
+        JLabel descLabel = new JLabel("Description:");
+        myJpanel.add(descLabel, new CustomConstraints(0, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(new JScrollPane(descArea), new CustomConstraints(1, 1, GridBagConstraints.EAST, 1.0, 0.3, GridBagConstraints.BOTH));
 
         JLabel pointsLabel = new JLabel("Length (Days):");
-        myJpanel.add(
-                pointsLabel,
-                new CustomConstraints(
-                        0, 2, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                sprintDays,
-                new CustomConstraints(
-                        1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
+        myJpanel.add(pointsLabel, new CustomConstraints(0, 2, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(sprintDays, new CustomConstraints(1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
 
         JLabel storyPointsLabel = new JLabel("Story Points:");
-        myJpanel.add(
-                storyPointsLabel,
-                new CustomConstraints(
-                        0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                sprintStoryPoints,
-                new CustomConstraints(
-                        1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
+        myJpanel.add(storyPointsLabel, new CustomConstraints(0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(sprintStoryPoints, new CustomConstraints(1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
 
-        JButton cancelButton = new JButton("Cancel");
-
-        cancelButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        dispose();
-                    }
-                });
-
-        JButton submitButton = new JButton("Submit");
-
-        submitButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            String name = nameField.getText();
-                            String description = descArea.getText();
-                            Integer length = (Integer) sprintDays.getValue();
-                            sprint.getUserStories().clear();
-                            usList.getSelectedValuesList().forEach(us -> {
-                                UserStoryStore.getInstance().getUserStories().stream()
-                                        .findFirst()
-                                        .ifPresent(sprint::addUserStory);
-                            });
-
-                            SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
-                            dispose();
-                            SprintListPane.refreshSprintList();
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            // US-25, Task #57: Edit sprint variable window closes after error message is dismissed.
-                            dispose();
-                        }
-                    }
-                });
-
-        JButton generateSBButton = new JButton("Generate Sprint Backlog");
-        generateSBButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        List<UserStory> userStoryList =  UserStoryStore.getInstance().getUserStories();
-                        if (userStoryList.isEmpty()) {
-                            System.out.println("No user stories available.");
-                            JOptionPane.showMessageDialog(myJpanel, "No user stories available.", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-
-                        }
-                        SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
-                        sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int)sprintStoryPoints.getValue());
-                        if (sprintBacklog.isEmpty()) {
-                            JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits","Error", JOptionPane.ERROR_MESSAGE);
-                            return ;
-                        }
-
-                        listModel.clear();
-                        for (UserStory userStory : sprintBacklog) {
-                            System.out.println("userstory: "+userStory.getName());
-                            listModel.addElement(userStory.toString());
-
-                        }
-                        usList.setModel(listModel);
-                        usList.repaint();
-                        usList.revalidate();
-                    }
-                });
-        
+        // All User Stories List
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
             listModel.addElement(userStory.toString());
@@ -190,36 +80,109 @@ JLabel descLabel = new JLabel("Description:");
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane allStoriesScrollPane = new JScrollPane(usList);
+        allStoriesScrollPane.setPreferredSize(new Dimension(300, 400));
 
-        for (int i = 0; i < UserStoryStore.getInstance().getUserStories().size(); i++) {
-            if (sprint.getUserStories().contains(UserStoryStore.getInstance().getUserStories().get(i))) {
-                usList.addSelectionInterval(i, i);
-            }
+        // Sprint User Stories List
+        sprintListModel = new DefaultListModel<>();
+        for (UserStory userStory : sprint.getUserStories()) {
+            sprintListModel.addElement(userStory.toString());
         }
 
-        JScrollPane scrollPane = new JScrollPane(usList);
-        scrollPane.setPreferredSize(new Dimension(300, 100));
+        sprintList = new JList<>(sprintListModel);
+        sprintList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane sprintStoriesScrollPane = new JScrollPane(sprintList);
+        sprintStoriesScrollPane.setPreferredSize(new Dimension(300, 400));
 
-        JLabel userStoriesLabel = new JLabel("User Stories:");
-        myJpanel.add(
-                userStoriesLabel,
-                new CustomConstraints(
-                        0, 5, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                usList,
-                new CustomConstraints(
-                        1, 5, GridBagConstraints.WEST, 1.0, 0.0, GridBagConstraints.NONE));
+        // Adding components to the panel
+        JLabel allStoriesLabel = new JLabel("All User Stories:");
+        myJpanel.add(allStoriesLabel, new CustomConstraints(0, 4, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(allStoriesScrollPane, new CustomConstraints(0, 5, GridBagConstraints.WEST, GridBagConstraints.BOTH));
 
-        myJpanel.add(
-                cancelButton,
-                new CustomConstraints(0, 6, GridBagConstraints.EAST, GridBagConstraints.NONE));
-        myJpanel.add(
-                submitButton,
-                new CustomConstraints(1, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
-        myJpanel.add(
-                generateSBButton,
-                new CustomConstraints(2, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        JLabel sprintStoriesLabel = new JLabel("Sprint User Stories:");
+        myJpanel.add(sprintStoriesLabel, new CustomConstraints(1, 4, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(sprintStoriesScrollPane, new CustomConstraints(1, 5, GridBagConstraints.EAST, GridBagConstraints.BOTH));
 
+        // Add Remove Button for Sprint Stories
+        JButton removeButton = new JButton("Remove from Sprint");
+        removeButton.addActionListener(e -> {
+            String selectedValue = sprintList.getSelectedValue();
+            if (selectedValue != null) {
+                sprintListModel.removeElement(selectedValue);
+                UserStory userStory = UserStoryStore.getInstance().getUserStories().stream()
+                        .filter(us -> us.toString().equals(selectedValue))
+                        .findFirst().orElse(null);
+                if (userStory != null) {
+                    sprint.removeUserStory(userStory);
+                }
+            }
+        });
+
+//        myJpanel.add(removeButton, new CustomConstraints(1, 6, GridBagConstraints.EAST, GridBagConstraints.NONE));
+        JButton generateSBButton = new JButton("Generate Sprint Backlog");
+        generateSBButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<UserStory> userStoryList = UserStoryStore.getInstance().getUserStories();
+                if (userStoryList.isEmpty()) {
+                    JOptionPane.showMessageDialog(myJpanel, "No user stories available.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
+                sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int) sprintStoryPoints.getValue());
+                if (sprintBacklog.isEmpty()) {
+                    JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+
+
+                for (UserStory userStory : sprintBacklog) {
+                    sprint.addUserStory(userStory);
+                    sprintListModel.addElement(userStory.getName().toString());
+                }
+
+            }
+        });
+//        myJpanel.add(generateSBButton, new CustomConstraints(0, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        // Cancel and Submit Buttons
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(e -> dispose());
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            try {
+                String name = nameField.getText();
+                String description = descArea.getText();
+                Integer length = (Integer) sprintDays.getValue();
+                sprint.getUserStories().clear();
+                usList.getSelectedValuesList().forEach(us -> {
+                    UserStoryStore.getInstance().getUserStories().stream()
+                            .filter(userStory -> userStory.toString().equals(us))
+                            .findFirst()
+                            .ifPresent(sprint::addUserStory);
+                });
+
+                SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
+                dispose();
+                SprintListPane.refreshSprintList();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                dispose();
+            }
+        });
+
+//        myJpanel.add(cancelButton, new CustomConstraints(0, 6, GridBagConstraints.EAST, GridBagConstraints.NONE));
+//        myJpanel.add(submitButton, new CustomConstraints(1, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(submitButton);
+        buttonPanel.add(generateSBButton);
+        buttonPanel.add(removeButton);
+
+
+        myJpanel.add(buttonPanel, new CustomConstraints(0, 7, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 1));
         add(myJpanel);
     }
 
@@ -229,11 +192,9 @@ JLabel descLabel = new JLabel("Description:");
         Integer length = (Integer) sprintDays.getValue();
 
         SprintFactory sprintFactory = SprintFactory.getSprintFactory();
-
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
 
         int[] selectedIdx = usList.getSelectedIndices();
-
         for (int idx : selectedIdx) {
             String stringIdentifier = listModel.getElementAt(idx);
             for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
@@ -245,12 +206,7 @@ JLabel descLabel = new JLabel("Description:");
         }
 
         SprintStore.getInstance().addSprint(mySprint);
-
         System.out.println(mySprint);
-
         return mySprint;
-
     }
-   
-    
 }
