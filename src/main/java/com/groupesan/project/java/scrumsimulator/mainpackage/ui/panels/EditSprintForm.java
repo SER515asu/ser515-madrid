@@ -72,7 +72,6 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         myJpanel.add(storyPointsLabel, new CustomConstraints(0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
         myJpanel.add(sprintStoryPoints, new CustomConstraints(1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
 
-        // All User Stories List
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
             listModel.addElement(userStory.toString());
@@ -94,16 +93,16 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         JScrollPane sprintStoriesScrollPane = new JScrollPane(sprintList);
         sprintStoriesScrollPane.setPreferredSize(new Dimension(300, 400));
 
-        // Adding components to the panel
-        JLabel allStoriesLabel = new JLabel("All User Stories:");
+
+        JLabel allStoriesLabel = new JLabel("Product Backlog:");
         myJpanel.add(allStoriesLabel, new CustomConstraints(0, 4, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
         myJpanel.add(allStoriesScrollPane, new CustomConstraints(0, 5, GridBagConstraints.WEST, GridBagConstraints.BOTH));
 
-        JLabel sprintStoriesLabel = new JLabel("Sprint User Stories:");
+        JLabel sprintStoriesLabel = new JLabel("Sprint Backlog:");
         myJpanel.add(sprintStoriesLabel, new CustomConstraints(1, 4, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
         myJpanel.add(sprintStoriesScrollPane, new CustomConstraints(1, 5, GridBagConstraints.EAST, GridBagConstraints.BOTH));
 
-        // Add Remove Button for Sprint Stories
+
         JButton removeButton = new JButton("Remove from Sprint");
         removeButton.addActionListener(e -> {
             String selectedValue = sprintList.getSelectedValue();
@@ -138,8 +137,12 @@ public class EditSprintForm extends JFrame implements BaseComponent {
 
 
                 for (UserStory userStory : sprintBacklog) {
-                    sprint.addUserStory(userStory);
-                    sprintListModel.addElement(userStory.getName().toString());
+                    if (!sprint.getUserStories().contains(userStory)) {
+                        sprint.addUserStory(userStory);
+                    }
+                    if (!sprintListModel.contains(userStory.toString())) {
+                        sprintListModel.addElement(userStory.toString());
+                    }
                 }
 
             }
