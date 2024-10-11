@@ -1,12 +1,14 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,21 +35,21 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 public class EditSprintForm extends JFrame implements BaseComponent {
 
     private Sprint sprint;
+    private SprintDetailsPane sprintDetailsPane;
 
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
     SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
     JSpinner sprintDays = new JSpinner(spinnerNumberModel);
 
-    DefaultListModel<String> listModel;
-    JList<String> usList;
+    DefaultListModel<UserStory> listModel;
+    JList<UserStory> usList;
 
-    public EditSprintForm(Sprint sprint) {
+    public EditSprintForm(Sprint sprint, SprintDetailsPane sprintDetailsPane) {
         this.sprint = sprint;
+        this.sprintDetailsPane = sprintDetailsPane;
         this.init();
     }
-
-
 
     @Override
     public void init() {
@@ -77,8 +79,8 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                 nameField,
                 new CustomConstraints(
                         1, 0, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
-        
-JLabel descLabel = new JLabel("Description:");
+
+        JLabel descLabel = new JLabel("Description:");
         myJpanel.add(
                 descLabel,
                 new CustomConstraints(
@@ -118,34 +120,61 @@ JLabel descLabel = new JLabel("Description:");
                             String name = nameField.getText();
                             String description = descArea.getText();
                             Integer length = (Integer) sprintDays.getValue();
+
                             sprint.getUserStories().clear();
                             usList.getSelectedValuesList().forEach(us -> {
                                 UserStoryStore.getInstance().getUserStories().stream()
+                                        .filter(story -> story.toString().equals(us.toString()))
                                         .findFirst()
                                         .ifPresent(sprint::addUserStory);
                             });
 
+                            
+                            for (UserStory selectedUserStory : usList.getSelectedValuesList()) {
+                                sprint.addUserStory(selectedUserStory);
+                            }
+        
                             SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
+
                             dispose();
+                            if (sprintDetailsPane != null) {
+                                sprintDetailsPane.dispose();
+                            }
                             SprintListPane.refreshSprintList();
                         } catch (Exception ex) {
                             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            // US-25, Task #57: Edit sprint variable window closes after error message is dismissed.
+                            // US-25, Task #57: Edit sprint variable window closes after error message is
+                            // dismissed.
                             dispose();
+                            if (sprintDetailsPane != null) {
+                                sprintDetailsPane.dispose();
+                            }
                         }
                     }
                 });
-        
+
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            listModel.addElement(userStory.toString());
+            listModel.addElement(userStory);
         }
 
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        usList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof UserStory) {
+                    setText(((UserStory) value).toString());
+                }
+                return c;
+            }
+        });
 
-        for (int i = 0; i < UserStoryStore.getInstance().getUserStories().size(); i++) {
-            if (sprint.getUserStories().contains(UserStoryStore.getInstance().getUserStories().get(i))) {
+        for (int i = 0; i < listModel.getSize(); i++) {
+            UserStory userStory = listModel.getElementAt(i);
+            if (sprint.getUserStories().contains(userStory)) {
                 usList.addSelectionInterval(i, i);
             }
         }
@@ -182,16 +211,8 @@ JLabel descLabel = new JLabel("Description:");
 
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
 
-        int[] selectedIdx = usList.getSelectedIndices();
-
-        for (int idx : selectedIdx) {
-            String stringIdentifier = listModel.getElementAt(idx);
-            for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-                if (stringIdentifier.equals(userStory.toString())) {
-                    mySprint.addUserStory(userStory);
-                    break;
-                }
-            }
+        for (UserStory selectedUserStory : usList.getSelectedValuesList()) {
+            mySprint.addUserStory(selectedUserStory);
         }
 
         SprintStore.getInstance().addSprint(mySprint);
@@ -199,8 +220,5 @@ JLabel descLabel = new JLabel("Description:");
         System.out.println(mySprint);
 
         return mySprint;
-
     }
-   
-    
 }
