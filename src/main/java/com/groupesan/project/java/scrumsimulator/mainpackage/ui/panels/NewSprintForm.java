@@ -10,17 +10,16 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -43,12 +42,13 @@ public class NewSprintForm extends JFrame implements BaseComponent {
     JTextArea descArea = new JTextArea();
     SpinnerNumberModel sprintDaysSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
     SpinnerNumberModel sprintPointsSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
-    JSpinner sprintDays = new JSpinner( sprintDaysSpinnerNumberModel);
+    JSpinner sprintDays = new JSpinner(sprintDaysSpinnerNumberModel);
     JSpinner sprintStoryPoints = new JSpinner(sprintPointsSpinnerNumberModel);
+
+    List<UserStory> sprintBacklog = new ArrayList<>();
 
 
     DefaultListModel<String> listModel;
-    List<UserStory> sprintBacklog = null;
     JList<String> usList;
     private boolean isSubmitted = false;
 
@@ -66,7 +66,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         myJpanel.setLayout(myGridbagLayout);
 
         BorderLayout myBorderLayout = new BorderLayout();
-
         setLayout(myBorderLayout);
 
         JLabel nameLabel = new JLabel("Name:");
@@ -146,6 +145,10 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                     }
                 });
 
+        JButton selectUserStoriesButton = new JButton("Select User Stories");
+
+        selectUserStoriesButton.addActionListener(e -> showUserStorySelectionPopup());
+
         JButton generateSBButton = new JButton("Generate Sprint Backlog");
         generateSBButton.addActionListener(
                 new ActionListener() {
@@ -182,7 +185,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
             listModel.addElement(String.valueOf(userStory));
         }
-
         usList = new JList<>(listModel);
         usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         usList.setCellRenderer(new DefaultListCellRenderer() {
@@ -199,47 +201,80 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         JScrollPane scrollPane = new JScrollPane(usList);
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
-        JLabel userStoriesLabel = new JLabel("User Stories:");
-        myJpanel.add(
-                userStoriesLabel,
-                new CustomConstraints(
-                        0, 4, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                usList,
-                new CustomConstraints(
-                        1, 4, GridBagConstraints.WEST, 1.0, 0.0, GridBagConstraints.NONE));
-
         myJpanel.add(
                 cancelButton,
                 new CustomConstraints(0, 5, GridBagConstraints.EAST, GridBagConstraints.NONE));
         myJpanel.add(
                 submitButton,
                 new CustomConstraints(1, 5, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        myJpanel.add(
+                selectUserStoriesButton,
+                new CustomConstraints(1, 4, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
 
         myJpanel.add(
                 generateSBButton,
                 new CustomConstraints(2, 5, GridBagConstraints.WEST, GridBagConstraints.NONE));
-
-
         add(myJpanel);
     }
 
-//    @Override
-//    public void dispose() {
-//        if (isSubmitted) {
-//            Sprint sprint = getSprintObject();
-//            if (sprint == null) {
-//                // Handle the case where the sprint was not created
-//                System.out.println("No sprint to add, submission was canceled.");
-//            } else {
-//                // Proceed with adding the sprint to the store or further processing
-//                SprintStore.getInstance().addSprint(sprint);
-//                System.out.println("Sprint added: " + sprint);
-//            }
-//        }
-//        super.dispose(); // Always call the superclass dispose method
-//    }
+    private void showUserStorySelectionPopup() {
+        JDialog userStoryDialog = new JDialog(this, "Select User Stories", true);
+        userStoryDialog.setSize(300, 300);
+        userStoryDialog.setLayout(new BorderLayout());
+
+        List<UserStory> availableUserStories = getAvailableUserStories();
+
+        DefaultListModel<UserStory> userStoryListModel = new DefaultListModel<>();
+        for (UserStory userStory : availableUserStories) {
+            userStoryListModel.addElement(userStory);
+        }
+
+        JList<UserStory> userStoryJList = new JList<>(userStoryListModel);
+        userStoryJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        userStoryJList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component component1 = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof UserStory) {
+                    setText(((UserStory) value).getName() + " (" + ((UserStory) value).getPointValue() + " SP)");
+                }
+                return component1;
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(userStoryJList);
+        userStoryDialog.add(scrollPane, BorderLayout.CENTER);
+
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(e -> {
+            List<UserStory> selectedUserStories = userStoryJList.getSelectedValuesList();
+            if (selectedUserStories != null) {
+                sprintBacklog.clear();
+                sprintBacklog.addAll(selectedUserStories);
+            }
+            userStoryDialog.dispose();
+        });
+
+        userStoryDialog.add(okButton, BorderLayout.SOUTH);
+        userStoryDialog.setLocationRelativeTo(this); // Center the popup on the main form
+        userStoryDialog.setVisible(true); // Show the popup
+    }
+
+    private List<UserStory> getAvailableUserStories() {
+        List<UserStory> allStories = UserStoryStore.getInstance().getUserStories();
+        List<Sprint> sprints = SprintStore.getInstance().getSprints();
+        List<UserStory> unavailableStories = new ArrayList<>();
+
+        for (Sprint sprint : sprints) {
+            unavailableStories.addAll(sprint.getUserStories());
+        }
+
+        List<UserStory> availableStories = new ArrayList<>(allStories);
+        availableStories.removeAll(unavailableStories);
+
+        return availableStories;
+    }
 
     public Sprint getSprintObject() {
         if (!isSubmitted) {
@@ -248,13 +283,9 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
-//        SprintFactory sprintFactory =
 
         Sprint mySprint = SprintFactory.getSprintFactory().createNewSprint(name, description, length);
-
-//        int[] selectedIdx = usList.getSelectedIndices();
-
-        if(sprintBacklog !=null && sprintBacklog.isEmpty()){
+        if (sprintBacklog != null && !sprintBacklog.isEmpty()) {
             for (UserStory userStory : sprintBacklog) {
                 mySprint.addUserStory(userStory);
             }
@@ -272,10 +303,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
             }
         }
         System.out.println(mySprint);
-
-//        SprintStore.getInstance().addSprint(mySprint);
-
-//        System.out.println(mySprint);
 
         return mySprint;
     }
