@@ -105,5 +105,12 @@ spotbugs {
 // junit testing
 test {
     useJUnitPlatform()
-    systemProperty 'java.awt.headless', 'true' // headless for gui
+    // systemProperty 'java.awt.headless', 'true' // headless for gui
+}
+
+test {
+    useJUnitPlatform()
+    if (System.getenv('CI') != null) { // Example check for CI environment
+        systemProperty 'java.awt.headless', 'true'
+    }
 }

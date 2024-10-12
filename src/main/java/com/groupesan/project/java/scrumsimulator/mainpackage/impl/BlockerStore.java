@@ -20,7 +20,7 @@ public class BlockerStore {
         addInitialBlockers();
     }
 
-    private void addInitialBlockers() {
+    void addInitialBlockers() {
         BlockerFactory factory = BlockerFactory.getInstance();
         
         addBlocker(factory.createNewBlocker("Role Implementation", "The roles set by the user don't work right now.", "Open"));
@@ -41,5 +41,9 @@ public class BlockerStore {
 
     public void removeBlocker(SprintBlocker blocker) {
         blockers.remove(blocker);
+    }
+
+    public void clearBlockers() {
+        blockers.clear();
     }
 }
