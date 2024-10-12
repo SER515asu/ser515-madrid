@@ -7,34 +7,25 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class NewSprintForm extends JFrame implements BaseComponent {
     JTextField nameField = new JTextField();
     JTextArea descArea = new JTextArea();
-    SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
-    JSpinner sprintDays = new JSpinner(spinnerNumberModel);
+    SpinnerNumberModel sprintDaysSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
+    SpinnerNumberModel sprintPointsSpinnerNumberModel = new SpinnerNumberModel(5, 1, 999999, 1);
+    JSpinner sprintDays = new JSpinner(sprintDaysSpinnerNumberModel);
+    JSpinner sprintStoryPoints = new JSpinner(sprintPointsSpinnerNumberModel);
 
-    DefaultListModel<String> listModel;
-    JList<String> usList;
+    List<UserStory> sprintBacklog = new ArrayList<>();
+    private boolean isSubmitted = false;
 
     public NewSprintForm() {
         this.init();
@@ -50,7 +41,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         myJpanel.setLayout(myGridbagLayout);
 
         BorderLayout myBorderLayout = new BorderLayout();
-
         setLayout(myBorderLayout);
 
         JLabel nameLabel = new JLabel("Name:");
@@ -83,15 +73,22 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
 
+        JLabel storyPointsLabel = new JLabel("Story Points:");
+        myJpanel.add(
+                storyPointsLabel,
+                new CustomConstraints(
+                        0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(
+                sprintStoryPoints,
+                new CustomConstraints(
+                        1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.WEST));
+
         JButton cancelButton = new JButton("Cancel");
 
-        cancelButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        dispose();
-                    }
-                });
+        cancelButton.addActionListener(e -> {
+            isSubmitted = false;
+            dispose();
+        });
 
         JButton submitButton = new JButton("Submit");
 
@@ -99,65 +96,118 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        dispose();
+                        // Field validation
+                        String name = nameField.getText().trim();
+                        String description = descArea.getText().trim();
+                        Integer length = (Integer) sprintDays.getValue();
+                        if (name.isEmpty() || description.isEmpty() || length <= 0) {
+                            // Display error message
+                            JOptionPane.showMessageDialog(
+                                    NewSprintForm.this,
+                                    "All fields are required and must be valid.",
+                                    "Validation Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        isSubmitted = true;
+                        Sprint newSprint = getSprintObject();
+                        if (newSprint != null) {
+                            dispose();
+                        }
                     }
                 });
 
-        listModel = new DefaultListModel<>();
-        for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            listModel.addElement(userStory.toString());
-        }
+        JButton selectUserStoriesButton = new JButton("Select User Stories");
 
-        usList = new JList<>(listModel);
-        usList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        JScrollPane scrollPane = new JScrollPane(usList);
-        scrollPane.setPreferredSize(new Dimension(300, 100));
-
-        JLabel userStoriesLabel = new JLabel("User Stories:");
-        myJpanel.add(
-                userStoriesLabel,
-                new CustomConstraints(
-                        0, 3, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL));
-        myJpanel.add(
-                usList,
-                new CustomConstraints(
-                        1, 3, GridBagConstraints.WEST, 1.0, 0.0, GridBagConstraints.NONE));
+        selectUserStoriesButton.addActionListener(e -> showUserStorySelectionPopup());
 
         myJpanel.add(
                 cancelButton,
-                new CustomConstraints(0, 4, GridBagConstraints.EAST, GridBagConstraints.NONE));
+                new CustomConstraints(0, 5, GridBagConstraints.EAST, GridBagConstraints.NONE));
         myJpanel.add(
                 submitButton,
+                new CustomConstraints(1, 5, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        myJpanel.add(
+                selectUserStoriesButton,
                 new CustomConstraints(1, 4, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         add(myJpanel);
     }
 
+    private void showUserStorySelectionPopup() {
+        JDialog userStoryDialog = new JDialog(this, "Select User Stories", true);
+        userStoryDialog.setSize(300, 300);
+        userStoryDialog.setLayout(new BorderLayout());
+
+        List<UserStory> availableUserStories = getAvailableUserStories();
+
+        DefaultListModel<UserStory> userStoryListModel = new DefaultListModel<>();
+        for (UserStory userStory : availableUserStories) {
+            userStoryListModel.addElement(userStory);
+        }
+
+        JList<UserStory> userStoryJList = new JList<>(userStoryListModel);
+        userStoryJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        userStoryJList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component component1 = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof UserStory) {
+                    setText(((UserStory) value).getName() + " (" + ((UserStory) value).getPointValue() + " SP)");
+                }
+                return component1;
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(userStoryJList);
+        userStoryDialog.add(scrollPane, BorderLayout.CENTER);
+
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(e -> {
+            List<UserStory> selectedUserStories = userStoryJList.getSelectedValuesList();
+            if (selectedUserStories != null) {
+                sprintBacklog.clear();
+                sprintBacklog.addAll(selectedUserStories);
+            }
+            userStoryDialog.dispose();
+        });
+
+        userStoryDialog.add(okButton, BorderLayout.SOUTH);
+        userStoryDialog.setLocationRelativeTo(this); // Center the popup on the main form
+        userStoryDialog.setVisible(true); // Show the popup
+    }
+
+    private List<UserStory> getAvailableUserStories() {
+        List<UserStory> allStories = UserStoryStore.getInstance().getUserStories();
+        List<Sprint> sprints = SprintStore.getInstance().getSprints();
+        List<UserStory> unavailableStories = new ArrayList<>();
+
+        for (Sprint sprint : sprints) {
+            unavailableStories.addAll(sprint.getUserStories());
+        }
+
+        List<UserStory> availableStories = new ArrayList<>(allStories);
+        availableStories.removeAll(unavailableStories);
+
+        return availableStories;
+    }
+
     public Sprint getSprintObject() {
+        if (!isSubmitted) {
+            return null;
+        }
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
-
         SprintFactory sprintFactory = SprintFactory.getSprintFactory();
 
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
 
-        int[] selectedIdx = usList.getSelectedIndices();
-
-        for (int idx : selectedIdx) {
-            String stringIdentifier = listModel.getElementAt(idx);
-            for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-                if (stringIdentifier.equals(userStory.toString())) {
-                    mySprint.addUserStory(userStory);
-                    break;
-                }
+        if (!sprintBacklog.isEmpty()) {
+            for (UserStory userStory : sprintBacklog) {
+                mySprint.addUserStory(userStory);
             }
         }
-
-        SprintStore.getInstance().addSprint(mySprint);
-
-        System.out.println(mySprint);
-
         return mySprint;
     }
 }
