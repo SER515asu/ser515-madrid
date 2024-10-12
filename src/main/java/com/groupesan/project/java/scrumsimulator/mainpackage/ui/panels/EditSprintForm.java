@@ -33,9 +33,12 @@ public class EditSprintForm extends JFrame implements BaseComponent {
     DefaultListModel<String> sprintListModel;
     JList<String> usList;
     JList<String> sprintList;
+    private SprintDetailsPane sprintDetailsPane;
+
 
     public EditSprintForm(Sprint sprint, SprintDetailsPane sprintDetailsPane) {
         this.sprint = sprint;
+        this.sprintDetailsPane = sprintDetailsPane;
         this.init();
     }
 
@@ -170,10 +173,16 @@ public class EditSprintForm extends JFrame implements BaseComponent {
 
                 SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
                 dispose();
+                if (sprintDetailsPane != null) {
+                    sprintDetailsPane.dispose();
+                }
                 SprintListPane.refreshSprintList();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 dispose();
+                if (sprintDetailsPane != null) {
+                    sprintDetailsPane.dispose();
+                }
             }
         });
 
