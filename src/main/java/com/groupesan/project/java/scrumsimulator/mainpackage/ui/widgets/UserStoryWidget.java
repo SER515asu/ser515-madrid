@@ -26,10 +26,12 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
     private UserStory userStory;
     private JButton deleteButton;
     private UserStoryListPane parentPane;
+    private String currentRole;
 
-    public UserStoryWidget(UserStory userStory, UserStoryListPane parentPane) {
+    public UserStoryWidget(UserStory userStory, UserStoryListPane parentPane, String currentRole) {
         this.userStory = userStory;
         this.parentPane = parentPane; // Issue50: Updated the constructor to accept a parentPane for refreshing the user stories list
+        this.currentRole = currentRole;
         this.init();
     }
 
@@ -104,6 +106,12 @@ public class UserStoryWidget extends JPanel implements BaseComponent {
                 }
             }
         });
+
+        if (currentRole != null && currentRole.equalsIgnoreCase("Scrum Master")) {
+            deleteButton.setEnabled(true);
+        } else {
+            deleteButton.setEnabled(false);
+        }
 
         this.add(deleteButton);
 

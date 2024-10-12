@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
+    private JButton productBacklogButton;
+    private String currentRole = "Scrum Master";
 
     // Fields to store references to opened windows
     private SprintListPane sprintListPane;
@@ -73,112 +75,108 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         0, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        JButton userStoriesButton = new JButton("User Stories");
-        userStoriesButton.addActionListener(
+        productBacklogButton = new JButton("Product Backlog");
+        productBacklogButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (userStoryListPane == null || !userStoryListPane.isDisplayable()) {
-                            userStoryListPane = new UserStoryListPane();
-                            userStoryListPane.setVisible(true);
-                        } else {
-                            userStoryListPane.toFront();
-                        }
+                        UserStoryListPane form = new UserStoryListPane(currentRole);
+                        form.setVisible(true);
                     }
                 });
 
-                myJpanel.add(
-                        userStoriesButton,
+        myJpanel.add(
+                productBacklogButton,
                 new CustomConstraints(
                         1, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-                        
-                        JButton updateStoryStatusButton = new JButton("Update User Story Status");
-                        updateStoryStatusButton.addActionListener(
-                                new ActionListener() {
+
+        JButton updateStoryStatusButton = new JButton("Update User Story Status");
+        updateStoryStatusButton.addActionListener(
+                new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (updateUserStoryPanel == null || !updateUserStoryPanel.isDisplayable()) {
-                                updateUserStoryPanel = new UpdateUserStoryPanel();
-                                updateUserStoryPanel.setVisible(true);
+                            updateUserStoryPanel = new UpdateUserStoryPanel();
+                            updateUserStoryPanel.setVisible(true);
                         } else {
-                                updateUserStoryPanel.toFront();
+                            updateUserStoryPanel.toFront();
                         }
-                }
-        });
+                    }
+                });
 
         myJpanel.add(
                 updateStoryStatusButton,
                 new CustomConstraints(
                         3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-                        
-                        JButton newSimulationButton = new JButton("New Simulation");
-                        newSimulationButton.addActionListener(
-                                new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        WizardManager.get().showSimulationWizard(new WizardHandler<Simulation>() {
-                                            @Override
-                                            public void onSubmit(Simulation data) {
-                                                // Handle the created simulation
-                                                System.out.println("New simulation created: " + data.getSimulationName());
-                                                // You can add more logic here to handle the new simulation
-                                            }
-                                        });
-                                    }
-                                });
-                
-                        myJpanel.add(
-                                newSimulationButton,
-                                new CustomConstraints(
-                                        9, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-                                        
-                        JButton simulationButton = new JButton("Add User");
-                        simulationButton.addActionListener(
-                                new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                                if (simulationPane == null || !simulationPane.isDisplayable()) {
-                                                        simulationPane = new SimulationPane();
-                                                        simulationPane.setVisible(true);
-                                                } else {
-                                                        simulationPane.toFront();
-                                                }
-                                        }
-                                });
-                                
-                                myJpanel.add(
-                                        simulationButton,
-                                        new CustomConstraints(
-                                                7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-                                                
-                                                JButton modifySimulationButton = new JButton("Modify Simulation");
-                                                modifySimulationButton.addActionListener(
+
+        JButton newSimulationButton = new JButton("New Simulation");
+        newSimulationButton.addActionListener(
                 new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
-                                        SimulationManager simulationManager = new SimulationManager();
-                                        modifySimulationPane = new ModifySimulationPane(simulationManager);
-                                        modifySimulationPane.setVisible(true);
-                                } else {
-                                        modifySimulationPane.toFront();
-                                }
-                        }
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        WizardManager.get().showSimulationWizard(new WizardHandler<Simulation>() {
+                            @Override
+                            public void onSubmit(Simulation data) {
+                                // Handle the created simulation
+                                System.out.println("New simulation created: " + data.getSimulationName());
+                                // You can add more logic here to handle the new simulation
+                            }
+                        });
+                    }
                 });
-                
-                myJpanel.add(
-                        modifySimulationButton,
-                        new CustomConstraints(
-                                5, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-                                
-                                JButton joinSimulationButton = new JButton("Join Simulation");
-                                joinSimulationButton.addActionListener(
+
+        myJpanel.add(
+                newSimulationButton,
+                new CustomConstraints(
+                        9, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+
+        JButton simulationButton = new JButton("Add User");
+        simulationButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (simulationPane == null || !simulationPane.isDisplayable()) {
+                            simulationPane = new SimulationPane();
+                            simulationPane.setVisible(true);
+                        } else {
+                            simulationPane.toFront();
+                        }
+                    }
+                });
+
+        myJpanel.add(
+                simulationButton,
+                new CustomConstraints(
+                        7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+
+        JButton modifySimulationButton = new JButton("Modify Simulation");
+        modifySimulationButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
+                            SimulationManager simulationManager = new SimulationManager();
+                            modifySimulationPane = new ModifySimulationPane(simulationManager);
+                            modifySimulationPane.setVisible(true);
+                        } else {
+                            modifySimulationPane.toFront();
+                        }
+                    }
+                });
+
+        myJpanel.add(
+                modifySimulationButton,
+                new CustomConstraints(
+                        5, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+
+        JButton joinSimulationButton = new JButton("Join Simulation");
+        joinSimulationButton.addActionListener(
                 e -> {
                     if (simulationUserInterface == null || !simulationUserInterface.isDisplayable()) {
-                            simulationUserInterface = new SimulationUI();
-                            simulationUserInterface.setVisible(true);
-                        } else {
-                                simulationUserInterface.toFront();
+                        simulationUserInterface = new SimulationUI();
+                        simulationUserInterface.setVisible(true);
+                    } else {
+                        simulationUserInterface.toFront();
                     }
                 });
 
@@ -192,12 +190,14 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (simulationSwitchRolePane == null || !simulationSwitchRolePane.isDisplayable()) {
-                            simulationSwitchRolePane = new SimulationSwitchRolePane();
-                            simulationSwitchRolePane.setVisible(true);
-                        } else {
-                            simulationSwitchRolePane.toFront();
-                        }
+                        SimulationSwitchRolePane feedbackPanelUI = new SimulationSwitchRolePane(new RoleUpdateListener() {
+                            @Override
+                            public void onRoleUpdate(String newRole) {
+                                currentRole = newRole;
+                                System.out.println("Role Updated to: " + currentRole);
+                            }
+                        });
+                        feedbackPanelUI.setVisible(true);
                     }
                 });
 
@@ -230,12 +230,9 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (sprintUIPane == null || !sprintUIPane.isDisplayable()) {
-                            sprintUIPane = new SprintUIPane(player);
-                            sprintUIPane.setVisible(true);
-                        } else {
-                            sprintUIPane.toFront();
-                        }
+                        // Load SprintUIPane
+                        SprintUIPane sprintUIPane = new SprintUIPane(player, currentRole);
+                        sprintUIPane.setVisible(true);
                     }
                 });
 

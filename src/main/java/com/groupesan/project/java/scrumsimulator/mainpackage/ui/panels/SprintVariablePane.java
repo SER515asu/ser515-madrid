@@ -40,6 +40,17 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
 
         JLabel nameLabel = new JLabel("Range for Each Sprint Duration(in Days):");
         JLabel sprintsLabel = new JLabel("Number of Sprints:");
+        JTextField storyPointField = new JTextField(20);
+        JLabel storyPointLabel = new JLabel("Story Points:");
+
+        panel.add(
+                storyPointLabel,
+                new CustomConstraints(
+                        0, 2, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+        panel.add(
+                storyPointField,
+                new CustomConstraints(
+                        1, 2, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         panel.add(
                 nameLabel,
@@ -77,6 +88,8 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                     int lowerBound = Integer.parseInt(sprintDurationField1.getText());
                     int upperBound = Integer.parseInt(sprintDurationField2.getText());
 
+                    int storyPoints = Integer.parseInt(storyPointField.getText());
+
                     if(lowerBound==0 || upperBound==0){
                         sprintDurationField1.setText("");
                         sprintDurationField2.setText("");
@@ -107,10 +120,22 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
                         return;
                     }
 
+                    if(storyPointField.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(panel, "Story Points cannot be empty. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
+                    if(storyPoints<0){
+                        JOptionPane.showMessageDialog(panel, "Story Points cannot be negative. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+                    }
+
                     SprintStore.getInstance().clearSprintList();
                     SprintFactory.resetSprintFactory();
 
-                    sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound);
+                    sprintListPane.addSprints(numberOfSprints, lowerBound, upperBound, storyPoints);
                     dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(panel, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -122,11 +147,11 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
         panel.add(
                 submitButton,
                 new CustomConstraints(
-                        0, 2, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+                        0, 3, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
         panel.add(
                 simulationIdDisplay,
                 new CustomConstraints(
-                        1, 2, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+                        1, 3, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         add(panel);
 
