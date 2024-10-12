@@ -13,10 +13,7 @@ import java.awt.event.ActionListener;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class SprintListPane extends JFrame implements BaseComponent {
@@ -68,20 +65,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
 
                         form.addWindowListener(
                                 new java.awt.event.WindowAdapter() {
-                                    public void windowClosed(
-                                            java.awt.event.WindowEvent windowEvent) {
-                                        Sprint newSprint = form.getSprintObject();
-                                        if (newSprint != null) {
-                                            // The SprintFactory should handle both creation and storage. This is to avoid multiple entries in the SprintStore or the sprint list.
-                                            Sprint createdSprint = SprintFactory.getSprintFactory().createNewSprint(
-                                                newSprint.getName(), 
-                                                newSprint.getDescription(), 
-                                                newSprint.getLength(),
-                                                newSprint.getStoryPoints()
-                                            );
-                                            SprintStore.getInstance().addSprint(createdSprint);
-                                            refreshSprintList();
-                                        }
+                                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                        refreshSprintList();
                                     }
                                 });
                     }
@@ -109,16 +94,58 @@ public class SprintListPane extends JFrame implements BaseComponent {
         add(myJpanel);
     }
 
+    private static JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new GridBagLayout());
+
+        Font boldFont = new Font("Arial", Font.BOLD, 12);
+
+        JLabel idHeader = new JLabel("ID");
+        idHeader.setFont(boldFont);
+        idHeader.setPreferredSize(new Dimension(50, 20));
+
+        JLabel nameHeader = new JLabel("Name");
+        nameHeader.setFont(boldFont);
+        nameHeader.setPreferredSize(new Dimension(100, 20));
+
+        JLabel descHeader = new JLabel("Description");
+        descHeader.setFont(boldFont);
+        descHeader.setPreferredSize(new Dimension(60, 20));
+
+        JLabel lenHeader = new JLabel("Length");
+        lenHeader.setFont(boldFont);
+        lenHeader.setPreferredSize(new Dimension(50, 20));
+
+        JLabel remainingHeader = new JLabel("Days Remaining");
+        remainingHeader.setFont(boldFont);
+        remainingHeader.setPreferredSize(new Dimension(100, 20));
+
+        JLabel numUserStoriesHeader = new JLabel("User Stories");
+        numUserStoriesHeader.setFont(boldFont);
+        numUserStoriesHeader.setPreferredSize(new Dimension(100, 20));
+
+        // Use the same layout constraints as in SprintWidget
+        headerPanel.add(idHeader, new CustomConstraints(0, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(nameHeader, new CustomConstraints(1, 0, GridBagConstraints.WEST, 0.2, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(descHeader, new CustomConstraints(2, 0, GridBagConstraints.WEST, 0.4, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(lenHeader, new CustomConstraints(3, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(remainingHeader, new CustomConstraints(4, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(numUserStoriesHeader, new CustomConstraints(5, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+
+        return headerPanel;
+    }
+
+
     // New function to refresh the sprint list as soon as a new sprint is added.
     public static void refreshSprintList() {
         widgets.clear();
         subPanel.removeAll();
 
+        subPanel.add(createHeaderPanel(), new CustomConstraints(0, 0, GridBagConstraints.WEST, 1.0, 0.1, GridBagConstraints.HORIZONTAL));
         for (Sprint sprint : SprintStore.getInstance().getSprints()) {
             widgets.add(new SprintWidget(sprint));
         }
 
-        int i = 0;
+        int i = 1;
         for (SprintWidget widget : widgets) {
             subPanel.add(
                     widget,

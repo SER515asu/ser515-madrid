@@ -31,13 +31,17 @@ public class SprintWidget extends JPanel implements BaseComponent {
 
     public SprintWidget(Sprint sprint) {
         id = new JLabel(Integer.toString(sprint.getId()));
+        id.setPreferredSize(new Dimension(50, 20));
         name = new JLabel(sprint.getName());
         name.setPreferredSize(new Dimension(100, 20));
         desc = new JLabel(sprint.getDescription());
-        desc.setPreferredSize(new Dimension(200, 20));
+        desc.setPreferredSize(new Dimension(60, 20));
         len = new JLabel(Integer.toString(sprint.getLength()));
+        len.setPreferredSize(new Dimension(50, 20));
         remaining = new JLabel(Integer.toString(sprint.getDaysRemaining()));
+        remaining.setPreferredSize(new Dimension(100, 20));
         numUserStories = new JLabel(Integer.toString(sprint.getUserStories().size()));
+        numUserStories.setPreferredSize(new Dimension(100, 20));
         this.init();
 
         this.addMouseListener(new MouseAdapter() {
@@ -66,7 +70,7 @@ public class SprintWidget extends JPanel implements BaseComponent {
         add(
                 desc,
                 new CustomConstraints(
-                        2, 0, GridBagConstraints.WEST, 0.7, 0.0, GridBagConstraints.HORIZONTAL));
+                        2, 0, GridBagConstraints.WEST, 0.4, 0.0, GridBagConstraints.HORIZONTAL));
         add(
                 len,
                 new CustomConstraints(

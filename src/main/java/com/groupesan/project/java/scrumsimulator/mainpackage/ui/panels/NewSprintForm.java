@@ -135,10 +135,13 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                                     JOptionPane.ERROR_MESSAGE);
                             return;
                         }
-                        isSubmitted = true;
-                        Sprint newSprint = getSprintObject();
-                        if (newSprint != null) {
-                            dispose();
+                        if(!isSubmitted) {
+                            isSubmitted = true;
+                            Sprint newSprint = getSprintObject();
+                            if (newSprint != null) {
+                                SprintStore.getInstance().addSprint(newSprint);
+                                dispose();
+                            }
                         }
                     }
                 });
@@ -245,19 +248,20 @@ public class NewSprintForm extends JFrame implements BaseComponent {
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
-        SprintFactory sprintFactory = SprintFactory.getSprintFactory();
+//        SprintFactory sprintFactory =
 
-        Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
+        Sprint mySprint = SprintFactory.getSprintFactory().createNewSprint(name, description, length);
 
-        int[] selectedIdx = usList.getSelectedIndices();
+//        int[] selectedIdx = usList.getSelectedIndices();
 
-        if(sprintBacklog !=null && sprintBacklog.size()>0){
+        if(sprintBacklog !=null && sprintBacklog.isEmpty()){
             for (UserStory userStory : sprintBacklog) {
                 mySprint.addUserStory(userStory);
             }
         }
         else{
-            for (int idx : selectedIdx) {
+            int[] selectedIndices = usList.getSelectedIndices();
+            for (int idx : selectedIndices) {
                 String stringIdentifier = listModel.getElementAt(idx);
                 for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
                     if (stringIdentifier.equals(userStory.toString())) {
@@ -267,6 +271,7 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 }
             }
         }
+        System.out.println(mySprint);
 
 //        SprintStore.getInstance().addSprint(mySprint);
 
