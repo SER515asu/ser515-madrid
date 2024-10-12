@@ -36,7 +36,7 @@ public class Sprint {
 
     public Sprint(String name, String desc, int length) {
         this.name = name;
-        this.description = description;
+        this.description = desc;
         this.length = length;
         this.userStories = new ArrayList<>();
     }
