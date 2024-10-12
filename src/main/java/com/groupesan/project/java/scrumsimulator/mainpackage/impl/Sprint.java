@@ -34,6 +34,13 @@ public class Sprint {
         this.id = id;
     }
 
+    public Sprint(String name, String desc, int length) {
+        this.name = name;
+        this.description = description;
+        this.length = length;
+        this.userStories = new ArrayList<>();
+    }
+
     public void addUserStory(UserStory us) {
         userStories.add(us);
     }
