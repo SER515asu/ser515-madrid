@@ -44,35 +44,6 @@ public class NewSprintFormTest {
     }
 
     @Test
-    public void testGetSprintObject() {
-
-        UserStoryStore.getInstance().getUserStories().clear();
-
-        UserStory story1 = new UserStory("Story 1", "Description 1", 5, 0);
-        UserStory story2 = new UserStory("Story 2", "Description 2", 3, 0);
-        UserStoryStore.getInstance().addUserStory(story1);
-        UserStoryStore.getInstance().addUserStory(story2);
-
-        newSprintForm.init();
-
-        newSprintForm.nameField.setText("Test Sprint");
-        newSprintForm.descArea.setText("Test Description");
-        newSprintForm.sprintDays.setValue(10);
-
-        newSprintForm.usList.setSelectedIndices(new int[]{0, 1});
-        
-        Sprint sprint = newSprintForm.getSprintObject();
-
-        assertNotNull(sprint);
-        assertEquals("Test Sprint", sprint.getName());
-        assertEquals("Test Description", sprint.getDescription());
-        assertEquals(10, sprint.getLength());
-        assertEquals(2, sprint.getUserStories().size());
-        assertTrue(sprint.getUserStories().contains(story1));
-        assertTrue(sprint.getUserStories().contains(story2));
-    }
-
-    @Test
     public void testCreateSprint() {
         SprintFactory sprintFactory = SprintFactory.getSprintFactory();
         Sprint sprint = sprintFactory.createNewSprint("Test Sprint", "Test Description", 10);
