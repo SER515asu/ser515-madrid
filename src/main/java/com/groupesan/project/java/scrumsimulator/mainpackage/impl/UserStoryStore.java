@@ -37,4 +37,13 @@ public class UserStoryStore {
     public void removeUserStory(UserStory userStory) {
         userStories.remove(userStory);
     }
+
+    public UserStory getUserStoryByName(String selectedUserStory) {
+        for (UserStory userStory : userStories) {
+            if (userStory.getName().equals(selectedUserStory)) {
+                return userStory;
+            }
+        }
+        return null;
+    }
 }

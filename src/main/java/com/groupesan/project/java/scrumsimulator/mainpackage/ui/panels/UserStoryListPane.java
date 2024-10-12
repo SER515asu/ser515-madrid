@@ -27,8 +27,10 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
     private List<UserStoryWidget> widgets = new ArrayList<>();
     private JPanel headerPanel;
     private JPanel storiesPanel;
+    private String currentRole;
 
-    public UserStoryListPane() {
+    public UserStoryListPane(String currentRole) {
+        this.currentRole = currentRole;
         this.init();
     }
 
@@ -55,23 +57,36 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
     
         // Add "New User Story" button
         JButton newSprintButton = new JButton("New User Story");
+        System.out.println("Current role :" + currentRole);
+        if (currentRole != null && currentRole.equalsIgnoreCase("Scrum Master")) {
+            newSprintButton.setEnabled(true);
+        } else {
+            newSprintButton.setEnabled(false);
+        }
         newSprintButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 NewUserStoryForm form = new NewUserStoryForm();
                 form.setVisible(true);
+                final boolean[] isSubmitted = {false};
     
                 form.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    private boolean isSubmitted = false;
+
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        // This event triggers when the window is closing without pressing submit
+                        isSubmitted[0] = false;
+                    }
                     public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                         UserStory userStory = form.getUserStoryObject();
                         UserStoryStore.getInstance().addUserStory(userStory);
-                        addUserStoryWidget(new UserStoryWidget(userStory, null));
+                        addUserStoryWidget(new UserStoryWidget(userStory, null, currentRole));
                     }
                 });
             }
         });
         mainPanel.add(newSprintButton, BorderLayout.SOUTH);
-    
         add(mainPanel);
     }
 
@@ -101,7 +116,7 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
 
     private void loadUserStories() {
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            addUserStoryWidget(new UserStoryWidget(userStory, null));
+            addUserStoryWidget(new UserStoryWidget(userStory, null, currentRole));
         }
     }
 

@@ -1,9 +1,10 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class SprintFactory {
     private static SprintFactory sprintFactory;
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     public static SprintFactory getSprintFactory() {
         if (sprintFactory == null) {
@@ -19,6 +20,11 @@ public class SprintFactory {
         numSprints = 0;
     }
 
+    public Sprint createNewSprint(String name, String description, int length, int storyPoints) {
+        Sprint newSprint = new Sprint(name, description, length, ++numSprints, storyPoints);
+        return newSprint;
+    }
+
     public Sprint createNewSprint(String name, String description, int length) {
         Sprint newSprint = new Sprint(name, description, length, ++numSprints);
         return newSprint;
@@ -29,10 +35,10 @@ public class SprintFactory {
      * If an error occurs, display the error message.
      * */
     public void updateSprint(Sprint sprint, String name, String description, int length) throws Exception {
-        Random random = new Random();
-        double errorChance = random.nextDouble();
 
-        if (errorChance <= 0.15) { // 10% chance of error set for the scope of this project.
+        double errorChance = secureRandom.nextDouble();
+
+        if (errorChance <= 0.10) { // 10% chance of error set for the scope of this project.
             throw new Exception("Error occurred while updating the sprint. Please try again!");
         }
 

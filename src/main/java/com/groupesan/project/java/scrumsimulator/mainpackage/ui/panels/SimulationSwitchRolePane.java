@@ -18,8 +18,11 @@ public class SimulationSwitchRolePane extends JFrame {
     private JRadioButton productOwnerRadioButton;
     private ButtonGroup roleButtonGroup;
     private JButton switchButton;
+    private String selectedRole = "Scrum Master";
+    private RoleUpdateListener roleUpdateListener;
 
-    public SimulationSwitchRolePane() {
+    public SimulationSwitchRolePane(RoleUpdateListener roleUpdateListener) {
+        this.roleUpdateListener = roleUpdateListener;
         setTitle("Simulation Status");
         setSize(400, 200);
         setLocationRelativeTo(null);
@@ -59,14 +62,11 @@ public class SimulationSwitchRolePane extends JFrame {
 
     private void onSwitchButtonClicked() {
         if (developerRadioButton.isSelected()) {
-            JOptionPane.showMessageDialog(
-                    null, "Switched to Developer", "Role Switching", JOptionPane.PLAIN_MESSAGE);
+            selectedRole = "Developer";
         } else if (scrumMasterRadioButton.isSelected()) {
-            JOptionPane.showMessageDialog(
-                    null, "Switched to Scrum Master", "Role Switching", JOptionPane.PLAIN_MESSAGE);
+            selectedRole = "Scrum Master";
         } else if (productOwnerRadioButton.isSelected()) {
-            JOptionPane.showMessageDialog(
-                    null, "Switched to Product Owner", "Role Switching", JOptionPane.PLAIN_MESSAGE);
+            selectedRole = "Product Owner";
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -74,8 +74,14 @@ public class SimulationSwitchRolePane extends JFrame {
                     "Role Switching Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+        JOptionPane.showMessageDialog(null, "Switched to " + selectedRole, "Role Switching", JOptionPane.PLAIN_MESSAGE);
+        if (roleUpdateListener != null) {
+            roleUpdateListener.onRoleUpdate(selectedRole);
+        }
         roleButtonGroup.clearSelection();
         dispose();
-        return;
+    }
+    public String getSelectedRole() {
+        return selectedRole;
     }
 }
