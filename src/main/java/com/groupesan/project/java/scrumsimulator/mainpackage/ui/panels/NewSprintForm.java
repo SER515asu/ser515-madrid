@@ -168,19 +168,18 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                             JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits","Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                        listModel.clear();
 
                         for (UserStory userStory : sprintBacklog) {
                             listModel.addElement(userStory.toString());
                         }
-                        listModel = new DefaultListModel<>();
-                        usList = new JList<>(listModel);
+                        usList.setModel(listModel);
                         usList.revalidate();
                         usList.repaint();
 
                         isSubmitted = true;
                         Sprint newSprint = getSprintObject();
                         if (newSprint != null) {
-//                            SprintStore.getInstance().addSprint(newSprint);
                             SprintListPane.refreshSprintList();
                             dispose();
                         }
