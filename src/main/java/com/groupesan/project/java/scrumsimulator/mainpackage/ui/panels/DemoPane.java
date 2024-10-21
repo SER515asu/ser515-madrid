@@ -149,25 +149,21 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        JButton modifySimulationButton = new JButton("Modify Simulation");
-        modifySimulationButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
-                            SimulationManager simulationManager = new SimulationManager();
-                            modifySimulationPane = new ModifySimulationPane(simulationManager);
-                            modifySimulationPane.setVisible(true);
-                        } else {
-                            modifySimulationPane.toFront();
-                        }
-                    }
-                });
+//        JButton modifySimulationButton = new JButton("Modify Simulation");
+//        modifySimulationButton.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
+//                            SimulationManager simulationManager = new SimulationManager();
+//                            modifySimulationPane = new ModifySimulationPane(simulationManager);
+//                            modifySimulationPane.setVisible(true);
+//                        } else {
+//                            modifySimulationPane.toFront();
+//                        }
+//                    }
+//                });
 
-        myJpanel.add(
-                modifySimulationButton,
-                new CustomConstraints(
-                        5, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         JButton joinSimulationButton = new JButton("Join Simulation");
         joinSimulationButton.addActionListener(
