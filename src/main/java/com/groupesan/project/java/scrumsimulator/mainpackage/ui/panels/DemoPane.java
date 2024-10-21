@@ -194,7 +194,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                             @Override
                             public void onRoleUpdate(String newRole) {
                                 currentRole = newRole;
-                                System.out.println("Role Updated to: " + currentRole);
+                                newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
                             }
                         });
                         feedbackPanelUI.setVisible(true);
