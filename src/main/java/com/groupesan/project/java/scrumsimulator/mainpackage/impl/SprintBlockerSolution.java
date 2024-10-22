@@ -8,6 +8,7 @@ public class SprintBlockerSolution extends ScrumObject {
     private BlockerSolutionIdentifier id;
     private String name;
     private String description;
+    private SprintBlocker blocker;
 
     public SprintBlockerSolution(String name, String description) {
         this.name = name;
@@ -47,5 +48,13 @@ public class SprintBlockerSolution extends ScrumObject {
             return this.getId().toString() + " - " + name;
         }
         return "(unregistered) - " + getName();
+    }
+
+    public SprintBlocker getBlocker(){
+        return blocker;
+    }
+
+    public void setBlocker(SprintBlocker blocker){
+        this.blocker = blocker;
     }
 }

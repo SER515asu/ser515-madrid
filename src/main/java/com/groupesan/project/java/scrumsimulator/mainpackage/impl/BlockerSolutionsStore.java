@@ -46,4 +46,8 @@ public class BlockerSolutionsStore {
     public void clearBlockerSolutions() {
         blockerSolutions.clear();
     }
+
+    public SprintBlockerSolution[] getAllSolutions() {
+        return blockerSolutions.toArray(new SprintBlockerSolution[0]);
+    }
 }

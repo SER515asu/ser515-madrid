@@ -2,6 +2,8 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerSolutionForm;
 
 import javax.swing.*;
@@ -13,11 +15,13 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
     private JLabel id, name, desc;
     private SprintBlockerSolution blockerSolution;
     private JButton deleteButton;
-
+    private JButton blockerDropdownButton;
+    private JPopupMenu blockerPopupMenu;
 
     public BlockerSolutionsWidget(SprintBlockerSolution blockerSolution) {
         this.blockerSolution = blockerSolution;
         this.init();
+        populateBlockers();
     }
 
     public void init() {
@@ -27,27 +31,66 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
+        // Main content panel (top row)
+        JPanel mainContent = new JPanel(new GridBagLayout());
+        GridBagConstraints mainGbc = new GridBagConstraints();
+        mainGbc.fill = GridBagConstraints.HORIZONTAL;
+        mainGbc.insets = new Insets(5, 5, 5, 5);
+
         // ID column
-        gbc.weightx = 0.1;
-        gbc.gridx = 0;
+        mainGbc.weightx = 0.1;
+        mainGbc.gridx = 0;
         id = new JLabel(blockerSolution.getId().toString());
         id.setPreferredSize(new Dimension(50, 30));
-        add(id, gbc);
+        mainContent.add(id, mainGbc);
 
         // Name/Title column
-        gbc.gridx = 2;
-        gbc.weightx = 0.2;
+        mainGbc.gridx = 1;
+        mainGbc.weightx = 0.2;
         name = new JLabel(blockerSolution.getName());
         name.setPreferredSize(new Dimension(100, 30));
-        add(name, gbc);
+        mainContent.add(name, mainGbc);
 
         // Description column with text truncation
-        gbc.gridx = 3;
-        gbc.weightx = 0.5;
+        mainGbc.gridx = 2;
+        mainGbc.weightx = 0.5;
         desc = new JLabel("<html>" + truncateText(blockerSolution.getDescription(), 40) + "</html>");
         desc.setPreferredSize(new Dimension(200, 30));
-        add(desc, gbc);
+        mainContent.add(desc, mainGbc);
 
+        // Delete button
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            BlockerSolutionsStore.getInstance().removeBlockerSolution(blockerSolution);
+            Container parent = BlockerSolutionsWidget.this.getParent();
+            parent.remove(BlockerSolutionsWidget.this);
+            parent.revalidate();
+            parent.repaint();
+        });
+
+        mainGbc.gridx = 3;
+        mainGbc.weightx = 0.1;
+        mainContent.add(deleteButton, mainGbc);
+
+        // Add main content panel to the top
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        add(mainContent, gbc);
+
+        // Add blocker selection panel below (second row)
+        JPanel blockerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        blockerDropdownButton = new JButton("Select Blocker");
+        if (blockerSolution.getBlocker() != null) {
+            blockerDropdownButton.setText("Blocker: " + blockerSolution.getBlocker().getName());
+        }
+        blockerDropdownButton.addActionListener(e -> showBlockerPopupMenu());
+        blockerPanel.add(blockerDropdownButton);
+
+        gbc.gridy = 1;
+        add(blockerPanel, gbc);
+
+        // Add click listener for editing
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -62,22 +105,43 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
             }
         });
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> {
-            BlockerSolutionsStore.getInstance().removeBlockerSolution(blockerSolution);
-            Container parent = BlockerSolutionsWidget.this.getParent();
-            parent.remove(BlockerSolutionsWidget.this);
-            parent.revalidate();
-            parent.repaint();
-        });
-
-        gbc.gridx = 4;
-        gbc.weightx = 0.1;
-        add(deleteButton, gbc);
-
-
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
+    }
+
+    private void showBlockerPopupMenu() {
+        if (blockerPopupMenu != null) {
+            blockerPopupMenu.removeAll();
+        } else {
+            blockerPopupMenu = new JPopupMenu();
+        }
+    
+        JMenuItem noneItem = new JMenuItem("None");
+        noneItem.addActionListener(e -> {
+            blockerSolution.setBlocker(null);
+            blockerDropdownButton.setText("Select Blocker");
+        });
+        blockerPopupMenu.add(noneItem);
+        blockerPopupMenu.addSeparator();
+    
+        BlockerStore blockerStore = BlockerStore.getInstance();
+        for (SprintBlocker blocker : blockerStore.getBlockers()) {
+            JMenuItem menuItem = new JMenuItem(blocker.getName());
+            menuItem.addActionListener(e -> {
+                if (checkBlockerSelection(blocker)) {
+                    blockerSolution.setBlocker(blocker);
+                    blockerDropdownButton.setText("Blocker: " + blocker.getName());
+                } else {
+                    JOptionPane.showMessageDialog(BlockerSolutionsWidget.this,
+                        "This blocker is already associated with another solution.",
+                        "Blocker Selection Error",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            blockerPopupMenu.add(menuItem);
+        }
+    
+        blockerPopupMenu.show(blockerDropdownButton, 0, blockerDropdownButton.getHeight());
     }
 
     private String truncateText(String text, int maxLength) {
@@ -89,7 +153,28 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         // status.setText(blockerSolution.getStatus());
         name.setText(blockerSolution.getName());
         desc.setText("<html>" + truncateText(blockerSolution.getDescription(), 40) + "</html>");
+        if (blockerSolution.getBlocker() != null) {
+            blockerDropdownButton.setText("Blocker: " + blockerSolution.getBlocker().getName());
+        } else {
+            blockerDropdownButton.setText("Select Blocker");
+        }
         revalidate();
         repaint();
+    }
+
+    private void populateBlockers() {
+        if (blockerPopupMenu != null) {
+            blockerPopupMenu.removeAll();
+        }
+    }
+
+    private boolean checkBlockerSelection(SprintBlocker blocker) {
+        BlockerSolutionsStore blockerSolutionsStore = BlockerSolutionsStore.getInstance();
+        for (SprintBlockerSolution existingSolution : blockerSolutionsStore.getAllSolutions()) {
+            if (existingSolution.getBlocker() == blocker) {
+                return false;  // Blocker already associated, cannot associate to another solution
+            }
+        }
+        return true;  // Blocker not associated, can associate to the solution
     }
 }

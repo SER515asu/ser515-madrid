@@ -66,4 +66,18 @@ public class BlockerSolutionsStoreTest {
         List<SprintBlockerSolution> solutions = blockerSolutionsStore.getBlockerSolutions();
         assertEquals(5, solutions.size(), "Solution list should have 5 initial solutions");
     }
+
+    @Test
+    void testGetAllSolutions() {
+        blockerSolutionsStore.clearBlockerSolutions();
+        SprintBlockerSolution solution1 = new SprintBlockerSolution("Solution 1", "Description 1");
+        SprintBlockerSolution solution2 = new SprintBlockerSolution("Solution 2", "Description 2");
+        blockerSolutionsStore.addBlockerSolution(solution1);
+        blockerSolutionsStore.addBlockerSolution(solution2);
+
+        SprintBlockerSolution[] solutionsArray = blockerSolutionsStore.getAllSolutions();
+        assertEquals(2, solutionsArray.length, "Array length should be 2");
+        assertTrue(List.of(solutionsArray).contains(solution1), "Array should contain solution1");
+        assertTrue(List.of(solutionsArray).contains(solution2), "Array should contain solution2");
+    }
 }
