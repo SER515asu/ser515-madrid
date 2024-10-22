@@ -30,7 +30,6 @@ public class SimulationStateManager {
 
     /** Simulation State manager. Not running by default. */
     public SimulationStateManager() {
-        this.simulationPanel = new SimulationPanel();
         this.running = false;
     }
 
