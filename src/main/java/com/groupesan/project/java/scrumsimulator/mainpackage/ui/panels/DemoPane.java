@@ -194,6 +194,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                             public void onRoleUpdate(String newRole) {
                                 currentRole = newRole;
                                 System.out.println("Role Updated to: " + currentRole);
+                                simulationPanel.setRole(currentRole);
                             }
                         });
                         feedbackPanelUI.setVisible(true);

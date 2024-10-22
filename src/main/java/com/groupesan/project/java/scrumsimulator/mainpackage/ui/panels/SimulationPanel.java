@@ -26,6 +26,10 @@ public class SimulationPanel extends JPanel implements BaseComponent {
         this.init();
     }
 
+    public void setRole(String role) {
+        startSimulationButton.setEnabled(!"Product Owner".equals(role));
+    }
+
     @Override
     public void init() {
         startSimulationButton = new JButton("Start Simulation");
