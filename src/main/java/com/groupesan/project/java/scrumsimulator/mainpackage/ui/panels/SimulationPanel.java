@@ -1,22 +1,28 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import java.util.List;
 
 public class SimulationPanel extends JPanel implements BaseComponent {
 
     private SimulationStateManager simulationStateManager;
     private JButton startSimulationButton;
     private JButton stopSimulationButton;
+    private List<Sprint> sprintList;
 
     /** Simulation Panel Initialization. */
-    protected SimulationPanel(SimulationStateManager simulationStateManager) {
-        this.simulationStateManager = simulationStateManager;
+    public SimulationPanel() {
+        this.simulationStateManager = new SimulationStateManager();
+        this.sprintList = SprintStore.getInstance().getSprints();
         this.init();
     }
 
@@ -32,7 +38,6 @@ public class SimulationPanel extends JPanel implements BaseComponent {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         simulationStateManager.startSimulation();
-                        JOptionPane.showMessageDialog(null, "Simulation started!");
                         updateButtonVisibility();
                     }
                 });
@@ -51,7 +56,7 @@ public class SimulationPanel extends JPanel implements BaseComponent {
         add(stopSimulationButton);
     }
 
-    private void updateButtonVisibility() {
+    public void updateButtonVisibility() {
         // Show/hide buttons based on the simulation state
         if (simulationStateManager.isRunning()) {
             stopSimulationButton.setVisible(true);
