@@ -61,6 +61,10 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         // Delete button
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
+            if (blockerSolution.getBlocker() != null) {
+                blockerSolution.getBlocker().setSolution(null);
+            }
+
             BlockerSolutionsStore.getInstance().removeBlockerSolution(blockerSolution);
             Container parent = BlockerSolutionsWidget.this.getParent();
             parent.remove(BlockerSolutionsWidget.this);
@@ -118,6 +122,9 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
     
         JMenuItem noneItem = new JMenuItem("None");
         noneItem.addActionListener(e -> {
+            if (blockerSolution.getBlocker() != null) {
+                blockerSolution.getBlocker().setSolution(null);
+            }
             blockerSolution.setBlocker(null);
             blockerDropdownButton.setText("Select Blocker");
         });
@@ -129,11 +136,19 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
             JMenuItem menuItem = new JMenuItem(blocker.getName());
             menuItem.addActionListener(e -> {
                 if (checkBlockerSelection(blocker)) {
+                    if (blockerSolution.getBlocker() != null) {
+                        blockerSolution.getBlocker().setSolution(null);
+                    }
                     blockerSolution.setBlocker(blocker);
+                    blocker.setSolution(blockerSolution);
                     blockerDropdownButton.setText("Blocker: " + blocker.getName());
                 } else {
+                    String errorMessage = !blockerStore.getBlockers().contains(blocker) ?
+                        "This blocker no longer exists." :
+                        "This blocker is already associated with another solution.";
+                    
                     JOptionPane.showMessageDialog(BlockerSolutionsWidget.this,
-                        "This blocker is already associated with another solution.",
+                        errorMessage,
                         "Blocker Selection Error",
                         JOptionPane.ERROR_MESSAGE);
                 }
@@ -153,11 +168,16 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         // status.setText(blockerSolution.getStatus());
         name.setText(blockerSolution.getName());
         desc.setText("<html>" + truncateText(blockerSolution.getDescription(), 40) + "</html>");
-        if (blockerSolution.getBlocker() != null) {
-            blockerDropdownButton.setText("Blocker: " + blockerSolution.getBlocker().getName());
+        SprintBlocker blocker = blockerSolution.getBlocker();
+        if (blocker != null && !BlockerStore.getInstance().getBlockers().contains(blocker)) {
+            blockerSolution.setBlocker(null);
+            blockerDropdownButton.setText("Select Blocker");
+        } else if (blocker != null) {
+            blockerDropdownButton.setText("Blocker: " + blocker.getName());
         } else {
             blockerDropdownButton.setText("Select Blocker");
         }
+
         revalidate();
         repaint();
     }
@@ -169,12 +189,16 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
     }
 
     private boolean checkBlockerSelection(SprintBlocker blocker) {
+        if (!BlockerStore.getInstance().getBlockers().contains(blocker)) {
+            return false;
+        }
+        
         BlockerSolutionsStore blockerSolutionsStore = BlockerSolutionsStore.getInstance();
         for (SprintBlockerSolution existingSolution : blockerSolutionsStore.getAllSolutions()) {
-            if (existingSolution.getBlocker() == blocker) {
-                return false;  // Blocker already associated, cannot associate to another solution
+            if (existingSolution != this.blockerSolution && existingSolution.getBlocker() == blocker) {
+                return false;
             }
         }
-        return true;  // Blocker not associated, can associate to the solution
+        return true;
     }
 }
