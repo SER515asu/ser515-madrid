@@ -70,7 +70,6 @@ public class SimulationStateManager {
                     try {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
-                            i++;
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
