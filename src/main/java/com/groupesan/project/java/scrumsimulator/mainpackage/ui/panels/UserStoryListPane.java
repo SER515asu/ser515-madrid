@@ -115,9 +115,9 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
     }
 
     private void loadUserStories() {
-        for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            addUserStoryWidget(new UserStoryWidget(userStory, null, currentRole));
-        }
+        UserStoryStore.getInstance().getUserStories().stream()
+            .filter(UserStory::isAvailableForSprint)
+            .forEach(userStory -> addUserStoryWidget(new UserStoryWidget(userStory, this, currentRole)));
     }
 
     private void addUserStoryWidget(UserStoryWidget widget) {

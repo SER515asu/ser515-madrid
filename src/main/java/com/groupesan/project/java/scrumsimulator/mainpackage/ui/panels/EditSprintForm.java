@@ -1,9 +1,8 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -77,7 +76,7 @@ public class EditSprintForm extends JFrame implements BaseComponent {
 
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            if (userStory.isAvailableForSprint() || userStory.getAssignedSprint() == sprint) {
+            if (userStory.isAvailableForSprint()) {
                 listModel.addElement(userStory.toString());
             }
         }
@@ -91,6 +90,7 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         sprintListModel = new DefaultListModel<>();
         for (UserStory userStory : sprint.getUserStories()) {
             sprintListModel.addElement(userStory.toString());
+            listModel.removeElement(userStory.toString());
         }
 
         sprintList = new JList<>(sprintListModel);
@@ -113,47 +113,48 @@ public class EditSprintForm extends JFrame implements BaseComponent {
             String selectedValue = sprintList.getSelectedValue();
             if (selectedValue != null) {
                 sprintListModel.removeElement(selectedValue);
+                listModel.addElement(selectedValue);
                 UserStory userStory = UserStoryStore.getInstance().getUserStories().stream()
                         .filter(us -> us.toString().equals(selectedValue))
                         .findFirst().orElse(null);
                 if (userStory != null) {
                     sprint.removeUserStory(userStory);
-                    // Add back to available stories list
-                    if (!listModel.contains(userStory.toString())) {
-                        listModel.addElement(userStory.toString());
-                    }
                 }
             }
         });
 
 //        myJpanel.add(removeButton, new CustomConstraints(1, 6, GridBagConstraints.EAST, GridBagConstraints.NONE));
+
         JButton generateSBButton = new JButton("Generate Sprint Backlog");
-        generateSBButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<UserStory> userStoryList = UserStoryStore.getInstance().getUserStories();
-                if (userStoryList.isEmpty()) {
-                    JOptionPane.showMessageDialog(myJpanel, "No user stories available.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
-                sprintBacklog = sprintBacklogManager.generateSprintBacklog(userStoryList, (int) sprintStoryPoints.getValue());
-                if (sprintBacklog.isEmpty()) {
-                    JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        generateSBButton.addActionListener(e -> {
+            List<UserStory> productBacklog = UserStoryStore.getInstance().getUserStories().stream()
+                .filter(UserStory::isAvailableForSprint)
+                .collect(Collectors.toList());
 
-                for (UserStory userStory : sprintBacklog) {
-                    if (!sprint.getUserStories().contains(userStory)) {
-                        sprint.addUserStory(userStory);
-                    }
-                    if (!sprintListModel.contains(userStory.toString())) {
-                        sprintListModel.addElement(userStory.toString());
-                    }
-                }
+            if (productBacklog.isEmpty()) {
+                JOptionPane.showMessageDialog(myJpanel, "No available user stories.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            SprintBacklogManager sprintBacklogManager = new SprintBacklogManager();
+            sprintBacklog = sprintBacklogManager.generateSprintBacklog(productBacklog, (int) sprintStoryPoints.getValue());
+            if (sprintBacklog.isEmpty()) {
+                JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Clear existing sprint backlog
+            sprint.getUserStories().clear();
+            sprintListModel.clear();
+
+            // Add new stories to sprint backlog
+            for (UserStory userStory : sprintBacklog) {
+                sprint.addUserStory(userStory);
+                sprintListModel.addElement(userStory.toString());
+                listModel.removeElement(userStory.toString());
             }
         });
+
 //        myJpanel.add(generateSBButton, new CustomConstraints(0, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -168,19 +169,26 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                 String description = descArea.getText();
                 Integer length = (Integer) sprintDays.getValue();
                 
-                // Clear existing associations
                 for (UserStory us : sprint.getUserStories()) {
                     us.setAssignedSprint(null);
                 }
                 sprint.getUserStories().clear();
 
-                // Create new associations
-                usList.getSelectedValuesList().forEach(us -> {
-                    UserStoryStore.getInstance().getUserStories().stream()
-                            .filter(userStory -> userStory.toString().equals(us))
-                            .findFirst()
-                            .ifPresent(sprint::addUserStory);
-                });
+                if (sprintBacklog != null && !sprintBacklog.isEmpty()) {
+                    for (UserStory us : sprintBacklog) {
+                        us.setAssignedSprint(sprint);
+                    }
+                } else {
+                    usList.getSelectedValuesList().forEach(us -> {
+                        UserStoryStore.getInstance().getUserStories().stream()
+                                .filter(userStory -> userStory.toString().equals(us))
+                                .findFirst()
+                                .ifPresent(userStory -> {
+                                    sprint.addUserStory(userStory);
+                                    userStory.setAssignedSprint(sprint);
+                                });
+                    });
+                }
 
                 SprintFactory.getSprintFactory().updateSprint(sprint, name, description, length);
                 dispose();
@@ -213,13 +221,14 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         String name = nameField.getText();
         String description = descArea.getText();
         Integer length = (Integer) sprintDays.getValue();
+        Integer storyPoints = (Integer) sprintStoryPoints.getValue();
 
         SprintFactory sprintFactory = SprintFactory.getSprintFactory();
         Sprint mySprint = sprintFactory.createNewSprint(name, description, length);
+        mySprint.setStoryPoints(storyPoints);
 
-        int[] selectedIdx = usList.getSelectedIndices();
-        for (int idx : selectedIdx) {
-            String stringIdentifier = listModel.getElementAt(idx);
+        for (int i = 0; i < sprintListModel.size(); i++) {
+            String stringIdentifier = sprintListModel.getElementAt(i);
             for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
                 if (stringIdentifier.equals(userStory.toString())) {
                     mySprint.addUserStory(userStory);
@@ -229,7 +238,6 @@ public class EditSprintForm extends JFrame implements BaseComponent {
         }
 
         SprintStore.getInstance().addSprint(mySprint);
-        System.out.println(mySprint);
         return mySprint;
     }
 }

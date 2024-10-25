@@ -232,4 +232,12 @@ public class UserStory extends ScrumObject {
         return assignedSprint == null;
     }
 
+    /**
+     * Checks if the user story is assigned to a sprint
+     * @return true if assigned to a sprint
+     */
+    public boolean isAssignedToSprint() {
+        return assignedSprint != null;
+    }
+
 }
