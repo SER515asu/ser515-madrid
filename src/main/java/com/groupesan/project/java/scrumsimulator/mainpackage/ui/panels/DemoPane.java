@@ -217,6 +217,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                                 newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
                                 System.out.println("Role Updated to: " + currentRole);
                                 simulationPanel.setRole(currentRole);
+                                spikePaneButton.setEnabled(!"Product Owner".equals(currentRole));
                             }
                         });
                         feedbackPanelUI.setVisible(true);
