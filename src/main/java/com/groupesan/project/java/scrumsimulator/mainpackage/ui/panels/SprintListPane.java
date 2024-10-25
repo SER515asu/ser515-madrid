@@ -29,21 +29,13 @@ public class SprintListPane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Sprints list");
-        setSize(600, 300);
+        setSize(800, 500);
         setLocationRelativeTo(null);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
-
-        // Create initial sprints using SprintFactory only if the store is empty
-        if (SprintStore.getInstance().getSprints().isEmpty()) {
-            Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("foo", "bar", 2, 5);
-            Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("foo2", "bar2", 4, 10);
-            SprintStore.getInstance().addSprint(aSprint);
-            SprintStore.getInstance().addSprint(aSprint2);
-        }
 
         refreshSprintList();
 
@@ -77,6 +69,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        SprintStore.getInstance().clearSprintList();
+                        refreshSprintList();
                         SprintVariablePane sprintVariablePane = new SprintVariablePane(SprintListPane.this);
                         sprintVariablePane.setVisible(true);
                     }

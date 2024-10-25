@@ -31,6 +31,8 @@ public class UserStoryStore {
     }
 
     public List<UserStory> getUserStories() {
+        System.out.println("I am here");
+        System.out.println(userStories);
         return new ArrayList<>(userStories);
     }
 
