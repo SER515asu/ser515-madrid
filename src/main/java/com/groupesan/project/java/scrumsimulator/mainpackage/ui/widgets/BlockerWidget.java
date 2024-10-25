@@ -1,6 +1,8 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
@@ -10,9 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 public class BlockerWidget extends JPanel implements BaseComponent {
-    private JLabel id, status, name, desc;
+    private JLabel id, status, name, desc, solutionLabel;
     private SprintBlocker blocker;
     private JButton deleteButton;
     private JButton userStoryDropdownButton;
@@ -76,6 +79,10 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
+            if (blocker.getSolution() != null) {
+                blocker.getSolution().setBlocker(null);
+            }
+
             BlockerStore.getInstance().removeBlocker(blocker);
             Container parent = BlockerWidget.this.getParent();
             parent.remove(BlockerWidget.this);
@@ -92,6 +99,15 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         gbc.gridx = 4;
         gbc.weightx = 0.3;
         add(userStoryDropdownButton, gbc);
+
+        JPanel solutionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        solutionLabel = new JLabel(getSolutionText());
+        solutionPanel.add(solutionLabel);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        add(solutionPanel, gbc);
 
 
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
@@ -128,6 +144,14 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         status.setText(blocker.getStatus());
         name.setText(blocker.getName());
         desc.setText("<html>" + truncateText(blocker.getDescription(), 40) + "</html>");
+        SprintBlockerSolution solution = blocker.getSolution();
+        if (solution != null && !Arrays.asList(BlockerSolutionsStore.getInstance().getAllSolutions()).contains(solution)) {
+            blocker.setSolution(null);
+            solutionLabel.setText("No solution assigned");
+        } else {
+            solutionLabel.setText(getSolutionText());
+        }
+        
         revalidate();
         repaint();
     }
@@ -156,5 +180,13 @@ public class BlockerWidget extends JPanel implements BaseComponent {
                 }
             }
         }
+    }
+
+    private String getSolutionText() {
+        SprintBlockerSolution solution = blocker.getSolution();
+        if (solution != null && Arrays.asList(BlockerSolutionsStore.getInstance().getAllSolutions()).contains(solution)) {
+            return "Solution: " + solution.getName();
+        }
+        return "No solution assigned";
     }
 }
