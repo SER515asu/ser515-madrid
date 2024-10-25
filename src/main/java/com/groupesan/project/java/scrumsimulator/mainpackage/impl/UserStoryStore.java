@@ -46,4 +46,8 @@ public class UserStoryStore {
         }
         return null;
     }
+
+    public void clearUserStories() {
+        userStories.clear();
+    }
 }

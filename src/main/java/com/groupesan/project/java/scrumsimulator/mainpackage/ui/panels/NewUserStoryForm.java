@@ -22,11 +22,11 @@ public class NewUserStoryForm extends JFrame implements BaseComponent {
             this.init();
     }
 
-    private JTextField nameField = new JTextField();
-    private JTextArea descArea = new JTextArea();
-    private JComboBox<Double> pointsCombo = new JComboBox<>(pointsList);
-    private JComboBox<Double> businessValueCombo = new JComboBox<>(businessValueList);
-    private JButton submitButton;
+    JTextField nameField = new JTextField();
+    JTextArea descArea = new JTextArea();
+    JComboBox<Double> pointsCombo = new JComboBox<>(pointsList);
+    JComboBox<Double> businessValueCombo = new JComboBox<>(businessValueList);
+    JButton submitButton;
 
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
