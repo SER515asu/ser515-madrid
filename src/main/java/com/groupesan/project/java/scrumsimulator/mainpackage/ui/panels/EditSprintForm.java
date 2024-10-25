@@ -45,7 +45,7 @@ public class EditSprintForm extends JFrame implements BaseComponent {
     @Override
     public void init() {
         setTitle("Edit Sprint");
-        setSize(800, 600);
+        setSize(1000, 800);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
@@ -77,7 +77,9 @@ public class EditSprintForm extends JFrame implements BaseComponent {
 
         listModel = new DefaultListModel<>();
         for (UserStory userStory : UserStoryStore.getInstance().getUserStories()) {
-            listModel.addElement(userStory.toString());
+            if (userStory.isAvailableForSprint() || userStory.getAssignedSprint() == sprint) {
+                listModel.addElement(userStory.toString());
+            }
         }
 
         usList = new JList<>(listModel);
@@ -116,6 +118,10 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                         .findFirst().orElse(null);
                 if (userStory != null) {
                     sprint.removeUserStory(userStory);
+                    // Add back to available stories list
+                    if (!listModel.contains(userStory.toString())) {
+                        listModel.addElement(userStory.toString());
+                    }
                 }
             }
         });
@@ -136,8 +142,6 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                     JOptionPane.showMessageDialog(myJpanel, "No stories could be added to the sprint backlog. All stories exceed point limits", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
-
 
                 for (UserStory userStory : sprintBacklog) {
                     if (!sprint.getUserStories().contains(userStory)) {
@@ -163,7 +167,14 @@ public class EditSprintForm extends JFrame implements BaseComponent {
                 String name = nameField.getText();
                 String description = descArea.getText();
                 Integer length = (Integer) sprintDays.getValue();
+                
+                // Clear existing associations
+                for (UserStory us : sprint.getUserStories()) {
+                    us.setAssignedSprint(null);
+                }
                 sprint.getUserStories().clear();
+
+                // Create new associations
                 usList.getSelectedValuesList().forEach(us -> {
                     UserStoryStore.getInstance().getUserStories().stream()
                             .filter(userStory -> userStory.toString().equals(us))
