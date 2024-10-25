@@ -65,41 +65,48 @@ public class SimulationStateManager {
             @Override
             protected Void doInBackground() throws Exception {
                 for (Sprint sprint : sprints) {
-
                     String sprintExecutionText = "Sprint " + sprint.getName() + " executing...";
                     SwingUtilities.invokeLater(() -> sprintDisplayArea.append(sprintExecutionText + "\n"));
+                    try {
+                        List<UserStory> userStories = sprint.getUserStories();
+                        for (UserStory userStory : userStories) {
+                            i++;
+                            String storyExecText = "  User Story " + userStory + " executing...";
+                            SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
-                    List<UserStory> userStories = sprint.getUserStories();
-                    for (UserStory userStory : userStories) {
-                        String storyExecText = "  User Story " + userStory + " executing...";
-                        SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
+                            Thread.sleep(2000);
+                            SwingUtilities.invokeLater(() -> {
+                                int lastIndex = sprintDisplayArea.getText().lastIndexOf(storyExecText);
 
-                        Thread.sleep(2000);
+                                if (lastIndex != -1) {
+                                    String currentText = sprintDisplayArea.getText();
+                                    String updatedText = currentText.substring(0, lastIndex)
+                                            + "  User Story " + userStory + " COMPLETED"
+                                            + currentText.substring(lastIndex + storyExecText.length());
+                                    sprintDisplayArea.setText(updatedText);
+                                }
+                            });
+                        }
+                        String sprintCompletedText = "Sprint " + sprint.getName() + " COMPLETED";
 
                         SwingUtilities.invokeLater(() -> {
-                            int lastIndex = sprintDisplayArea.getText().lastIndexOf(storyExecText);
-
+                            int lastIndex = sprintDisplayArea.getText().lastIndexOf(sprintExecutionText);
                             if (lastIndex != -1) {
                                 String currentText = sprintDisplayArea.getText();
                                 String updatedText = currentText.substring(0, lastIndex)
-                                        + "  User Story " + userStory + " COMPLETED"
-                                        + currentText.substring(lastIndex + storyExecText.length());
+                                        + sprintCompletedText
+                                        + currentText.substring(lastIndex + sprintExecutionText.length());
                                 sprintDisplayArea.setText(updatedText);
                             }
                         });
                     }
-                    String sprintCompletedText = "Sprint " + sprint.getName() + " COMPLETED";
-
-                    SwingUtilities.invokeLater(() -> {
-                        int lastIndex = sprintDisplayArea.getText().lastIndexOf(sprintExecutionText);
-                        if (lastIndex != -1) {
-                            String currentText = sprintDisplayArea.getText();
-                            String updatedText = currentText.substring(0, lastIndex)
-                                    + sprintCompletedText
-                                    + currentText.substring(lastIndex + sprintExecutionText.length());
-                            sprintDisplayArea.setText(updatedText);
-                        }
-                    });
+                    catch(Exception e){
+                        String failureMessage = "Sprint "+ sprint.getName()+"FAILED";
+                        SwingUtilities.invokeLater(()->{
+                            sprintDisplayArea.append( failureMessage + "\n");
+                            JOptionPane.showMessageDialog(frame,failureMessage);
+                        });
+                    }
                 }
                 return null;
             }
@@ -116,7 +123,10 @@ public class SimulationStateManager {
                 SwingUtilities.invokeLater(() -> {
                     sprintDisplayArea.append("All sprints have been executed!\n");
                     stopSimulation();
+                    JOptionPane.showMessageDialog(frame, "All the sprints have been successfully executed!");
                     simulationPanel.updateButtonVisibility();
+
+
                 });
             }
         };
