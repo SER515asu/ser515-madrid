@@ -92,13 +92,6 @@ public class SpikePane extends JFrame implements BaseComponent {
         return headerPanel;
     }
 
-    private static JLabel createHeaderLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        return label;
-    }
-
     public static void refreshUserStoryList() {
         subPanel.removeAll();
 
@@ -178,5 +171,12 @@ public class SpikePane extends JFrame implements BaseComponent {
         subPanel.revalidate();
         subPanel.repaint();
         scrollPane.setViewportView(subPanel);
+    }
+
+    private static JLabel createHeaderLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+        return label;
     }
 }
