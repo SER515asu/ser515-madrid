@@ -13,12 +13,16 @@ public class SprintBlocker extends ScrumObject {
     private String status;
     private List<UserStory> userStories = new ArrayList<>();
     private SprintBlockerSolution solution;
+    private int blockerMinProbability;
+    private int blockerMaxProbability;
 
-    public SprintBlocker(String name, String description, String status, List<UserStory> userStories) {
+    public SprintBlocker(String name, String description, String status, List<UserStory> userStories, int minProbability, int maxProbability) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.userStories = userStories;
+        this.blockerMinProbability = minProbability;
+        this.blockerMaxProbability = maxProbability;
     }
 
     protected void register() {
@@ -54,6 +58,22 @@ public class SprintBlocker extends ScrumObject {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getBlockerMinProbability() {
+        return blockerMinProbability;
+    }
+
+    public void setBlockerMinProbability(int blockerMinProbability) {
+        this.blockerMinProbability = blockerMinProbability;
+    }
+
+    public int getBlockerMaxProbability() {
+        return blockerMaxProbability;
+    }
+
+    public void setBlockerMaxProbability(int blockerMaxProbability) {
+        this.blockerMaxProbability = blockerMaxProbability;
     }
 
     @Override
