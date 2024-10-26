@@ -83,7 +83,7 @@ public class SimulationStateManager {
                             } else if (randomValue <= 90) {
                                 actualStoryPoints = expectedStoryPoints - 1;  // 10% chance to be less
                             } else {
-                                actualStoryPoints = expectedStoryPoints + 1;  // 10% chance to be more
+                                actualStoryPoints = expectedStoryPoints + 2;  // 10% chance to be more
                             }
                             actualSprintPoints += actualStoryPoints;
                             String storyExecText = "  User Story " + userStory + " executing...";
