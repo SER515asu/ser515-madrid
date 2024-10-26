@@ -14,9 +14,9 @@ import java.util.List;
 
 public class SimulationPanel extends JPanel implements BaseComponent {
 
-    private SimulationStateManager simulationStateManager;
-    private JButton startSimulationButton;
-    private JButton stopSimulationButton;
+    private static SimulationStateManager simulationStateManager;
+    private static JButton startSimulationButton;
+    private static JButton stopSimulationButton;
     private List<Sprint> sprintList;
 
     /** Simulation Panel Initialization. */
@@ -60,7 +60,7 @@ public class SimulationPanel extends JPanel implements BaseComponent {
         add(stopSimulationButton);
     }
 
-    public void updateButtonVisibility() {
+    public static void updateButtonVisibility() {
         // Show/hide buttons based on the simulation state
         if (simulationStateManager.isRunning()) {
             stopSimulationButton.setVisible(true);

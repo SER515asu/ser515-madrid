@@ -68,7 +68,7 @@ public class SimulationStateManager {
                 SecureRandom random = new SecureRandom();
                 boolean executionFailed = false;
                 for (Sprint sprint : sprints) {
-                    int expectedSprintPoints = 0;
+                    int expectedSprintPoints = sprint.getStoryPoints();
                     int actualSprintPoints = 0;
                     String sprintExecutionText = "Sprint " + sprint.getName() + " executing...";
                     SwingUtilities.invokeLater(() -> sprintDisplayArea.append(sprintExecutionText + "\n"));
@@ -76,17 +76,22 @@ public class SimulationStateManager {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
                             int expectedStoryPoints = (int) userStory.getPointValue();
-                            int remainder = expectedStoryPoints % 6;
-                            int dieRoll = random.nextInt(6) + 1;
-                            int adjustment = remainder - dieRoll;
-                            int actualStoryPoints = expectedStoryPoints - adjustment;
-                            expectedSprintPoints += expectedStoryPoints;
+                            int randomValue = random.nextInt(100) + 1;
+                            int actualStoryPoints = 0;
+                            if (randomValue <= 80) {
+                                actualStoryPoints = expectedStoryPoints;  // 80% chance to be equal
+                            } else if (randomValue <= 90) {
+                                actualStoryPoints = expectedStoryPoints - 1;  // 10% chance to be less
+                            } else {
+                                actualStoryPoints = expectedStoryPoints + 1;  // 10% chance to be more
+                            }
                             actualSprintPoints += actualStoryPoints;
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
                             int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
                             Thread.sleep(sleepTime);
+                            int finalActualStoryPoints = actualStoryPoints;
                             SwingUtilities.invokeLater(() -> {
                                 int lastIndex = sprintDisplayArea.getText().lastIndexOf(storyExecText);
 
@@ -95,7 +100,7 @@ public class SimulationStateManager {
                                     String updatedText = currentText.substring(0, lastIndex)
                                             + "User Story " + userStory
                                             + " COMPLETED (Expected Effort: " + expectedStoryPoints
-                                            + ", Actual Effort: " + actualStoryPoints + ")"
+                                            + ", Actual Effort: " + finalActualStoryPoints + ")"
                                             + currentText.substring(lastIndex + storyExecText.length());
                                     sprintDisplayArea.setText(updatedText);
                                 }
@@ -149,14 +154,8 @@ public class SimulationStateManager {
 
             @Override
             protected void done() {
-//                SwingUtilities.invokeLater(() -> {
-//                    sprintDisplayArea.append("All sprints have been executed!\n");
-//                    stopSimulation();
-//                    JOptionPane.showMessageDialog(frame, "All the sprints have been successfully executed!");
-//                    simulationPanel.updateButtonVisibility();
-//
-//
-//                });
+                running = false;
+                SimulationPanel.updateButtonVisibility();
             }
         };
 
@@ -228,8 +227,8 @@ public class SimulationStateManager {
 
     private static void updateSimulationData(JSONObject updatedData) {
         try (OutputStreamWriter writer =
-                new OutputStreamWriter(
-                        new FileOutputStream(JSON_FILE_PATH), StandardCharsets.UTF_8)) {
+                     new OutputStreamWriter(
+                             new FileOutputStream(JSON_FILE_PATH), StandardCharsets.UTF_8)) {
             writer.write(updatedData.toString(4));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error writing to simulation.JSON");
