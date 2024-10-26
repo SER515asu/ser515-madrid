@@ -27,7 +27,7 @@ public class SimulationStateManager {
     private static final String JSON_FILE_PATH = "src/main/resources/simulation.JSON";
     private JFrame frame;
     private JTextArea sprintDisplayArea;
-    private SimulationPanel simulationPanel;
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     /** Simulation State manager. Not running by default. */
     public SimulationStateManager() {
@@ -65,7 +65,6 @@ public class SimulationStateManager {
         SwingWorker<Void, String> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
-                SecureRandom random = new SecureRandom();
                 boolean executionFailed = false;
                 for (Sprint sprint : sprints) {
                     int expectedSprintPoints = sprint.getStoryPoints();
@@ -76,11 +75,11 @@ public class SimulationStateManager {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
                             int expectedStoryPoints = (int) userStory.getPointValue();
-                            int randomValue = random.nextInt(100) + 1;
+                            int secureRandomValue = secureRandom.nextInt(100) + 1;
                             int actualStoryPoints = 0;
-                            if (randomValue <= 80) {
+                            if (secureRandomValue <= 80) {
                                 actualStoryPoints = expectedStoryPoints;  // 80% chance to be equal
-                            } else if (randomValue <= 90) {
+                            } else if (secureRandomValue <= 90) {
                                 actualStoryPoints = expectedStoryPoints - 1;  // 10% chance to be less
                             } else {
                                 actualStoryPoints = expectedStoryPoints + 2;  // 10% chance to be more

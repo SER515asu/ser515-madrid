@@ -1,7 +1,5 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 
@@ -10,19 +8,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import java.util.List;
 
 public class SimulationPanel extends JPanel implements BaseComponent {
 
-    private static SimulationStateManager simulationStateManager;
-    private static JButton startSimulationButton;
-    private static JButton stopSimulationButton;
-    private List<Sprint> sprintList;
+    private static final SimulationStateManager simulationStateManager  = new SimulationStateManager();
+    private static final JButton startSimulationButton  = new JButton("Start Simulation");;
+    private static final JButton stopSimulationButton = new JButton("Stop Simulation");
 
     /** Simulation Panel Initialization. */
     public SimulationPanel() {
-        this.simulationStateManager = new SimulationStateManager();
-        this.sprintList = SprintStore.getInstance().getSprints();
         this.init();
     }
 
@@ -32,8 +26,6 @@ public class SimulationPanel extends JPanel implements BaseComponent {
 
     @Override
     public void init() {
-        startSimulationButton = new JButton("Start Simulation");
-        stopSimulationButton = new JButton("Stop Simulation");
 
         stopSimulationButton.setVisible(false);
 
