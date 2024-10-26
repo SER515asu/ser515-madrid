@@ -23,6 +23,8 @@ public class UserStory extends ScrumObject {
 
     private Player owner;
 
+    private Sprint assignedSprint;
+
     // private ArrayList<Task> tasks;  TODO: implement tasks
 
     /**
@@ -205,4 +207,37 @@ public class UserStory extends ScrumObject {
     public Player getOwner() {
         return this.owner;
     }
+
+    /**
+     * Gets the sprint this user story is assigned to
+     * @return Sprint object if assigned, null otherwise
+     */
+    public Sprint getAssignedSprint() {
+        return assignedSprint;
+    }
+
+    /**
+     * Assigns this user story to a sprint
+     * @param sprint Sprint to assign the user story to
+     */
+    public void setAssignedSprint(Sprint sprint) {
+        this.assignedSprint = sprint;
+    }
+
+    /**
+     * Checks if the user story is available for sprint assignment
+     * @return true if not assigned to any sprint
+     */
+    public boolean isAvailableForSprint() {
+        return assignedSprint == null;
+    }
+
+    /**
+     * Checks if the user story is assigned to a sprint
+     * @return true if assigned to a sprint
+     */
+    public boolean isAssignedToSprint() {
+        return assignedSprint != null;
+    }
+
 }
