@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.List;
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -64,23 +65,37 @@ public class SimulationStateManager {
         SwingWorker<Void, String> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
+                SecureRandom random = new SecureRandom();
+                boolean executionFailed = false;
                 for (Sprint sprint : sprints) {
+                    int expectedSprintPoints = 0;
+                    int actualSprintPoints = 0;
                     String sprintExecutionText = "Sprint " + sprint.getName() + " executing...";
                     SwingUtilities.invokeLater(() -> sprintDisplayArea.append(sprintExecutionText + "\n"));
                     try {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
+                            int expectedStoryPoints = (int) userStory.getPointValue();
+                            int remainder = expectedStoryPoints % 6;
+                            int dieRoll = random.nextInt(6) + 1;
+                            int adjustment = remainder - dieRoll;
+                            int actualStoryPoints = expectedStoryPoints - adjustment;
+                            expectedSprintPoints += expectedStoryPoints;
+                            actualSprintPoints += actualStoryPoints;
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
-                            Thread.sleep(2000);
+                            int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
+                            Thread.sleep(sleepTime);
                             SwingUtilities.invokeLater(() -> {
                                 int lastIndex = sprintDisplayArea.getText().lastIndexOf(storyExecText);
 
                                 if (lastIndex != -1) {
                                     String currentText = sprintDisplayArea.getText();
                                     String updatedText = currentText.substring(0, lastIndex)
-                                            + "  User Story " + userStory + " COMPLETED"
+                                            + "User Story " + userStory
+                                            + " COMPLETED (Expected Effort: " + expectedStoryPoints
+                                            + ", Actual Effort: " + actualStoryPoints + ")"
                                             + currentText.substring(lastIndex + storyExecText.length());
                                     sprintDisplayArea.setText(updatedText);
                                 }
@@ -98,6 +113,10 @@ public class SimulationStateManager {
                                 sprintDisplayArea.setText(updatedText);
                             }
                         });
+                        if (actualSprintPoints > expectedSprintPoints) {
+                            executionFailed = true;
+                            break;
+                        }
                     }
                     catch(Exception e){
                         String failureMessage = "Sprint "+ sprint.getName()+"FAILED";
@@ -106,6 +125,17 @@ public class SimulationStateManager {
                             JOptionPane.showMessageDialog(frame,failureMessage);
                         });
                     }
+                }
+                if (executionFailed) {
+                    SwingUtilities.invokeLater(() -> {
+                        sprintDisplayArea.append("Simulator execution failed\n");
+                        JOptionPane.showMessageDialog(frame, "Simulator execution failed", "Execution Status", JOptionPane.ERROR_MESSAGE);
+                    });
+                } else {
+                    SwingUtilities.invokeLater(() -> {
+                        sprintDisplayArea.append("Simulator execution successful\n");
+                        JOptionPane.showMessageDialog(frame, "Simulator execution successful", "Execution Status", JOptionPane.INFORMATION_MESSAGE);
+                    });
                 }
                 return null;
             }
@@ -119,14 +149,14 @@ public class SimulationStateManager {
 
             @Override
             protected void done() {
-                SwingUtilities.invokeLater(() -> {
-                    sprintDisplayArea.append("All sprints have been executed!\n");
-                    stopSimulation();
-                    JOptionPane.showMessageDialog(frame, "All the sprints have been successfully executed!");
-                    simulationPanel.updateButtonVisibility();
-
-
-                });
+//                SwingUtilities.invokeLater(() -> {
+//                    sprintDisplayArea.append("All sprints have been executed!\n");
+//                    stopSimulation();
+//                    JOptionPane.showMessageDialog(frame, "All the sprints have been successfully executed!");
+//                    simulationPanel.updateButtonVisibility();
+//
+//
+//                });
             }
         };
 
