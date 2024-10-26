@@ -25,14 +25,14 @@ public class DemoPane extends JFrame implements BaseComponent {
 
     // Fields to store references to opened windows
     private SprintListPane sprintListPane;
-    private UserStoryListPane userStoryListPane;
+    // private UserStoryListPane userStoryListPane;
     private UpdateUserStoryPanel updateUserStoryPanel;
     private SimulationPane simulationPane;
     private ModifySimulationPane modifySimulationPane;
     private SimulationUI simulationUserInterface;
-    private SimulationSwitchRolePane simulationSwitchRolePane;
+    // private SimulationSwitchRolePane simulationSwitchRolePane;
     private VariantSimulationUI variantSimulationUI;
-    private SprintUIPane sprintUIPane;
+    // private SprintUIPane sprintUIPane;
 
     public DemoPane() {
         this.init();
@@ -42,7 +42,7 @@ public class DemoPane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Demo");
-        setSize(1200, 300);
+        setSize(1500, 400);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
@@ -148,25 +148,21 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         7, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
-        JButton modifySimulationButton = new JButton("Modify Simulation");
-        modifySimulationButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
-                            SimulationManager simulationManager = new SimulationManager();
-                            modifySimulationPane = new ModifySimulationPane(simulationManager);
-                            modifySimulationPane.setVisible(true);
-                        } else {
-                            modifySimulationPane.toFront();
-                        }
-                    }
-                });
+//        JButton modifySimulationButton = new JButton("Modify Simulation");
+//        modifySimulationButton.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        if (modifySimulationPane == null || !modifySimulationPane.isDisplayable()) {
+//                            SimulationManager simulationManager = new SimulationManager();
+//                            modifySimulationPane = new ModifySimulationPane(simulationManager);
+//                            modifySimulationPane.setVisible(true);
+//                        } else {
+//                            modifySimulationPane.toFront();
+//                        }
+//                    }
+//                });
 
-        myJpanel.add(
-                modifySimulationButton,
-                new CustomConstraints(
-                        5, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         JButton joinSimulationButton = new JButton("Join Simulation");
         joinSimulationButton.addActionListener(
@@ -193,8 +189,8 @@ public class DemoPane extends JFrame implements BaseComponent {
                             @Override
                             public void onRoleUpdate(String newRole) {
                                 currentRole = newRole;
-                                System.out.println("Role Updated to: " + currentRole);
                                 simulationPanel.setRole(currentRole);
+                                newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
                             }
                         });
                         feedbackPanelUI.setVisible(true);
@@ -255,6 +251,20 @@ public class DemoPane extends JFrame implements BaseComponent {
                 blockerButton,
                 new CustomConstraints(
                         13, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+        
+        JButton blockerSolutionsButton = new JButton("Blocker Solutions");
+        blockerSolutionsButton.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                BlockerSolutionsListPane blockerSolutionsPane = new BlockerSolutionsListPane();
+                blockerSolutionsPane.setVisible(true);
+                }
+            });
+        myJpanel.add(
+            blockerSolutionsButton,
+            new CustomConstraints(
+                14, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
 
         add(myJpanel);

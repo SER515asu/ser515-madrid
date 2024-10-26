@@ -12,6 +12,7 @@ public class SprintBlocker extends ScrumObject {
     private String description;
     private String status;
     private List<UserStory> userStories = new ArrayList<>();
+    private SprintBlockerSolution solution;
 
     public SprintBlocker(String name, String description, String status, List<UserStory> userStories) {
         this.name = name;
@@ -78,5 +79,13 @@ public class SprintBlocker extends ScrumObject {
 
     public void removeUserStory(UserStory userStory) {
         userStories.remove(userStory);
+    }
+
+    public SprintBlockerSolution getSolution() {
+        return solution;
+    }
+
+    public void setSolution(SprintBlockerSolution solution) {
+        this.solution = solution;
     }
 }

@@ -37,6 +37,8 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
         loadBlockers();
 
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
         JButton newBlockerButton = new JButton("New Blocker");
         newBlockerButton.addActionListener(e -> {
             NewBlockerForm form = new NewBlockerForm();
@@ -52,7 +54,23 @@ public class BlockersListPane extends JFrame implements BaseComponent {
                 }
             });
         });
-        mainPanel.add(newBlockerButton, BorderLayout.SOUTH);
+
+        buttonPanel.add(newBlockerButton);
+
+        JButton blockerSolutionsButton = new JButton("Blocker Solutions");
+        blockerSolutionsButton.addActionListener(e -> {
+            BlockerSolutionsListPane blockerSolutionsPane = new BlockerSolutionsListPane();
+            blockerSolutionsPane.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    refreshBlockersList();
+                }
+            });
+            blockerSolutionsPane.setVisible(true);
+        });
+        buttonPanel.add(blockerSolutionsButton);
+        
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }
@@ -89,6 +107,17 @@ public class BlockersListPane extends JFrame implements BaseComponent {
     private void addBlockerWidget(BlockerWidget widget) {
         widgets.add(widget);
         blockersPanel.add(widget);
+        blockersPanel.revalidate();
+        blockersPanel.repaint();
+    }
+
+    private void refreshBlockersList() {
+
+        blockersPanel.removeAll();
+        widgets.clear();
+        
+        loadBlockers();
+        
         blockersPanel.revalidate();
         blockersPanel.repaint();
     }
