@@ -25,11 +25,11 @@ public class App {
     }
 
     private void initializeSimulatorData() {
-        Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("Sprint1", "This is Sprint 1", 2, 5);
-        Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("Sprint2", "This is Sprint 2", 4, 10);
-        Sprint aSprint3 = SprintFactory.getSprintFactory().createNewSprint("Sprint3", "This is Sprint 3", 6, 15);
-        Sprint aSprint4 = SprintFactory.getSprintFactory().createNewSprint("Sprint4", "This is Sprint 4", 8, 10);
-        Sprint aSprint5 = SprintFactory.getSprintFactory().createNewSprint("Sprint5", "This is Sprint 5", 10, 5);
+        Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("Sprint1", "This is Sprint 1", 2, 15);
+        Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("Sprint2", "This is Sprint 2", 4, 20);
+        Sprint aSprint3 = SprintFactory.getSprintFactory().createNewSprint("Sprint3", "This is Sprint 3", 6, 20);
+        Sprint aSprint4 = SprintFactory.getSprintFactory().createNewSprint("Sprint4", "This is Sprint 4", 8, 15);
+        Sprint aSprint5 = SprintFactory.getSprintFactory().createNewSprint("Sprint5", "This is Sprint 5", 10, 25);
         SprintStore.getInstance().addSprint(aSprint);
         SprintStore.getInstance().addSprint(aSprint2);
         SprintStore.getInstance().addSprint(aSprint3);

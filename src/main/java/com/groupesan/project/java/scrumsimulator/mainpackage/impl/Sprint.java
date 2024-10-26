@@ -43,10 +43,12 @@ public class Sprint {
 
     public void addUserStory(UserStory us) {
         userStories.add(us);
+        updateStoryPoints();
     }
 
     public void removeUserStory(UserStory userStory){
         userStories.remove(userStory);
+        updateStoryPoints();
     }
 
     public List<UserStory> getUserStories() {
@@ -99,6 +101,13 @@ public class Sprint {
 
     public int setStoryPoints(int storyPoints) {
         return this.storyPoints = storyPoints;
+    }
+
+    private void updateStoryPoints() {
+        int totalPoints = (int) userStories.stream().mapToDouble(UserStory::getPointValue).sum();
+        if (totalPoints > storyPoints) {
+            storyPoints = totalPoints;
+        }
     }
 
     public String toString() {
