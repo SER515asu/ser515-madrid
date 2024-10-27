@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -20,9 +18,7 @@ import javax.swing.border.EmptyBorder;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.UserStoryWidget;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 
 public class SpikePane extends JFrame implements BaseComponent {
@@ -136,65 +132,23 @@ public class SpikePane extends JFrame implements BaseComponent {
                     JLabel sprintIdLabel = new JLabel(String.valueOf(sprint.getId()));
                     JLabel pointsLabel = new JLabel(String.valueOf((int) story.getPointValue()));
 
-
-                    JButton createSpikeButton = new JButton("Create Spike");
-                    createSpikeButton.addActionListener(
-                            new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    createSpikeForm form = new createSpikeForm();
-                                    form.setVisible(true);
-                                    final boolean[] isSubmitted = {false};
-
-                                    form.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    private boolean isSubmitted = false;
-
-                                        @Override
-                                        public void windowClosing(java.awt.event.WindowEvent e) {
-                                            // This event triggers when the window is closing without pressing submit
-                                            isSubmitted[0] = false;
-                                        }
-                                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                                            int value = form.getValue();
-                                            System.out.println("recieved random value"+value);
-
-                                        }
-                                    });
-                                }
-                            });
-
-
                     gbc.gridx = 0;
                     gbc.weightx = 0.1;
                     storyPanel.add(idLabel, gbc);
                     gbc.gridx = 1;
-                    gbc.weightx = 0.15;
+                    gbc.weightx = 0.2;
                     storyPanel.add(nameLabel, gbc);
                     gbc.gridx = 2;
-                    gbc.weightx = 0.3;
+                    gbc.weightx = 0.4;
                     storyPanel.add(descLabel, gbc);
                     gbc.gridx = 3;
-                    gbc.weightx = 0.15;
+                    gbc.weightx = 0.1;
                     storyPanel.add(sprintIdLabel, gbc);
                     gbc.gridx = 4;
-                    gbc.weightx = 0.15;
+                    gbc.weightx = 0.2;
                     storyPanel.add(pointsLabel, gbc);
 
-                    gbc.gridx = 5;
-                    gbc.weightx = 0.15;
-                    gbc.fill = GridBagConstraints.NONE;
-                    storyPanel.add(createSpikeButton, gbc);
-
-                    GridBagConstraints panelGbc = new GridBagConstraints();
-                    panelGbc.gridx = 0;
-                    panelGbc.gridy = row++;
-                    panelGbc.weightx = 1.0;
-                    panelGbc.fill = GridBagConstraints.HORIZONTAL;
-                    subPanel.add(storyPanel, panelGbc);
-
                     storyPanel.setPreferredSize(new Dimension(storyPanel.getPreferredSize().width, 25));
-                    storyPanel.add(createSpikeButton);
-
 
                     subPanel.add(storyPanel,
                             new CustomConstraints(0, row++, GridBagConstraints.WEST, 1.0, 0.0,
