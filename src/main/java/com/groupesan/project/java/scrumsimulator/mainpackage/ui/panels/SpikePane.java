@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,10 +46,8 @@ public class SpikePane extends JFrame implements BaseComponent {
 
         GridBagConstraints scrollPaneConstraint = new CustomConstraints(
                 0, 0, GridBagConstraints.NORTH, 1.0, 1.0, GridBagConstraints.BOTH);
-        scrollPaneConstraint.gridwidth = 1;
         mainPanel.add(scrollPane, scrollPaneConstraint);
 
-        // Refresh button to update the list of user stories
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> refreshUserStoryList());
 
@@ -72,8 +71,8 @@ public class SpikePane extends JFrame implements BaseComponent {
         JLabel descHeader = createHeaderLabel("Description");
         JLabel sprintIdHeader = createHeaderLabel("Sprint #ID");
         JLabel storyPointsHeader = createHeaderLabel("UserStory Points");
+        JLabel statusHeader = createHeaderLabel("Status");
 
-        // An attempt at fixing the column alignment. It's not perfect, but it's better than nothing.
         gbc.gridx = 0;
         headerPanel.add(userStoryIdHeader, gbc);
         gbc.gridx = 1;
@@ -88,6 +87,9 @@ public class SpikePane extends JFrame implements BaseComponent {
         gbc.gridx = 4;
         gbc.weightx = 0.2;
         headerPanel.add(storyPointsHeader, gbc);
+        gbc.gridx = 5;
+        gbc.weightx = 0.2;
+        headerPanel.add(statusHeader, gbc);
 
         return headerPanel;
     }
@@ -147,6 +149,15 @@ public class SpikePane extends JFrame implements BaseComponent {
                     gbc.gridx = 4;
                     gbc.weightx = 0.2;
                     storyPanel.add(pointsLabel, gbc);
+
+                    String[] statuses = {"New Spike", "In Progress", "Resolved"};
+                    JComboBox<String> statusDropdown = new JComboBox<>(statuses);
+                    statusDropdown.setSelectedItem(story.getStatus());
+                    statusDropdown.addActionListener(e -> story.setStatus((String) statusDropdown.getSelectedItem()));
+
+                    gbc.gridx = 5;
+                    gbc.weightx = 0.2;
+                    storyPanel.add(statusDropdown, gbc);
 
                     storyPanel.setPreferredSize(new Dimension(storyPanel.getPreferredSize().width, 25));
 
