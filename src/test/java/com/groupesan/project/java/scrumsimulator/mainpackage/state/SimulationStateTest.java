@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 public class SimulationStateTest {
 
     private SimulationStateManager simulationStateManager;
@@ -28,8 +30,12 @@ public class SimulationStateTest {
 
     @Test
     public void testStartSimulation() {
-        simulationStateManager.startSimulation();
-        assertTrue(simulationStateManager.isRunning());
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Running in headless mode; skipping UI setup.");
+        } else {
+            simulationStateManager.startSimulation();
+            assertTrue(simulationStateManager.isRunning());
+        }
     }
 
     @Test
