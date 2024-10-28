@@ -1,22 +1,23 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
@@ -28,10 +29,12 @@ public class DemoPane extends JFrame implements BaseComponent {
     // private UserStoryListPane userStoryListPane;
     private UpdateUserStoryPanel updateUserStoryPanel;
     private SimulationPane simulationPane;
-    private ModifySimulationPane modifySimulationPane;
+    // private ModifySimulationPane modifySimulationPane;
     private SimulationUI simulationUserInterface;
     // private SimulationSwitchRolePane simulationSwitchRolePane;
     private VariantSimulationUI variantSimulationUI;
+    private SimulationStateManager simulationStateManager;
+    private BlockersListPane blockersListPane;
     // private SprintUIPane sprintUIPane;
 
     public DemoPane() {
@@ -63,7 +66,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                     }
                 });
 
-        SimulationStateManager simulationStateManager = new SimulationStateManager();
+        simulationStateManager = new SimulationStateManager();
         SimulationPanel simulationPanel = new SimulationPanel(simulationStateManager);
         myJpanel.add(
                 simulationPanel,
@@ -242,8 +245,13 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        BlockersListPane blockersPane = new BlockersListPane();
-                        blockersPane.setVisible(true);
+                        if (blockersListPane == null || !blockersListPane.isDisplayable()) {
+                            blockersListPane = new BlockersListPane();
+                            blockersListPane.setSimulationStateManager(simulationStateManager);
+                            blockersListPane.setVisible(true);
+                        } else {
+                            blockersListPane.toFront();
+                        }
                     }
                 });
 
