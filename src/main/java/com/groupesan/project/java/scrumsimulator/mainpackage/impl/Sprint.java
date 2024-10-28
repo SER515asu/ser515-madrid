@@ -42,13 +42,18 @@ public class Sprint {
     }
 
     public void addUserStory(UserStory us) {
-        userStories.add(us);
-        updateStoryPoints();
+        if (us.isAvailableForSprint()) {
+            userStories.add(us);
+            us.setAssignedSprint(this);
+            updateStoryPoints();
+        }
     }
 
-    public void removeUserStory(UserStory userStory){
-        userStories.remove(userStory);
-        updateStoryPoints();
+    public void removeUserStory(UserStory userStory) {
+        if (userStories.remove(userStory)) {
+            userStory.setAssignedSprint(null);
+            updateStoryPoints();
+        }
     }
 
     public List<UserStory> getUserStories() {
