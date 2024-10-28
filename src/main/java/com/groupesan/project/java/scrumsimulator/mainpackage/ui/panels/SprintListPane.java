@@ -29,21 +29,13 @@ public class SprintListPane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Sprints list");
-        setSize(600, 300);
+        setSize(800, 500);
         setLocationRelativeTo(null);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
         JPanel myJpanel = new JPanel();
         myJpanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         myJpanel.setLayout(myGridbagLayout);
-
-        // Create initial sprints using SprintFactory only if the store is empty
-        if (SprintStore.getInstance().getSprints().isEmpty()) {
-            Sprint aSprint = SprintFactory.getSprintFactory().createNewSprint("foo", "bar", 2, 5);
-            Sprint aSprint2 = SprintFactory.getSprintFactory().createNewSprint("foo2", "bar2", 4, 10);
-            SprintStore.getInstance().addSprint(aSprint);
-            SprintStore.getInstance().addSprint(aSprint2);
-        }
 
         refreshSprintList();
 
@@ -77,6 +69,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        SprintStore.getInstance().clearSprintList();
+                        refreshSprintList();
                         SprintVariablePane sprintVariablePane = new SprintVariablePane(SprintListPane.this);
                         sprintVariablePane.setVisible(true);
                     }
@@ -119,6 +113,10 @@ public class SprintListPane extends JFrame implements BaseComponent {
         remainingHeader.setFont(boldFont);
         remainingHeader.setPreferredSize(new Dimension(100, 20));
 
+        JLabel storyPointsHeader = new JLabel("Total Story points");
+        storyPointsHeader.setFont(boldFont);
+        storyPointsHeader.setPreferredSize(new Dimension(100, 20));
+
         JLabel numUserStoriesHeader = new JLabel("User Stories");
         numUserStoriesHeader.setFont(boldFont);
         numUserStoriesHeader.setPreferredSize(new Dimension(100, 20));
@@ -129,7 +127,8 @@ public class SprintListPane extends JFrame implements BaseComponent {
         headerPanel.add(descHeader, new CustomConstraints(2, 0, GridBagConstraints.WEST, 0.4, 0.0, GridBagConstraints.HORIZONTAL));
         headerPanel.add(lenHeader, new CustomConstraints(3, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
         headerPanel.add(remainingHeader, new CustomConstraints(4, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
-        headerPanel.add(numUserStoriesHeader, new CustomConstraints(5, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(storyPointsHeader, new CustomConstraints(5, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        headerPanel.add(numUserStoriesHeader, new CustomConstraints(6, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
 
         return headerPanel;
     }
