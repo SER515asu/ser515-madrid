@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Spike;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
@@ -153,7 +154,25 @@ public class SpikePane extends JFrame implements BaseComponent {
                     String[] statuses = {"New Spike", "In Progress", "Resolved"};
                     JComboBox<String> statusDropdown = new JComboBox<>(statuses);
                     statusDropdown.setSelectedItem(story.getStatus());
-                    statusDropdown.addActionListener(e -> story.setStatus((String) statusDropdown.getSelectedItem()));
+                    statusDropdown.addActionListener(e -> {
+                        String selectedStatus = (String) statusDropdown.getSelectedItem();
+                        story.setStatus(selectedStatus);
+
+                        if ("New Spike".equals(selectedStatus)) {
+
+                            CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
+                            createNewSpikeForm.setModal(true);
+                            createNewSpikeForm.setVisible(true);
+                            Spike spike = createNewSpikeForm.getSpike();
+                            if (spike != null) {
+                                System.out.println("Spike created with values: " +
+                                        "Upper Bound = " + spike.getUpperBound() +
+                                        ", Lower Bound = " + spike.getLowerBound() +
+                                        ", Spike Value = " + spike.getSpikeValue() +
+                                        ", Calculated Upper Bound = " + spike.getCalculatedUpperBound());
+                            }
+                        }
+                    });
 
                     gbc.gridx = 5;
                     gbc.weightx = 0.2;
