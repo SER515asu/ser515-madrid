@@ -1,33 +1,18 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerForm;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerForm;
 
 public class BlockerWidget extends JPanel implements BaseComponent {
     private JLabel id, status, name, desc, solutionLabel, probabilityRange;
@@ -35,12 +20,10 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     private JButton deleteButton;
     private JButton userStoryDropdownButton;
     private JPopupMenu userStoryPopupMenu;
-    private SimulationStateManager simStateManager;
 
 
-    public BlockerWidget(SprintBlocker blocker, SimulationStateManager simStateManager) {
+    public BlockerWidget(SprintBlocker blocker) {
         this.blocker = blocker;
-        this.simStateManager = simStateManager;
         this.init();
         populateUserStories();
         restoreSelectedUserStory();
@@ -89,15 +72,6 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (simStateManager != null && simStateManager.isRunning()) {
-                    JOptionPane.showMessageDialog(
-                        BlockerWidget.this,
-                        "Cannot edit blocker information while the simulation is running",
-                        "Operation Not Allowed: Simulation Running",
-                        JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
-                }
                 EditBlockerForm form = new EditBlockerForm(blocker);
                 form.setVisible(true);
                 form.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -111,16 +85,6 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
-            if (simStateManager != null && simStateManager.isRunning()) {
-                JOptionPane.showMessageDialog(
-                    BlockerWidget.this,
-                    "Cannot delete blocker while the simulation is running",
-                    "Operation Not Allowed: Simulation Running",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-
             if (blocker.getSolution() != null) {
                 blocker.getSolution().setBlocker(null);
             }
@@ -137,19 +101,7 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         add(deleteButton, gbc);
 
         userStoryDropdownButton = new JButton("Edit User Stories");
-        userStoryDropdownButton.addActionListener(e -> {
-            if (simStateManager != null && simStateManager.isRunning()) {
-                JOptionPane.showMessageDialog(
-                    BlockerWidget.this,
-                    "Cannot edit user stories while the simulation is running",
-                    "Operation Not Allowed: Simulation Running",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-            
-            showUserStoryPopupMenu();
-        });
+        userStoryDropdownButton.addActionListener(e -> showUserStoryPopupMenu());
         gbc.gridx = 5;
         gbc.weightx = 0.3;
         add(userStoryDropdownButton, gbc);
@@ -167,10 +119,6 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
     }
-
-    public void setStateManager(SimulationStateManager simStateManager) {
-        this.simStateManager = simStateManager;
-    }    
 
     private void showUserStoryPopupMenu() {
         // Clear existing popup menu items if already populated

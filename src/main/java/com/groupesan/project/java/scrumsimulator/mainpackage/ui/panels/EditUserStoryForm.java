@@ -49,6 +49,7 @@ public class EditUserStoryForm extends JFrame implements BaseComponent {
                 descArea = new JTextArea(userStory.getDescription());
                 pointsCombo = new JComboBox<>(pointsList);
                 pointsCombo.setSelectedItem(userStory.getPointValue());
+                businessValueCombo.setSelectedItem(userStory.getBusinessValue());
 
                 GridBagLayout myGridbagLayout = new GridBagLayout();
                 JPanel myJpanel = new JPanel();

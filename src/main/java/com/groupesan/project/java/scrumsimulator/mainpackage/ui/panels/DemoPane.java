@@ -1,23 +1,22 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
@@ -29,12 +28,10 @@ public class DemoPane extends JFrame implements BaseComponent {
     // private UserStoryListPane userStoryListPane;
     private UpdateUserStoryPanel updateUserStoryPanel;
     private SimulationPane simulationPane;
-    // private ModifySimulationPane modifySimulationPane;
+    private ModifySimulationPane modifySimulationPane;
     private SimulationUI simulationUserInterface;
     // private SimulationSwitchRolePane simulationSwitchRolePane;
     private VariantSimulationUI variantSimulationUI;
-    private SimulationStateManager simulationStateManager;
-    private BlockersListPane blockersListPane;
     // private SprintUIPane sprintUIPane;
 
     public DemoPane() {
@@ -66,8 +63,8 @@ public class DemoPane extends JFrame implements BaseComponent {
                     }
                 });
 
-        simulationStateManager = new SimulationStateManager();
-        SimulationPanel simulationPanel = new SimulationPanel(simulationStateManager);
+        SimulationStateManager simulationStateManager = new SimulationStateManager();
+        SimulationPanel simulationPanel = new SimulationPanel();
         myJpanel.add(
                 simulationPanel,
                 new CustomConstraints(
@@ -194,6 +191,8 @@ public class DemoPane extends JFrame implements BaseComponent {
                             public void onRoleUpdate(String newRole) {
                                 currentRole = newRole;
                                 newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
+                                System.out.println("Role Updated to: " + currentRole);
+                                simulationPanel.setRole(currentRole);
                             }
                         });
                         feedbackPanelUI.setVisible(true);
@@ -245,13 +244,8 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (blockersListPane == null || !blockersListPane.isDisplayable()) {
-                            blockersListPane = new BlockersListPane();
-                            blockersListPane.setSimulationStateManager(simulationStateManager);
-                            blockersListPane.setVisible(true);
-                        } else {
-                            blockersListPane.toFront();
-                        }
+                        BlockersListPane blockersPane = new BlockersListPane();
+                        blockersPane.setVisible(true);
                     }
                 });
 

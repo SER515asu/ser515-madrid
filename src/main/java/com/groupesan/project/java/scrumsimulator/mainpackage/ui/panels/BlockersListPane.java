@@ -4,7 +4,6 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BlockerWidget;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,18 +14,9 @@ public class BlockersListPane extends JFrame implements BaseComponent {
     private List<BlockerWidget> widgets = new ArrayList<>();
     private JPanel headerPanel;
     private JPanel blockersPanel;
-    private SimulationStateManager simStateManager;
 
     public BlockersListPane() {
         this.init();
-    }
-
-    public void setSimulationStateManager(SimulationStateManager simStateManager) {
-        this.simStateManager = simStateManager;
-        // Update existing widgets with the state manager
-        for (BlockerWidget widget : widgets) {
-            widget.setStateManager(simStateManager);
-        }
     }
 
     public void init() {
@@ -51,16 +41,6 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
         JButton newBlockerButton = new JButton("New Blocker");
         newBlockerButton.addActionListener(e -> {
-            if (simStateManager != null && simStateManager.isRunning()) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Cannot create new blockers while the simulation is running",
-                    "Operation Not Allowed: Simulation Running",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-            
             NewBlockerForm form = new NewBlockerForm();
             form.setVisible(true);
 
@@ -69,7 +49,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
                     SprintBlocker blocker = form.getBlockerObject();
                     if (blocker != null) {
                         BlockerStore.getInstance().addBlocker(blocker);
-                        addBlockerWidget(new BlockerWidget(blocker, simStateManager));
+                        addBlockerWidget(new BlockerWidget(blocker));
                     }
                 }
             });
@@ -79,16 +59,6 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
         JButton blockerSolutionsButton = new JButton("Blocker Solutions");
         blockerSolutionsButton.addActionListener(e -> {
-            if (simStateManager != null && simStateManager.isRunning()) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Cannot modify blocker solutions while the simulation is running",
-                    "Operation Not Allowed: Simulation Running",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-            
             BlockerSolutionsListPane blockerSolutionsPane = new BlockerSolutionsListPane();
             blockerSolutionsPane.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
@@ -132,7 +102,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
     private void loadBlockers() {
         for (SprintBlocker blocker : BlockerStore.getInstance().getBlockers()) {
-            addBlockerWidget(new BlockerWidget(blocker, simStateManager));
+            addBlockerWidget(new BlockerWidget(blocker));
         }
     }
 
@@ -144,6 +114,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
     }
 
     private void refreshBlockersList() {
+
         blockersPanel.removeAll();
         widgets.clear();
         

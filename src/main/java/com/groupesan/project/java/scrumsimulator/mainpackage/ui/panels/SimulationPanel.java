@@ -2,28 +2,30 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class SimulationPanel extends JPanel implements BaseComponent {
 
-    private SimulationStateManager simulationStateManager;
-    private JButton startSimulationButton;
-    private JButton stopSimulationButton;
+    private static final SimulationStateManager simulationStateManager  = new SimulationStateManager();
+    private static final JButton startSimulationButton  = new JButton("Start Simulation");;
+    private static final JButton stopSimulationButton = new JButton("Stop Simulation");
 
     /** Simulation Panel Initialization. */
-    protected SimulationPanel(SimulationStateManager simulationStateManager) {
-        this.simulationStateManager = simulationStateManager;
+    public SimulationPanel() {
         this.init();
+    }
+
+    public void setRole(String role) {
+        startSimulationButton.setEnabled(!"Product Owner".equals(role));
     }
 
     @Override
     public void init() {
-        startSimulationButton = new JButton("Start Simulation");
-        stopSimulationButton = new JButton("Stop Simulation");
 
         stopSimulationButton.setVisible(false);
 
@@ -32,7 +34,6 @@ public class SimulationPanel extends JPanel implements BaseComponent {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         simulationStateManager.startSimulation();
-                        JOptionPane.showMessageDialog(null, "Simulation started!");
                         updateButtonVisibility();
                     }
                 });
@@ -51,7 +52,7 @@ public class SimulationPanel extends JPanel implements BaseComponent {
         add(stopSimulationButton);
     }
 
-    private void updateButtonVisibility() {
+    public static void updateButtonVisibility() {
         // Show/hide buttons based on the simulation state
         if (simulationStateManager.isRunning()) {
             stopSimulationButton.setVisible(true);

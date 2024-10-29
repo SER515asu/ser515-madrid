@@ -26,6 +26,7 @@ public class SprintWidget extends JPanel implements BaseComponent {
     JLabel desc;
     JLabel len;
     JLabel remaining;
+    JLabel storyPoints;
 
     JLabel numUserStories;
 
@@ -40,6 +41,8 @@ public class SprintWidget extends JPanel implements BaseComponent {
         len.setPreferredSize(new Dimension(50, 20));
         remaining = new JLabel(Integer.toString(sprint.getDaysRemaining()));
         remaining.setPreferredSize(new Dimension(100, 20));
+        storyPoints = new JLabel(Integer.toString(sprint.getStoryPoints()));
+        storyPoints.setPreferredSize(new Dimension(100, 20));
         numUserStories = new JLabel(Integer.toString(sprint.getUserStories().size()));
         numUserStories.setPreferredSize(new Dimension(100, 20));
         this.init();
@@ -80,8 +83,12 @@ public class SprintWidget extends JPanel implements BaseComponent {
                 new CustomConstraints(
                         4, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
         add(
-                numUserStories,
+                storyPoints,
                 new CustomConstraints(
                         5, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
+        add(
+                numUserStories,
+                new CustomConstraints(
+                        6, 0, GridBagConstraints.WEST, 0.1, 0.0, GridBagConstraints.HORIZONTAL));
     }
 }
