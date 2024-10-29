@@ -55,25 +55,25 @@ public class App {
 
         UserStory us4 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS4", "description4", 4.0, 3.0);
+                        .createNewUserStory("predefinedUS4", "description4", 5.0, 3.0);
         us4.doRegister();
         UserStoryStore.getInstance().addUserStory(us4);
 
         UserStory us5 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS5", "description5", 8.0, 7.0);
+                        .createNewUserStory("predefinedUS5", "description5", 8.0, 5.0);
         us5.doRegister();
         UserStoryStore.getInstance().addUserStory(us5);
 
         UserStory us6 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS6", "description6", 6.0, 3.0);
+                        .createNewUserStory("predefinedUS6", "description6", 5.0, 3.0);
         us6.doRegister();
         UserStoryStore.getInstance().addUserStory(us6);
 
         UserStory us7 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS7", "description7", 7.0, 7.0);
+                        .createNewUserStory("predefinedUS7", "description7", 8.0, 8.0);
         us7.doRegister();
         UserStoryStore.getInstance().addUserStory(us7);
 
@@ -85,37 +85,37 @@ public class App {
 
         UserStory us9 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS9", "description9", 6.0, 6.0);
+                        .createNewUserStory("predefinedUS9", "description9", 5.0, 11.0);
         us9.doRegister();
         UserStoryStore.getInstance().addUserStory(us9);
 
         UserStory us10 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS10", "description10", 6.0, 5.0);
+                        .createNewUserStory("predefinedUS10", "description10", 5.0, 19.0);
         us10.doRegister();
         UserStoryStore.getInstance().addUserStory(us10);
 
         UserStory us11 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS11", "description11", 4.0, 4.0);
+                        .createNewUserStory("predefinedUS11", "description11", 5.0, 5.0);
         us11.doRegister();
         UserStoryStore.getInstance().addUserStory(us11);
 
         UserStory us12 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS12", "description12", 13.0, 13.0);
+                        .createNewUserStory("predefinedUS12", "description12", 11.0, 30.0);
         us12.doRegister();
         UserStoryStore.getInstance().addUserStory(us12);
 
         UserStory us13 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS13", "description13", 8.0, 7.0);
+                        .createNewUserStory("predefinedUS13", "description13", 8.0, 8.0);
         us13.doRegister();
         UserStoryStore.getInstance().addUserStory(us13);
 
         UserStory us14 =
                 UserStoryFactory.getInstance()
-                        .createNewUserStory("predefinedUS14", "description14", 9.0, 7.0);
+                        .createNewUserStory("predefinedUS14", "description14", 5.0, 8.0);
         us14.doRegister();
         UserStoryStore.getInstance().addUserStory(us14);
         SprintStore.getInstance().getSprints().getFirst().addUserStory(us1);
