@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -72,7 +71,8 @@ public class SpikePane extends JFrame implements BaseComponent {
         JLabel descHeader = createHeaderLabel("Description");
         JLabel sprintIdHeader = createHeaderLabel("Sprint #ID");
         JLabel storyPointsHeader = createHeaderLabel("UserStory Points");
-        JLabel statusHeader = createHeaderLabel("Status");
+        JLabel statusHeader = createHeaderLabel("Spike Status");
+        JLabel actionHeader = createHeaderLabel("Action");
 
         gbc.gridx = 0;
         headerPanel.add(userStoryIdHeader, gbc);
@@ -91,6 +91,9 @@ public class SpikePane extends JFrame implements BaseComponent {
         gbc.gridx = 5;
         gbc.weightx = 0.2;
         headerPanel.add(statusHeader, gbc);
+        gbc.gridx = 6;
+        gbc.weightx = 0.2;
+        headerPanel.add(actionHeader, gbc);
 
         return headerPanel;
     }
@@ -112,7 +115,8 @@ public class SpikePane extends JFrame implements BaseComponent {
             subPanel.add(emptyLabel,
                     new CustomConstraints(0, 0, GridBagConstraints.CENTER, 1.0, 1.0, GridBagConstraints.BOTH));
         } else {
-            subPanel.add(createHeaderPanel(),
+            JPanel headerPanel = createHeaderPanel();
+            subPanel.add(headerPanel,
                     new CustomConstraints(0, 0, GridBagConstraints.WEST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
 
             java.util.Set<String> displayedStoryIds = new java.util.HashSet<>();
@@ -134,7 +138,10 @@ public class SpikePane extends JFrame implements BaseComponent {
                     JLabel descLabel = new JLabel(story.getDescription());
                     JLabel sprintIdLabel = new JLabel(String.valueOf(sprint.getId()));
                     JLabel pointsLabel = new JLabel(String.valueOf((int) story.getPointValue()));
-
+                    
+                    final JLabel statusLabel = new JLabel(story.getStatus() != null ? story.getStatus() : "");
+                    statusLabel.setHorizontalAlignment(JLabel.CENTER);
+    
                     gbc.gridx = 0;
                     gbc.weightx = 0.1;
                     storyPanel.add(idLabel, gbc);
@@ -150,54 +157,46 @@ public class SpikePane extends JFrame implements BaseComponent {
                     gbc.gridx = 4;
                     gbc.weightx = 0.2;
                     storyPanel.add(pointsLabel, gbc);
-
-                    String[] statuses = {"New Spike", "In Progress", "Resolved"};
-                    JComboBox<String> statusDropdown = new JComboBox<>(statuses);
-                    statusDropdown.setSelectedItem(story.getStatus());
-                    statusDropdown.addActionListener(e -> {
-                        String selectedStatus = (String) statusDropdown.getSelectedItem();
-                        story.setStatus(selectedStatus);
-
-                        if ("New Spike".equals(selectedStatus)) {
-
-                            CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
-                            createNewSpikeForm.setModal(true);
-                            createNewSpikeForm.setVisible(true);
-                            Spike spike = createNewSpikeForm.getSpike();
-                            if (spike != null) {
-                                System.out.println("Spike created with values: " +
-                                        "Upper Bound = " + spike.getUpperBound() +
-                                        ", Lower Bound = " + spike.getLowerBound() +
-                                        ", Spike Value = " + spike.getSpikeValue() +
-                                        ", Calculated Upper Bound = " + spike.getCalculatedUpperBound());
-                            }
-                        }
-                    });
-
                     gbc.gridx = 5;
                     gbc.weightx = 0.2;
-                    storyPanel.add(statusDropdown, gbc);
-
+                    storyPanel.add(statusLabel, gbc);
+    
+                    JButton createSpikeButton = new JButton("Create Spike");
+                    createSpikeButton.addActionListener(e -> {
+                        CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
+                        createNewSpikeForm.setModal(true);
+                        createNewSpikeForm.setVisible(true);
+                        Spike spike = createNewSpikeForm.getSpike();
+                        if (spike != null) {
+                            story.setStatus("Unresolved");
+                            statusLabel.setText("Unresolved");
+                            System.out.println("Spike created and status updated for story: " + story.getId());
+                            
+                            statusLabel.revalidate();
+                            statusLabel.repaint();
+                            
+                            System.out.println("Spike created with values: " +
+                                    "Upper Bound = " + spike.getUpperBound() +
+                                    ", Lower Bound = " + spike.getLowerBound() +
+                                    ", Spike Value = " + spike.getSpikeValue() +
+                                    ", Calculated Upper Bound = " + spike.getCalculatedUpperBound() +
+                                    ", Status = " + story.getStatus());
+                        }
+                    });
+    
+                    gbc.gridx = 6;
+                    gbc.weightx = 0.2;
+                    storyPanel.add(createSpikeButton, gbc);
+    
                     storyPanel.setPreferredSize(new Dimension(storyPanel.getPreferredSize().width, 25));
-
+    
                     subPanel.add(storyPanel,
                             new CustomConstraints(0, row++, GridBagConstraints.WEST, 1.0, 0.0,
                                     GridBagConstraints.HORIZONTAL));
                 }
             }
-
-            if (displayedStoryIds.isEmpty()) {
-                JLabel emptyLabel = new JLabel("No user stories in any of the sprints' backlogs");
-                emptyLabel.setHorizontalAlignment(JLabel.CENTER);
-                emptyLabel.setFont(new Font("Arial", Font.BOLD, 14));
-                emptyLabel.setForeground(new Color(128, 128, 128));
-
-                subPanel.removeAll();
-                subPanel.add(emptyLabel,
-                        new CustomConstraints(0, 0, GridBagConstraints.CENTER, 1.0, 1.0, GridBagConstraints.BOTH));
-            }
         }
-
+    
         subPanel.revalidate();
         subPanel.repaint();
         scrollPane.setViewportView(subPanel);
