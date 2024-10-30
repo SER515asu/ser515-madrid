@@ -15,10 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Spike;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.SpikeHandler;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
 
@@ -163,25 +161,32 @@ public class SpikePane extends JFrame implements BaseComponent {
     
                     JButton createSpikeButton = new JButton("Create Spike");
                     createSpikeButton.addActionListener(e -> {
-                        CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
-                        createNewSpikeForm.setModal(true);
-                        createNewSpikeForm.setVisible(true);
-                        Spike spike = createNewSpikeForm.getSpike();
-                        if (spike != null) {
-                            story.setStatus("Unresolved");
-                            statusLabel.setText("Unresolved");
-                            System.out.println("Spike created and status updated for story: " + story.getId());
-                            
-                            statusLabel.revalidate();
-                            statusLabel.repaint();
-                            
-                            System.out.println("Spike created with values: " +
-                                    "Upper Bound = " + spike.getUpperBound() +
-                                    ", Lower Bound = " + spike.getLowerBound() +
-                                    ", Spike Value = " + spike.getSpikeValue() +
-                                    ", Calculated Upper Bound = " + spike.getCalculatedUpperBound() +
-                                    ", Status = " + story.getStatus());
-                        }
+//                        CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
+//                        createNewSpikeForm.setModal(true);
+//                        createNewSpikeForm.setVisible(true);
+//                        Spike spike = createNewSpikeForm.getSpike();
+//                        if (spike != null) {
+//                            story.setStatus("Unresolved");
+//                            statusLabel.setText("Unresolved");
+//                            System.out.println("Spike created and status updated for story: " + story.getId());
+//
+//                            statusLabel.revalidate();
+//                            statusLabel.repaint();
+//
+//                            System.out.println("Spike created with values: " +
+//                                    "Upper Bound = " + spike.getUpperBound() +
+//                                    ", Lower Bound = " + spike.getLowerBound() +
+//                                    ", Spike Value = " + spike.getSpikeValue() +
+//                                    ", Calculated Upper Bound = " + spike.getCalculatedUpperBound() +
+//                                    ", Status = " + story.getStatus());
+//                        }
+                        SpikeHandler spikeHandler = new SpikeHandler();
+                        Status spikeStatus = spikeHandler.getSpikeStatus();
+                        spikeHandler=null;
+                        story.setStatus(spikeStatus.toString());
+                        statusLabel.setText(spikeStatus.toString());
+                        statusLabel.revalidate();
+                        statusLabel.repaint();
                     });
     
                     gbc.gridx = 6;

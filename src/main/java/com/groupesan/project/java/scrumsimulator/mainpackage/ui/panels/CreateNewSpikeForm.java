@@ -45,7 +45,7 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
                 upperBoundField,
                 new CustomConstraints(
                         3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
-        JButton submitButton = new JButton("Set");
+        JButton submitButton = new JButton("Conduct Spike");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,4 +94,5 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
     public Spike getSpike() {
 
         return spike;
-    }}
+    }
+}
