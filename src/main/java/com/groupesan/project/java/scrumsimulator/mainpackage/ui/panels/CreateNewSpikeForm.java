@@ -79,7 +79,8 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
                 JOptionPane.showMessageDialog(this, "Lower bound cannot be greater than upper bound.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 throw new IllegalArgumentException("Lower bound cannot be greater than upper bound.");
             }
-            int calculatedUpperBound = lowerBound + upperBound;
+            int diff = upperBound - lowerBound;
+            int calculatedUpperBound = upperBound + diff;
             Random random = new Random();
             int spikeValue =  random.nextInt(calculatedUpperBound - lowerBound + 1) + lowerBound;
 
