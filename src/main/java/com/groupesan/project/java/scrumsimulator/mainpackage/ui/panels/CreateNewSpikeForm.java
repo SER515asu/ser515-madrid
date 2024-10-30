@@ -68,16 +68,31 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
     }
     public Spike createSpike(){
         try {
-            int lowerBound = Integer.parseInt(lowerBoundField.getText());
-            int upperBound = Integer.parseInt(upperBoundField.getText());
-
             if (lowerBoundField.getText().isEmpty() || upperBoundField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter values for both bounds.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                throw new NumberFormatException("Please enter values for both bounds.");
+                lowerBoundField.setText("");
+                upperBoundField.setText("");
+                return null;
             }
+        
+            int lowerBound;
+            int upperBound;
+        
+            try {
+                lowerBound = Integer.parseInt(lowerBoundField.getText());
+                upperBound = Integer.parseInt(upperBoundField.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numeric values.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                lowerBoundField.setText("");
+                upperBoundField.setText("");
+                return null;
+            }
+        
             if (lowerBound > upperBound) {
                 JOptionPane.showMessageDialog(this, "Lower bound cannot be greater than upper bound.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                throw new IllegalArgumentException("Lower bound cannot be greater than upper bound.");
+                lowerBoundField.setText("");
+                upperBoundField.setText("");
+                return null;
             }
             int diff = upperBound - lowerBound;
             int calculatedUpperBound = upperBound + diff;
