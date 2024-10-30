@@ -3,7 +3,7 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
+// import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
@@ -63,7 +63,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                     }
                 });
 
-        SimulationStateManager simulationStateManager = new SimulationStateManager();
+        // SimulationStateManager simulationStateManager = new SimulationStateManager();
         SimulationPanel simulationPanel = new SimulationPanel();
         myJpanel.add(
                 simulationPanel,
