@@ -183,8 +183,17 @@ public class SpikePane extends JFrame implements BaseComponent {
                         SpikeHandler spikeHandler = new SpikeHandler();
                         Status spikeStatus = spikeHandler.getSpikeStatus();
                         spikeHandler=null;
-                        story.setStatus(spikeStatus.toString());
-                        statusLabel.setText(spikeStatus.toString());
+
+                        String userStoryStatus= spikeStatus.toString();
+                        if(userStoryStatus!=null && (userStoryStatus.equals("RESOLVED")|| userStoryStatus.equals("UNRESOLVED"))){
+                            createSpikeButton.setEnabled(false);
+
+                        }
+                        else{
+                            createSpikeButton.setEnabled(true);
+                        }
+                        story.setStatus(userStoryStatus.toString());
+                        statusLabel.setText(userStoryStatus.toString());
                         statusLabel.revalidate();
                         statusLabel.repaint();
                     });
