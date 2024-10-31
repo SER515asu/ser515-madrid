@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 public class BlockerWidget extends JPanel implements BaseComponent {
-    private JLabel id, status, name, desc, solutionLabel;
+    private JLabel id, status, name, desc, solutionLabel, probabilityRange;
     private SprintBlocker blocker;
     private JButton deleteButton;
     private JButton userStoryDropdownButton;
@@ -63,6 +63,12 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         desc.setPreferredSize(new Dimension(200, 30));
         add(desc, gbc);
 
+        gbc.gridx = 4;
+        gbc.weightx = 0.3;
+        probabilityRange = new JLabel(getProbabilityRangeText());
+        probabilityRange.setPreferredSize(new Dimension(100, 30));
+        add(probabilityRange, gbc);
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -90,13 +96,13 @@ public class BlockerWidget extends JPanel implements BaseComponent {
             parent.repaint();
         });
 
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.weightx = 0.1;
         add(deleteButton, gbc);
 
         userStoryDropdownButton = new JButton("Edit User Stories");
         userStoryDropdownButton.addActionListener(e -> showUserStoryPopupMenu());
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.weightx = 0.3;
         add(userStoryDropdownButton, gbc);
 
@@ -144,6 +150,7 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         status.setText(blocker.getStatus());
         name.setText(blocker.getName());
         desc.setText("<html>" + truncateText(blocker.getDescription(), 40) + "</html>");
+        probabilityRange.setText(getProbabilityRangeText());
         SprintBlockerSolution solution = blocker.getSolution();
         if (solution != null && !Arrays.asList(BlockerSolutionsStore.getInstance().getAllSolutions()).contains(solution)) {
             blocker.setSolution(null);
@@ -154,6 +161,10 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         
         revalidate();
         repaint();
+    }
+
+    private String getProbabilityRangeText() {
+        return blocker.getBlockerMinProbability() + "% - " + blocker.getBlockerMaxProbability() + "%";
     }
 
     private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {

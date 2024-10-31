@@ -13,6 +13,10 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
     private JTextField nameField = new JTextField();
     private JTextArea descArea = new JTextArea();
     private JComboBox<String> statusCombo = new JComboBox<>(new String[]{"Open", "In Progress", "Resolved"});
+    private JSlider minProbabilitySlider = new JSlider(0, 100, 20);
+    private JSlider maxProbabilitySlider = new JSlider(0, 100, 80);
+    private JLabel minProbabilityLabel = new JLabel("20%");
+    private JLabel maxProbabilityLabel = new JLabel("80%");
     private boolean isFormSubmitted = false;
 
     public NewBlockerForm() {
@@ -36,6 +40,25 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         myJpanel.add(new JLabel("Status:"), new CustomConstraints(0, 2, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
         myJpanel.add(statusCombo, new CustomConstraints(1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
 
+        myJpanel.add(new JLabel("Min Probability (%):"), new CustomConstraints(0, 3, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        minProbabilitySlider.setMajorTickSpacing(20);
+        minProbabilitySlider.setMinorTickSpacing(5);
+        minProbabilitySlider.setPaintTicks(true);
+        minProbabilitySlider.setPaintLabels(true);
+        minProbabilitySlider.addChangeListener(e -> minProbabilityLabel.setText(minProbabilitySlider.getValue() + "%"));
+        myJpanel.add(minProbabilitySlider, new CustomConstraints(1, 3, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(minProbabilityLabel, new CustomConstraints(1, 4, GridBagConstraints.WEST, GridBagConstraints.NONE));
+
+        myJpanel.add(new JLabel("Max Probability (%):"), new CustomConstraints(0, 5, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL));
+        maxProbabilitySlider.setMajorTickSpacing(20);
+        maxProbabilitySlider.setMinorTickSpacing(5);
+        maxProbabilitySlider.setPaintTicks(true);
+        maxProbabilitySlider.setPaintLabels(true);
+        maxProbabilitySlider.addChangeListener(e -> maxProbabilityLabel.setText(maxProbabilitySlider.getValue() + "%"));
+        myJpanel.add(maxProbabilitySlider, new CustomConstraints(1, 5, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
+        myJpanel.add(maxProbabilityLabel, new CustomConstraints(1, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
+
+
         JButton cancelButton = new JButton("Cancel");
 
         cancelButton.addActionListener(e -> {
@@ -56,8 +79,8 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
 
         });
 
-        myJpanel.add(cancelButton, new CustomConstraints(0, 3, GridBagConstraints.EAST, GridBagConstraints.NONE));
-        myJpanel.add(submitButton, new CustomConstraints(1, 3, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        myJpanel.add(cancelButton, new CustomConstraints(0, 7, GridBagConstraints.EAST, GridBagConstraints.NONE));
+        myJpanel.add(submitButton, new CustomConstraints(1, 7, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         add(myJpanel);
     }
@@ -83,9 +106,11 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         String title = nameField.getText();
         String description = descArea.getText();
         String status = (String) statusCombo.getSelectedItem();
+        int minProbability = minProbabilitySlider.getValue();
+        int maxProbability = maxProbabilitySlider.getValue();
 
         BlockerFactory blockerFactory = BlockerFactory.getInstance();
-        SprintBlocker blocker = blockerFactory.createNewBlocker(title, description, status);
+        SprintBlocker blocker = blockerFactory.createNewBlocker(title, description, status, minProbability, maxProbability);
         blocker.doRegister();
 
         System.out.println(blocker);

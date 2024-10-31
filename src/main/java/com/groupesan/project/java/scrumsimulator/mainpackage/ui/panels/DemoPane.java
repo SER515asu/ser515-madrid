@@ -3,8 +3,6 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
@@ -191,6 +189,8 @@ public class DemoPane extends JFrame implements BaseComponent {
                                 currentRole = newRole;
                                 simulationPanel.setRole(currentRole);
                                 newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
+                                System.out.println("Role Updated to: " + currentRole);
+                                simulationPanel.setRole(currentRole);
                             }
                         });
                         feedbackPanelUI.setVisible(true);
