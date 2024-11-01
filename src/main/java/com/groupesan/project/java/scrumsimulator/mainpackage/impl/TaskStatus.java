@@ -1,6 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 
-public enum Status {
+public enum TaskStatus {
     RESOLVED,
     UNRESOLVED;
 }

@@ -7,11 +7,12 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.security.SecureRandom;
 public class CreateNewSpikeForm extends JDialog implements BaseComponent {
     private JTextArea createSpikeDisplay;
     private JTextField upperBoundField;
     private JTextField lowerBoundField;
+    SecureRandom random = new SecureRandom();
 
     private Spike spike;
     public CreateNewSpikeForm(){
@@ -96,7 +97,7 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
             }
             int diff = upperBound - lowerBound;
             int calculatedUpperBound = upperBound + diff;
-            Random random = new Random();
+            
             int spikeValue =  random.nextInt(calculatedUpperBound - lowerBound + 1) + lowerBound;
 
             return new Spike(upperBound, lowerBound, spikeValue, calculatedUpperBound);

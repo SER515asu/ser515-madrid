@@ -2,14 +2,14 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils;
 
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Spike;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Status;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.TaskStatus;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.CreateNewSpikeForm;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SpikeActionPane;
 
 public class SpikeHandler {
 
     private boolean spikeOngoing=true;
-    private Status status;
+    private TaskStatus status;
 
     public SpikeHandler(){
         startSpikeProcess();
@@ -47,7 +47,7 @@ public class SpikeHandler {
 
         if (spikeVal <= spike.getUpperBound()) {
             System.out.println("Spike Resolved");
-            status = Status.RESOLVED;
+            status = TaskStatus.RESOLVED;
             spikeOngoing = false;
         } else if (spikeVal > spike.getUpperBound() && spikeVal <= spike.getCalculatedUpperBound()) {
             handleSpikeAction();
@@ -67,13 +67,12 @@ public class SpikeHandler {
             System.out.println("Reallocate resources");
         } else if ("conclude".equals(action)) {
             System.out.println("Conclude Spike");
-            status = Status.UNRESOLVED;
+            status = TaskStatus.UNRESOLVED;
             spikeOngoing = false;
         }
     }
 
-    public Status getSpikeStatus(){
+    public TaskStatus getSpikeStatus(){
         return status;
     }
-
 }

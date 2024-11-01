@@ -181,7 +181,7 @@ public class SpikePane extends JFrame implements BaseComponent {
 //                                    ", Status = " + story.getStatus());
 //                        }
                         SpikeHandler spikeHandler = new SpikeHandler();
-                        Status spikeStatus = spikeHandler.getSpikeStatus();
+                        TaskStatus spikeStatus = spikeHandler.getSpikeStatus();
                         spikeHandler=null;
 
                         String userStoryStatus= spikeStatus.toString();
