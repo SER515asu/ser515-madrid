@@ -32,7 +32,7 @@ public class SpikePane extends JFrame implements BaseComponent {
     public void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Spike Panel");
-        setSize(800, 400);
+        setSize(1200, 400);
         setLocationRelativeTo(null);
 
         GridBagLayout myGridbagLayout = new GridBagLayout();
@@ -87,7 +87,7 @@ public class SpikePane extends JFrame implements BaseComponent {
         gbc.weightx = 0.2;
         headerPanel.add(storyPointsHeader, gbc);
         gbc.gridx = 5;
-        gbc.weightx = 0.2;
+        gbc.weightx = 0.3;
         headerPanel.add(statusHeader, gbc);
         gbc.gridx = 6;
         gbc.weightx = 0.2;
@@ -150,7 +150,7 @@ public class SpikePane extends JFrame implements BaseComponent {
                     gbc.weightx = 0.4;
                     storyPanel.add(descLabel, gbc);
                     gbc.gridx = 3;
-                    gbc.weightx = 0.1;
+                    gbc.weightx = 0.3;
                     storyPanel.add(sprintIdLabel, gbc);
                     gbc.gridx = 4;
                     gbc.weightx = 0.2;
