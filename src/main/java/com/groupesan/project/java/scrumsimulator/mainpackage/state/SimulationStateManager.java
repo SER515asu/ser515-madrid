@@ -13,7 +13,6 @@ import java.awt.BorderLayout;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -25,6 +24,7 @@ import org.json.JSONTokener;
 public class SimulationStateManager {
     private boolean running;
     private static final String JSON_FILE_PATH = "src/main/resources/simulation.JSON";
+    private boolean interrupted = false;
     private JFrame frame;
     private JTextArea sprintDisplayArea;
     private static final SecureRandom secureRandom = new SecureRandom();
@@ -51,6 +51,7 @@ public class SimulationStateManager {
 
     /** Method to set the simulation state to running. */
     public void startSimulation() {
+        interrupted = false;
         List<Sprint> sprints = SprintStore.getInstance().getSprints();
         if (sprints.isEmpty()) {
             SwingUtilities.invokeLater(() -> {
@@ -69,6 +70,7 @@ public class SimulationStateManager {
             protected Void doInBackground() throws Exception {
                 boolean executionFailed = false;
                 for (Sprint sprint : sprints) {
+                    if (interrupted) break;
                     int expectedSprintPoints = sprint.getStoryPoints();
                     int actualSprintPoints = 0;
                     String sprintExecutionText = "Sprint " + sprint.getName() + " executing...";
@@ -76,6 +78,7 @@ public class SimulationStateManager {
                     try {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
+                            if (interrupted) break;
                             int expectedStoryPoints = (int) userStory.getPointValue();
                             int secureRandomValue = secureRandom.nextInt(100) + 1;
                             int actualStoryPoints = 0;
@@ -137,6 +140,8 @@ public class SimulationStateManager {
                         sprintDisplayArea.append("Simulator execution failed\n");
                         JOptionPane.showMessageDialog(frame, "Simulator execution failed", "Execution Status", JOptionPane.ERROR_MESSAGE);
                     });
+                } else if (interrupted) {
+                    sprintDisplayArea.append("Simulator execution stopped\n");
                 } else {
                     SwingUtilities.invokeLater(() -> {
                         sprintDisplayArea.append("Simulator execution successful\n");
@@ -164,6 +169,7 @@ public class SimulationStateManager {
 
     /** Method to set the simulation state to not running. */
     public void stopSimulation() {
+        interrupted = true;
         setRunning(false);
         // Add other logic for stopping the simulation
     }
@@ -180,6 +186,12 @@ public class SimulationStateManager {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                stopSimulation();
+            }
+        });
     }
 
     /**
