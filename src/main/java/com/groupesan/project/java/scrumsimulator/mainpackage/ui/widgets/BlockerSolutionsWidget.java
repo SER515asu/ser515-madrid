@@ -168,7 +168,7 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
     }
 
     private String getProbabilityRangeText() {
-        return blockerSolution.getBlockerSolutionMinProbability() + "% - " + blockerSolution.getBlockerSolutionMaxProbability() + "%";
+        return blockerSolution.getMinProbability() + "% - " + blockerSolution.getMaxProbability() + "%";
     }
 
     private String truncateText(String text, int maxLength) {
