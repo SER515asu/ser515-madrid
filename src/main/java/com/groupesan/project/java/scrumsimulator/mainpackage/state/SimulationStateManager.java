@@ -28,23 +28,25 @@ public class SimulationStateManager {
     private JFrame frame;
     private JTextArea sprintDisplayArea;
     private static final SecureRandom secureRandom = new SecureRandom();
+    private SimulationButtonStateInterface buttonStateListener;
 
     /** Simulation State manager. Not running by default. */
     public SimulationStateManager() {
         this.running = false;
     }
 
-    /**
-     * Returns the current state of the simulation.
-     *
-     * @return boolean running
-     */
+   public void setButtonStateListener(SimulationButtonStateInterface listener) {
+        this.buttonStateListener = listener;
+    }
     public boolean isRunning() {
         return running;
     }
 
     public void setRunning(boolean running) {
         this.running = running;
+        if (buttonStateListener != null) {
+            buttonStateListener.updateButtonVisibility(running);
+        }
     }
 
     /** Method to set the simulation state to running. */
@@ -153,8 +155,7 @@ public class SimulationStateManager {
 
             @Override
             protected void done() {
-                running = false;
-                SimulationPanel.updateButtonVisibility();
+                setRunning(false);
             }
         };
 

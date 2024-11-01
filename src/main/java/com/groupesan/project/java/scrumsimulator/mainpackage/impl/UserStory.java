@@ -25,6 +25,8 @@ public class UserStory extends ScrumObject {
 
     private Sprint assignedSprint;
 
+    private String spikeStatus;
+
     // private ArrayList<Task> tasks;  TODO: implement tasks
 
     /**
@@ -240,4 +242,19 @@ public class UserStory extends ScrumObject {
         return assignedSprint != null;
     }
 
+    /**
+     * Checks if the user story is in the selected spike state
+     * @return true if the user story is selected
+     */
+    public String getStatus() {
+        return spikeStatus;
+    }
+    
+    /**
+     * Sets the spike status of the user story
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.spikeStatus = status;
+    }
 }

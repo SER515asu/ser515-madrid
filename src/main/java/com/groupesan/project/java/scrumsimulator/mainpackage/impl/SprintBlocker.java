@@ -5,6 +5,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifie
 
 import java.util.ArrayList;
 import java.util.List;
+import java.security.SecureRandom;
 
 public class SprintBlocker extends ScrumObject {
     private BlockerIdentifier id;
@@ -13,12 +14,19 @@ public class SprintBlocker extends ScrumObject {
     private String status;
     private List<UserStory> userStories = new ArrayList<>();
     private SprintBlockerSolution solution;
+    private int blockerMinProbability;
+    private int blockerMaxProbability;
+    private int blockerProbability;
+    private static final SecureRandom random = new SecureRandom();
 
-    public SprintBlocker(String name, String description, String status, List<UserStory> userStories) {
+    public SprintBlocker(String name, String description, String status, List<UserStory> userStories, int minProbability, int maxProbability) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.userStories = userStories;
+        this.blockerMinProbability = minProbability;
+        this.blockerMaxProbability = maxProbability;
+        this.blockerProbability = generateRandomProbability(minProbability, maxProbability);
     }
 
     protected void register() {
@@ -56,6 +64,22 @@ public class SprintBlocker extends ScrumObject {
         this.status = status;
     }
 
+    public int getBlockerMinProbability() {
+        return blockerMinProbability;
+    }
+
+    public void setBlockerMinProbability(int blockerMinProbability) {
+        this.blockerMinProbability = blockerMinProbability;
+    }
+
+    public int getBlockerMaxProbability() {
+        return blockerMaxProbability;
+    }
+
+    public void setBlockerMaxProbability(int blockerMaxProbability) {
+        this.blockerMaxProbability = blockerMaxProbability;
+    }
+
     @Override
     public String toString() {
         if (isRegistered()) {
@@ -87,5 +111,13 @@ public class SprintBlocker extends ScrumObject {
 
     public void setSolution(SprintBlockerSolution solution) {
         this.solution = solution;
+    }
+
+    private int generateRandomProbability(int minProbability, int maxProbability) {
+        return random.nextInt(maxProbability - minProbability + 1) + minProbability;
+    }
+
+    public int getBlockerProbability() {
+        return blockerProbability;
     }
 }

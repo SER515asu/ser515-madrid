@@ -20,7 +20,7 @@ public class BlockerStoreTest {
     @Test
     void testAddBlocker() {
         int initialSize = blockerStore.getBlockers().size();
-        SprintBlocker newBlocker = new SprintBlocker("Test Blocker", "Test Description", "Open", null);
+        SprintBlocker newBlocker = new SprintBlocker("Test Blocker", "Test Description", "Open", null, 50, 60);
         blockerStore.addBlocker(newBlocker);
         List<SprintBlocker> blockers = blockerStore.getBlockers();
         assertEquals(initialSize + 1, blockers.size(), "Blocker list size should increase by 1");
@@ -31,7 +31,7 @@ public class BlockerStoreTest {
         List<SprintBlocker> blockers = blockerStore.getBlockers();
         // Verify that the returned list is a copy
         int initialSize = blockers.size();
-        blockers.add(new SprintBlocker("Test Blocker", "Test Description", "Open", null));
+        blockers.add(new SprintBlocker("Test Blocker", "Test Description", "Open", null, 80, 95));
         assertEquals(initialSize, blockerStore.getBlockers().size(), "Original list in BlockerStore should not be modified");
     }
     @Test
