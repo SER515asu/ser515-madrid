@@ -2,11 +2,13 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets;
 
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
+import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStoryStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerForm;
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +22,12 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     private JButton deleteButton;
     private JButton userStoryDropdownButton;
     private JPopupMenu userStoryPopupMenu;
+    private SimulationStateManager simStateManager;
 
 
-    public BlockerWidget(SprintBlocker blocker) {
+    public BlockerWidget(SprintBlocker blocker, SimulationStateManager simStateManager) {
         this.blocker = blocker;
+        this.simStateManager = simStateManager;
         this.init();
         populateUserStories();
         restoreSelectedUserStory();
@@ -72,6 +76,15 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (simStateManager != null && simStateManager.isRunning()) {
+                    JOptionPane.showMessageDialog(
+                        BlockerWidget.this,
+                        "Cannot edit blocker information while the simulation is running",
+                        "Operation Not Allowed: Simulation Running",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
                 EditBlockerForm form = new EditBlockerForm(blocker);
                 form.setVisible(true);
                 form.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -85,6 +98,15 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
+            if (simStateManager != null && simStateManager.isRunning()) {
+                JOptionPane.showMessageDialog(
+                    BlockerWidget.this,
+                    "Cannot delete blocker while the simulation is running",
+                    "Operation Not Allowed: Simulation Running",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
             if (blocker.getSolution() != null) {
                 blocker.getSolution().setBlocker(null);
             }
@@ -101,7 +123,19 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         add(deleteButton, gbc);
 
         userStoryDropdownButton = new JButton("Edit User Stories");
-        userStoryDropdownButton.addActionListener(e -> showUserStoryPopupMenu());
+        userStoryDropdownButton.addActionListener(e -> {
+            if (simStateManager != null && simStateManager.isRunning()) {
+                JOptionPane.showMessageDialog(
+                    BlockerWidget.this,
+                    "Cannot edit user stories while the simulation is running",
+                    "Operation Not Allowed: Simulation Running",
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+            
+            showUserStoryPopupMenu();
+        });
         gbc.gridx = 5;
         gbc.weightx = 0.3;
         add(userStoryDropdownButton, gbc);
@@ -173,6 +207,10 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         } else {
             blocker.removeUserStory(userStory);
         }
+    }
+
+    public void setStateManager(SimulationStateManager simStateManager) {
+        this.simStateManager = simStateManager;
     }
 
     public void populateUserStories() {

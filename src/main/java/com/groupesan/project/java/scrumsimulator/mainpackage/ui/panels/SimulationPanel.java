@@ -1,22 +1,26 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JPanel;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-public class SimulationPanel extends JPanel implements BaseComponent {
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationButtonStateInterface;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 
-    private static final SimulationStateManager simulationStateManager  = new SimulationStateManager();
-    private static final JButton startSimulationButton  = new JButton("Start Simulation");;
-    private static final JButton stopSimulationButton = new JButton("Stop Simulation");
+public class SimulationPanel extends JPanel implements BaseComponent, SimulationButtonStateInterface {
+    private final SimulationStateManager simulationStateManager;
+    private final JButton startSimulationButton;
+    private final JButton stopSimulationButton;
 
-    /** Simulation Panel Initialization. */
-    public SimulationPanel() {
+    public SimulationPanel(SimulationStateManager simulationStateManager) {
+        this.simulationStateManager = simulationStateManager;
+        this.startSimulationButton = new JButton("Start Simulation");
+        this.stopSimulationButton = new JButton("Stop Simulation");
+        simulationStateManager.setButtonStateListener(this);
         this.init();
     }
 
@@ -26,15 +30,12 @@ public class SimulationPanel extends JPanel implements BaseComponent {
 
     @Override
     public void init() {
-
         stopSimulationButton.setVisible(false);
-
         startSimulationButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         simulationStateManager.startSimulation();
-                        updateButtonVisibility();
                     }
                 });
 
@@ -44,7 +45,6 @@ public class SimulationPanel extends JPanel implements BaseComponent {
                     public void actionPerformed(ActionEvent e) {
                         simulationStateManager.stopSimulation();
                         JOptionPane.showMessageDialog(null, "Simulation stopped!");
-                        updateButtonVisibility();
                     }
                 });
 
@@ -52,14 +52,9 @@ public class SimulationPanel extends JPanel implements BaseComponent {
         add(stopSimulationButton);
     }
 
-    public static void updateButtonVisibility() {
-        // Show/hide buttons based on the simulation state
-        if (simulationStateManager.isRunning()) {
-            stopSimulationButton.setVisible(true);
-            startSimulationButton.setVisible(false);
-        } else {
-            stopSimulationButton.setVisible(false);
-            startSimulationButton.setVisible(true);
-        }
+    @Override
+    public void updateButtonVisibility(boolean isRunning) {
+        stopSimulationButton.setVisible(isRunning);
+        startSimulationButton.setVisible(!isRunning);
     }
 }
