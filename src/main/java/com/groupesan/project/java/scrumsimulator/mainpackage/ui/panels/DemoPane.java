@@ -3,6 +3,7 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
@@ -28,11 +29,14 @@ public class DemoPane extends JFrame implements BaseComponent {
     private SimulationPane simulationPane;
     private ModifySimulationPane modifySimulationPane;
     private SimulationUI simulationUserInterface;
+    private SimulationStateManager simulationStateManager;
+    private BlockersListPane blockersListPane;
     // private SimulationSwitchRolePane simulationSwitchRolePane;
     private VariantSimulationUI variantSimulationUI;
     // private SprintUIPane sprintUIPane;
 
     public DemoPane() {
+        this.simulationStateManager = new SimulationStateManager();
         this.init();
         player.doRegister();
     }
@@ -61,7 +65,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                     }
                 });
 
-        SimulationPanel simulationPanel = new SimulationPanel();
+        SimulationPanel simulationPanel = new SimulationPanel(simulationStateManager);
         myJpanel.add(
                 simulationPanel,
                 new CustomConstraints(
@@ -242,8 +246,13 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        BlockersListPane blockersPane = new BlockersListPane();
-                        blockersPane.setVisible(true);
+                        if (blockersListPane == null || !blockersListPane.isDisplayable()) {
+                            blockersListPane = new BlockersListPane();
+                            blockersListPane.setSimulationStateManager(simulationStateManager);
+                            blockersListPane.setVisible(true);
+                        } else {
+                            blockersListPane.toFront();
+                        }
                     }
                 });
 
