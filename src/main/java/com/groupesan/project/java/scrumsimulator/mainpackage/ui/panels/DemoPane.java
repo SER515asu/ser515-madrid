@@ -1,21 +1,25 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
@@ -26,6 +30,7 @@ public class DemoPane extends JFrame implements BaseComponent {
     private SprintListPane sprintListPane;
     // private UserStoryListPane userStoryListPane;
     private UpdateUserStoryPanel updateUserStoryPanel;
+    private SpikePane spikePane;
     private SimulationPane simulationPane;
     private ModifySimulationPane modifySimulationPane;
     private SimulationUI simulationUserInterface;
@@ -91,6 +96,25 @@ public class DemoPane extends JFrame implements BaseComponent {
                 new CustomConstraints(
                         1, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
+        JButton spikePaneButton = new JButton("Spike");
+        spikePaneButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (spikePane == null || !spikePane.isDisplayable()) {
+                            spikePane = new SpikePane();
+                            spikePane.setVisible(true);
+                        } else {
+                            spikePane.toFront();
+                        }
+                    }
+                });
+
+        myJpanel.add(
+                spikePaneButton,
+                new CustomConstraints(
+                        3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+
         JButton updateStoryStatusButton = new JButton("Update User Story Status");
         updateStoryStatusButton.addActionListener(
                 new ActionListener() {
@@ -108,7 +132,7 @@ public class DemoPane extends JFrame implements BaseComponent {
         myJpanel.add(
                 updateStoryStatusButton,
                 new CustomConstraints(
-                        3, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
+                        0, 0, GridBagConstraints.WEST, 1.0, 1.0, GridBagConstraints.HORIZONTAL));
 
         JButton newSimulationButton = new JButton("New Simulation");
         newSimulationButton.addActionListener(
@@ -195,6 +219,7 @@ public class DemoPane extends JFrame implements BaseComponent {
                                 newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
                                 System.out.println("Role Updated to: " + currentRole);
                                 simulationPanel.setRole(currentRole);
+                                spikePaneButton.setEnabled(!"Product Owner".equals(currentRole));
                             }
                         });
                         feedbackPanelUI.setVisible(true);
