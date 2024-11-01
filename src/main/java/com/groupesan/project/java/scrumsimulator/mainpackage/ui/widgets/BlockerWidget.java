@@ -203,9 +203,13 @@ public class BlockerWidget extends JPanel implements BaseComponent {
 
     private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {
         if (menuItem.isSelected()) {
-            blocker.addUserStory(userStory);
+            if (!blocker.getUserStories().contains(userStory)) {
+                blocker.addUserStory(userStory);
+                userStory.addBlocker(blocker); 
+            }
         } else {
             blocker.removeUserStory(userStory);
+            userStory.removeBlocker(blocker);
         }
     }
 
