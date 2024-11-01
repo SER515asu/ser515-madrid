@@ -23,11 +23,11 @@ public class BlockerSolutionsStore {
     void addInitialBlockerSolutions() {
         BlockerSolutionsFactory factory = BlockerSolutionsFactory.getInstance();
         
-        addBlockerSolution(factory.createNewBlockerSolution("Solution Uno", "Desc Uno: The user should be able to save the sprint variables."));
-        addBlockerSolution(factory.createNewBlockerSolution("Solution Dos", "Desc Dos: The user should be able to save the sprint variables."));
-        addBlockerSolution(factory.createNewBlockerSolution("Solution Tres", "Desc Tres: The user should be able to save the sprint variables."));
-        addBlockerSolution(factory.createNewBlockerSolution("Solution Quatro", "Desc Quatro: The user should be able to save the sprint variables."));
-        addBlockerSolution(factory.createNewBlockerSolution("Solution Sinko", "Desc Sinko: The user should be able to save the sprint variables."));
+        addBlockerSolution(factory.createNewBlockerSolution("Solution Uno", "Desc Uno: The user should be able to save the sprint variables.", 30, 50));
+        addBlockerSolution(factory.createNewBlockerSolution("Solution Dos", "Desc Dos: The user should be able to save the sprint variables.", 10, 20));
+        addBlockerSolution(factory.createNewBlockerSolution("Solution Tres", "Desc Tres: The user should be able to save the sprint variables.", 90, 100));
+        addBlockerSolution(factory.createNewBlockerSolution("Solution Quatro", "Desc Quatro: The user should be able to save the sprint variables.", 60, 85));
+        addBlockerSolution(factory.createNewBlockerSolution("Solution Sinko", "Desc Sinko: The user should be able to save the sprint variables.", 10, 70));
     }
 
     public void addBlockerSolution(SprintBlockerSolution blockerSolution) {
