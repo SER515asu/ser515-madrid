@@ -10,9 +10,7 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.BorderLayout;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -89,6 +87,23 @@ public class SimulationStateManager {
                             actualSprintPoints += actualStoryPoints;
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
+
+                            //To do: The logic of blocker arising in a sprint should be written here
+
+                            //To do: and pass the blocker solution to the method
+                            //To do:pass the associated solution to the blocker in this method as parameter
+
+                            //To do:This should be removed once associated blockers and solutions are being passed.
+                            boolean foundSolution = evaluateBlockerAndSolution(new SprintBlockerSolution("name", "desc", 10, 20));
+
+                            //This text will have the if statement before displaying
+                            if (foundSolution) {
+                                String foundSolutionText = "  Found Solution of " + userStory + " to the blocker.";
+                                SwingUtilities.invokeLater(() -> sprintDisplayArea.append(foundSolutionText + "\n"));
+                            } else {
+                                String notFoundSolutionText = "  Couldn't find Solution of " + userStory + " to the blocker.";
+                                //To do: Provide option to update status of the blocker
+                            }
 
                             int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
                             Thread.sleep(sleepTime);
@@ -233,5 +248,9 @@ public class SimulationStateManager {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error writing to simulation.JSON");
         }
+    }
+    public boolean evaluateBlockerAndSolution(ProbabilityRange blockerOrSolution) {
+        double blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
+        return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
 }

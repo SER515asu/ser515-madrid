@@ -4,6 +4,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerS
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerSolutionsStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerForm;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.EditBlockerSolutionForm;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
-    private JLabel id, name, desc;
+    private JLabel id, name, desc, probabilityRange;
     private SprintBlockerSolution blockerSolution;
     private JButton deleteButton;
     private JButton blockerDropdownButton;
@@ -72,9 +73,15 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
             parent.repaint();
         });
 
-        mainGbc.gridx = 3;
-        mainGbc.weightx = 0.1;
+        mainGbc.gridx = 4;
+        mainGbc.weightx = 0.3;
         mainContent.add(deleteButton, mainGbc);
+
+        mainGbc.gridx = 3;
+        mainGbc.weightx = 0.3;
+        probabilityRange = new JLabel(getProbabilityRangeText());
+        probabilityRange.setPreferredSize(new Dimension(100, 30));
+        mainContent.add(probabilityRange, mainGbc);
 
         // Add main content panel to the top
         gbc.gridx = 0;
@@ -93,6 +100,7 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
 
         gbc.gridy = 1;
         add(blockerPanel, gbc);
+
 
         // Add click listener for editing
         addMouseListener(new MouseAdapter() {
@@ -159,6 +167,10 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         blockerPopupMenu.show(blockerDropdownButton, 0, blockerDropdownButton.getHeight());
     }
 
+    private String getProbabilityRangeText() {
+        return blockerSolution.getMinProbability() + "% - " + blockerSolution.getMaxProbability() + "%";
+    }
+
     private String truncateText(String text, int maxLength) {
         return text.length() > maxLength ? text.substring(0, maxLength) + "..." : text;
     }
@@ -169,6 +181,7 @@ public class BlockerSolutionsWidget extends JPanel implements BaseComponent {
         name.setText(blockerSolution.getName());
         desc.setText("<html>" + truncateText(blockerSolution.getDescription(), 40) + "</html>");
         SprintBlocker blocker = blockerSolution.getBlocker();
+        probabilityRange.setText(getProbabilityRangeText());
         if (blocker != null && !BlockerStore.getInstance().getBlockers().contains(blocker)) {
             blockerSolution.setBlocker(null);
             blockerDropdownButton.setText("Select Blocker");
