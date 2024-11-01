@@ -88,6 +88,7 @@ public class SimulationStateManager {
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
+                            handleBlocker(userStory, sprintDisplayArea);
                             //To do: The logic of blocker arising in a sprint should be written here
 
                             //To do: and pass the blocker solution to the method
@@ -252,5 +253,39 @@ public class SimulationStateManager {
     public boolean evaluateBlockerAndSolution(ProbabilityRange blockerOrSolution) {
         double blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
+    }
+
+    private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
+        List<SprintBlocker> blockers = userStory.getBlockers();
+        if (blockers != null && !blockers.isEmpty()) {
+            for (SprintBlocker blocker : blockers) {
+                int randomValue = secureRandom.nextInt(100) + 1;
+                if (randomValue <= blocker.getBlockerProbability()) {
+                    SwingUtilities.invokeLater(() -> {
+                        String blockerMessage = String.format(
+                            "Blocker encountered for User Story %s:\n" +
+                            "Blocker Name: %s\n" +
+                            "Description: %s\n" +
+                            "Status: %s",
+                            userStory.toString(),
+                            blocker.getName(),
+                            blocker.getDescription(),
+                            blocker.getStatus()
+                        );
+    
+                        sprintDisplayArea.append("BLOCKER DETECTED: " + blocker.getName() + "\n");
+    
+                        JOptionPane optionPane = new JOptionPane(
+                            blockerMessage,
+                            JOptionPane.WARNING_MESSAGE,
+                            JOptionPane.DEFAULT_OPTION
+                        );
+                        JDialog dialog = optionPane.createDialog("Sprint Blocker Detected");
+                        dialog.setAlwaysOnTop(true);
+                        dialog.setVisible(true);
+                    });
+                }
+            }
+        }
     }
 }
