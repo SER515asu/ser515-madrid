@@ -27,6 +27,8 @@ public class UserStory extends ScrumObject {
 
     private String spikeStatus;
 
+    private List<SprintBlocker> blockers;
+
     // private ArrayList<Task> tasks;  TODO: implement tasks
 
     /**
@@ -40,6 +42,7 @@ public class UserStory extends ScrumObject {
         this.description = "";
         this.pointValue = pointValue;
         this.state = new UserStoryUnselectedState(this);
+        this.blockers = new ArrayList<>();
     }
 
     /**
@@ -256,5 +259,49 @@ public class UserStory extends ScrumObject {
      */
     public void setStatus(String status) {
         this.spikeStatus = status;
+    }
+
+    /**
+     * Gets the blockers for this user story
+     * @return a list of SprintBlocker objects
+     */
+    public List<SprintBlocker> getBlockers() {
+        if (blockers == null) {
+            blockers = new ArrayList<>();
+        }
+        return blockers;
+    }
+    
+    /**
+     * Adds a blocker to this user story
+     * @param blocker the SprintBlocker to add
+     */
+    public void addBlocker(SprintBlocker blocker) {
+        if (blockers == null) {
+            blockers = new ArrayList<>();
+        }
+        if (!blockers.contains(blocker)) {
+            blockers.add(blocker);
+            blocker.addUserStory(this);
+        }
+    }
+    
+    /**
+     * Removes a blocker from this user story
+     * @param blocker the SprintBlocker to remove
+     */
+    public void removeBlocker(SprintBlocker blocker) {
+        if (blockers != null) {
+            blockers.remove(blocker);
+            blocker.removeUserStory(this);
+        }
+    }
+    
+    /**
+     * Checks if this user story has any blockers
+     * @return true if there are blockers
+     */
+    public boolean hasBlockers() {
+        return blockers != null && !blockers.isEmpty();
     }
 }
