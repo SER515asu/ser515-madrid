@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPanel;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.ManualSolutionHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -100,16 +101,16 @@ public class SimulationStateManager {
                             //To do:pass the associated solution to the blocker in this method as parameter
 
                             //To do:This should be removed once associated blockers and solutions are being passed.
-                            boolean foundSolution = evaluateBlockerAndSolution(new SprintBlockerSolution("name", "desc", 10, 20));
-
-                            //This text will have the if statement before displaying
-                            if (foundSolution) {
-                                String foundSolutionText = "  Found Solution of " + userStory + " to the blocker.";
-                                SwingUtilities.invokeLater(() -> sprintDisplayArea.append(foundSolutionText + "\n"));
-                            } else {
-                                String notFoundSolutionText = "  Couldn't find Solution of " + userStory + " to the blocker.";
-                                //To do: Provide option to update status of the blocker
-                            }
+//                            boolean foundSolution = evaluateBlockerAndSolution(new SprintBlockerSolution("name", "desc", 10, 20));
+//
+//                            //This text will have the if statement before displaying
+//                            if (foundSolution) {
+//                                String foundSolutionText = "  Found Solution of " + userStory + " to the blocker.";
+//                                SwingUtilities.invokeLater(() -> sprintDisplayArea.append(foundSolutionText + "\n"));
+//                            } else {
+//                                String notFoundSolutionText = "  Couldn't find Solution of " + userStory + " to the blocker.";
+//                                //To do: Provide option to update status of the blocker
+//                            }
 
                             int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
                             Thread.sleep(sleepTime);
@@ -274,6 +275,8 @@ public class SimulationStateManager {
         if (blockers != null && !blockers.isEmpty()) {
             for (SprintBlocker blocker : blockers) {
                 int randomValue = secureRandom.nextInt(100) + 1;
+                System.out.println("random "+randomValue);
+                System.out.println("blockerprob "+ blocker.getBlockerProbability());
                 if (randomValue <= blocker.getBlockerProbability()) {
                     SwingUtilities.invokeLater(() -> {
                         String blockerMessage = String.format(
@@ -286,7 +289,16 @@ public class SimulationStateManager {
                             blocker.getDescription(),
                             blocker.getStatus()
                         );
-    
+                        SprintBlockerSolution solution = blocker.getSolution();
+                        boolean foundSolution = evaluateBlockerAndSolution(solution);
+                        if (foundSolution){
+                            blocker.setStatus("RESOLVED");
+                            blockerMessage = "\n\nBlocker has been resolved.";
+                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "RESOLVED"+"\n");
+                        }
+                        else{
+                            System.out.println("Solution not found for the blocker");
+                        }
                         sprintDisplayArea.append("BLOCKER DETECTED: " + blocker.getName() + "\n");
     
                         JOptionPane optionPane = new JOptionPane(
