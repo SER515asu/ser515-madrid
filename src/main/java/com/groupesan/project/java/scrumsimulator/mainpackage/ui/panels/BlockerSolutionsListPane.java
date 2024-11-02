@@ -62,14 +62,15 @@ public class BlockerSolutionsListPane extends JFrame implements BaseComponent {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 0.1;
+        gbc.weightx = 0.2;
 
         panel.add(createHeaderLabel("ID"), gbc);
-        gbc.weightx = 0.2;
+        gbc.weightx = 0.4;
         panel.add(createHeaderLabel("Name"), gbc);
         gbc.weightx = 0.5;
         panel.add(createHeaderLabel("Description"), gbc);
-
+        gbc.weightx = 0.6;
+        panel.add(createHeaderLabel("Probability Range (%)"), gbc);
         return panel;
     }
 

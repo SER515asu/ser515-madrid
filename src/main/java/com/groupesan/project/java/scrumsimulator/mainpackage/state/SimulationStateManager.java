@@ -10,10 +10,9 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.BorderLayout;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPanel;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -25,6 +24,7 @@ import org.json.JSONTokener;
 public class SimulationStateManager {
     private boolean running;
     private static final String JSON_FILE_PATH = "src/main/resources/simulation.JSON";
+    private boolean interrupted = false;
     private JFrame frame;
     private JTextArea sprintDisplayArea;
     private static final SecureRandom secureRandom = new SecureRandom();
@@ -51,6 +51,7 @@ public class SimulationStateManager {
 
     /** Method to set the simulation state to running. */
     public void startSimulation() {
+        interrupted = false;
         List<Sprint> sprints = SprintStore.getInstance().getSprints();
         if (sprints.isEmpty()) {
             SwingUtilities.invokeLater(() -> {
@@ -69,6 +70,7 @@ public class SimulationStateManager {
             protected Void doInBackground() throws Exception {
                 boolean executionFailed = false;
                 for (Sprint sprint : sprints) {
+                    if (interrupted) break;
                     int expectedSprintPoints = sprint.getStoryPoints();
                     int actualSprintPoints = 0;
                     String sprintExecutionText = "Sprint " + sprint.getName() + " executing...";
@@ -76,6 +78,7 @@ public class SimulationStateManager {
                     try {
                         List<UserStory> userStories = sprint.getUserStories();
                         for (UserStory userStory : userStories) {
+                            if (interrupted) break;
                             int expectedStoryPoints = (int) userStory.getPointValue();
                             int secureRandomValue = secureRandom.nextInt(100) + 1;
                             int actualStoryPoints = 0;
@@ -89,6 +92,24 @@ public class SimulationStateManager {
                             actualSprintPoints += actualStoryPoints;
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
+
+                            handleBlocker(userStory, sprintDisplayArea);
+                            //To do: The logic of blocker arising in a sprint should be written here
+
+                            //To do: and pass the blocker solution to the method
+                            //To do:pass the associated solution to the blocker in this method as parameter
+
+                            //To do:This should be removed once associated blockers and solutions are being passed.
+                            boolean foundSolution = evaluateBlockerAndSolution(new SprintBlockerSolution("name", "desc", 10, 20));
+
+                            //This text will have the if statement before displaying
+                            if (foundSolution) {
+                                String foundSolutionText = "  Found Solution of " + userStory + " to the blocker.";
+                                SwingUtilities.invokeLater(() -> sprintDisplayArea.append(foundSolutionText + "\n"));
+                            } else {
+                                String notFoundSolutionText = "  Couldn't find Solution of " + userStory + " to the blocker.";
+                                //To do: Provide option to update status of the blocker
+                            }
 
                             int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
                             Thread.sleep(sleepTime);
@@ -137,6 +158,8 @@ public class SimulationStateManager {
                         sprintDisplayArea.append("Simulator execution failed\n");
                         JOptionPane.showMessageDialog(frame, "Simulator execution failed", "Execution Status", JOptionPane.ERROR_MESSAGE);
                     });
+                } else if (interrupted) {
+                    sprintDisplayArea.append("Simulator execution stopped\n");
                 } else {
                     SwingUtilities.invokeLater(() -> {
                         sprintDisplayArea.append("Simulator execution successful\n");
@@ -164,6 +187,7 @@ public class SimulationStateManager {
 
     /** Method to set the simulation state to not running. */
     public void stopSimulation() {
+        interrupted = true;
         setRunning(false);
         // Add other logic for stopping the simulation
     }
@@ -180,6 +204,12 @@ public class SimulationStateManager {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                stopSimulation();
+            }
+        });
     }
 
     /**
@@ -232,6 +262,44 @@ public class SimulationStateManager {
             writer.write(updatedData.toString(4));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error writing to simulation.JSON");
+        }
+    }
+    public boolean evaluateBlockerAndSolution(ProbabilityRange blockerOrSolution) {
+        double blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
+        return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
+    }
+
+    private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
+        List<SprintBlocker> blockers = userStory.getBlockers();
+        if (blockers != null && !blockers.isEmpty()) {
+            for (SprintBlocker blocker : blockers) {
+                int randomValue = secureRandom.nextInt(100) + 1;
+                if (randomValue <= blocker.getBlockerProbability()) {
+                    SwingUtilities.invokeLater(() -> {
+                        String blockerMessage = String.format(
+                            "Blocker encountered for User Story %s:\n" +
+                            "Blocker Name: %s\n" +
+                            "Description: %s\n" +
+                            "Status: %s",
+                            userStory.toString(),
+                            blocker.getName(),
+                            blocker.getDescription(),
+                            blocker.getStatus()
+                        );
+    
+                        sprintDisplayArea.append("BLOCKER DETECTED: " + blocker.getName() + "\n");
+    
+                        JOptionPane optionPane = new JOptionPane(
+                            blockerMessage,
+                            JOptionPane.WARNING_MESSAGE,
+                            JOptionPane.DEFAULT_OPTION
+                        );
+                        JDialog dialog = optionPane.createDialog("Sprint Blocker Detected");
+                        dialog.setAlwaysOnTop(true);
+                        dialog.setVisible(true);
+                    });
+                }
+            }
         }
     }
 }

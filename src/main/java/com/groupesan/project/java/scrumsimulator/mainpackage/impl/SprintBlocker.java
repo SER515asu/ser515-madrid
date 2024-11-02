@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.security.SecureRandom;
 
-public class SprintBlocker extends ScrumObject {
+public class SprintBlocker extends ScrumObject implements ProbabilityRange {
     private BlockerIdentifier id;
     private String name;
     private String description;
@@ -64,7 +64,7 @@ public class SprintBlocker extends ScrumObject {
         this.status = status;
     }
 
-    public int getBlockerMinProbability() {
+    public int getMinProbability() {
         return blockerMinProbability;
     }
 
@@ -72,7 +72,7 @@ public class SprintBlocker extends ScrumObject {
         this.blockerMinProbability = blockerMinProbability;
     }
 
-    public int getBlockerMaxProbability() {
+    public int getMaxProbability() {
         return blockerMaxProbability;
     }
 

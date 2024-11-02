@@ -198,14 +198,18 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     }
 
     private String getProbabilityRangeText() {
-        return blocker.getBlockerMinProbability() + "% - " + blocker.getBlockerMaxProbability() + "%";
+        return blocker.getMinProbability() + "% - " + blocker.getMaxProbability() + "%";
     }
 
     private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {
         if (menuItem.isSelected()) {
-            blocker.addUserStory(userStory);
+            if (!blocker.getUserStories().contains(userStory)) {
+                blocker.addUserStory(userStory);
+                userStory.addBlocker(blocker); 
+            }
         } else {
             blocker.removeUserStory(userStory);
+            userStory.removeBlocker(blocker);
         }
     }
 
