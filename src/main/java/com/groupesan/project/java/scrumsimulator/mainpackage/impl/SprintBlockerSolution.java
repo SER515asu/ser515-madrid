@@ -4,15 +4,19 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumObject;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumIdentifier;
 
 
-public class SprintBlockerSolution extends ScrumObject {
+public class SprintBlockerSolution extends ScrumObject implements ProbabilityRange {
     private BlockerSolutionIdentifier id;
     private String name;
     private String description;
     private SprintBlocker blocker;
+    private int blockerSolutionMinProbability;
+    private int blockerSolutionMaxProbability;
 
-    public SprintBlockerSolution(String name, String description) {
+    public SprintBlockerSolution(String name, String description, int blockerSolutionMinProbability, int blockerSolutionMaxProbability) {
         this.name = name;
         this.description = description;
+        this.blockerSolutionMinProbability = blockerSolutionMinProbability;
+        this.blockerSolutionMaxProbability = blockerSolutionMaxProbability;
     }
 
     protected void register() {
@@ -56,5 +60,13 @@ public class SprintBlockerSolution extends ScrumObject {
 
     public void setBlocker(SprintBlocker blocker){
         this.blocker = blocker;
+    }
+
+    public int getMinProbability() {
+        return blockerSolutionMinProbability;
+    }
+
+    public int getMaxProbability() {
+        return blockerSolutionMaxProbability;
     }
 }
