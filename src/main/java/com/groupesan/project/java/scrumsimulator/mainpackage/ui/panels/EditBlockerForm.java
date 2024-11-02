@@ -31,10 +31,10 @@ public class EditBlockerForm extends JFrame implements BaseComponent {
         nameField.setText(blocker.getName());
         descArea.setText(blocker.getDescription());
         statusCombo.setSelectedItem(blocker.getStatus());
-        minProbabilitySlider.setValue(blocker.getBlockerMinProbability());
-        maxProbabilitySlider.setValue(blocker.getBlockerMaxProbability());
-        minProbabilityLabel.setText(blocker.getBlockerMinProbability() + "%");
-        maxProbabilityLabel.setText(blocker.getBlockerMaxProbability() + "%");
+        minProbabilitySlider.setValue(blocker.getMinProbability());
+        maxProbabilitySlider.setValue(blocker.getMaxProbability());
+        minProbabilityLabel.setText(blocker.getMinProbability() + "%");
+        maxProbabilityLabel.setText(blocker.getMaxProbability() + "%");
 
         JPanel myJpanel = new JPanel(new GridBagLayout());
         myJpanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

@@ -25,7 +25,7 @@ public class BlockerSolutionsStoreTest {
     @Test
     void testAddBlockerSolution() {
         int initialSize = blockerSolutionsStore.getBlockerSolutions().size();
-        SprintBlockerSolution newSolution = new SprintBlockerSolution("Test Solution", "Test Description");
+        SprintBlockerSolution newSolution = new SprintBlockerSolution("Test Solution", "Test Description", 10, 30);
         blockerSolutionsStore.addBlockerSolution(newSolution);
         List<SprintBlockerSolution> solutions = blockerSolutionsStore.getBlockerSolutions();
         assertEquals(initialSize + 1, solutions.size(), "Solution list size should increase by 1");
@@ -37,7 +37,7 @@ public class BlockerSolutionsStoreTest {
         List<SprintBlockerSolution> solutions = blockerSolutionsStore.getBlockerSolutions();
         // Verify that the returned list is a copy
         int initialSize = solutions.size();
-        solutions.add(new SprintBlockerSolution("Test Solution", "Test Description"));
+        solutions.add(new SprintBlockerSolution("Test Solution", "Test Description", 10, 30));
         assertEquals(initialSize, blockerSolutionsStore.getBlockerSolutions().size(), 
             "Original list in BlockerSolutionsStore should not be modified");
     }
@@ -70,8 +70,8 @@ public class BlockerSolutionsStoreTest {
     @Test
     void testGetAllSolutions() {
         blockerSolutionsStore.clearBlockerSolutions();
-        SprintBlockerSolution solution1 = new SprintBlockerSolution("Solution 1", "Description 1");
-        SprintBlockerSolution solution2 = new SprintBlockerSolution("Solution 2", "Description 2");
+        SprintBlockerSolution solution1 = new SprintBlockerSolution("Solution 1", "Description 1", 10, 20);
+        SprintBlockerSolution solution2 = new SprintBlockerSolution("Solution 2", "Description 2", 10, 20);
         blockerSolutionsStore.addBlockerSolution(solution1);
         blockerSolutionsStore.addBlockerSolution(solution2);
 

@@ -12,8 +12,8 @@ public class BlockerSolutionsFactory {
 
     private BlockerSolutionsFactory() {}
 
-    public SprintBlockerSolution createNewBlockerSolution(String title, String description) {
-        SprintBlockerSolution newBlockerSolution = new SprintBlockerSolution(title, description);
+    public SprintBlockerSolution createNewBlockerSolution(String title, String description, int minSolutionProbability, int maxSolutionProbability) {
+        SprintBlockerSolution newBlockerSolution = new SprintBlockerSolution(title, description, minSolutionProbability, maxSolutionProbability);
         return newBlockerSolution;
     }
 }

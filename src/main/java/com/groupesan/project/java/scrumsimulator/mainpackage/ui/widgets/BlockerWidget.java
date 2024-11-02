@@ -198,7 +198,7 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     }
 
     private String getProbabilityRangeText() {
-        return blocker.getBlockerMinProbability() + "% - " + blocker.getBlockerMaxProbability() + "%";
+        return blocker.getMinProbability() + "% - " + blocker.getMaxProbability() + "%";
     }
 
     private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {
