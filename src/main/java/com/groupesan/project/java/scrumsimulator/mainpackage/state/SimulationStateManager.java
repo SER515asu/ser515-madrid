@@ -34,6 +34,8 @@ public class SimulationStateManager {
     private SimulationButtonStateInterface buttonStateListener;
     private List<UserStory> blockedUserStories;
 
+    private List<BlockerUpdateListener> blockerUpdateListeners = new ArrayList<>();
+
     private BlockersListPane blockersListPane;
 
     SecureRandom random = new SecureRandom();
@@ -288,8 +290,9 @@ public class SimulationStateManager {
                 if (blockers != null) {
                     for (SprintBlocker blocker : blockers) {
                         if (!blocker.getStatus().equals("RESOLVED")) {
-                            blocker.setStatus("RESOLVED");
+                            blocker.setStatus("Resolved");
                             sprintDisplayArea.append("BLOCKER : " + blocker.getName() + " RESOLVED\n");
+                            notifyBlockerStatusChanged(blocker,"Resolved");
                         }
                     }
                 }
@@ -339,6 +342,7 @@ public class SimulationStateManager {
         if(blockersList !=null && blockersList.size()>0){
             for(SprintBlocker blocker : blockersList){
                 blocker.setStatus("Open");
+                notifyBlockerStatusChanged(blocker,"Open");
             }
         }
         sprintDisplayArea.append("All blockers have been reset to UNRESOLVED due to the technical issue.\n");
@@ -360,7 +364,7 @@ public class SimulationStateManager {
             resetAllBlockersStatus();
 
             stopSimulation();
-            openBlockersPane();
+           // openBlockersPane();
             return;
         }
         if (blockers != null && !blockers.isEmpty()) {
@@ -376,7 +380,8 @@ public class SimulationStateManager {
                         boolean foundSolution = evaluateBlockerAndSolution(solution);
                         if (foundSolution){
                             blocker.setStatus("Resolved");
-                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "Resolved"+"\n");
+                            notifyBlockerStatusChanged(blocker, "Resolved");
+                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "Resolved  "+"\n");
                         }
                         else{
                             blockedUserStories.add(userStory);
@@ -394,6 +399,18 @@ public class SimulationStateManager {
             blockersListPane.setVisible(true);
         } else {
             blockersListPane.toFront();
+        }
+    }
+
+    public void addBlockerUpdateListener(BlockerUpdateListener listener) {
+        if (!blockerUpdateListeners.contains(listener)) {
+            blockerUpdateListeners.add(listener);
+        }
+    }
+
+    private void notifyBlockerStatusChanged(SprintBlocker blocker, String newStatus) {
+        for (BlockerUpdateListener listener : blockerUpdateListeners) {
+            listener.onBlockerStatusChanged(blocker, newStatus);
         }
     }
 
