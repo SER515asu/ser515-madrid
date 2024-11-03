@@ -1,21 +1,35 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.state;
 
+import java.awt.BorderLayout;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import javax.swing.*;
-import java.awt.BorderLayout;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
-import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.SimulationPanel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.ProbabilityRange;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.ProbabilityUtils;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 
 /**
  * SimulationStateManager manages the state of a simulation, including whether it is running and
@@ -29,10 +43,12 @@ public class SimulationStateManager {
     private JTextArea sprintDisplayArea;
     private static final SecureRandom secureRandom = new SecureRandom();
     private SimulationButtonStateInterface buttonStateListener;
+    private List<UserStory> blockedUserStories;
 
     /** Simulation State manager. Not running by default. */
     public SimulationStateManager() {
         this.running = false;
+        this.blockedUserStories = new ArrayList<>();
     }
 
    public void setButtonStateListener(SimulationButtonStateInterface listener) {
@@ -52,6 +68,7 @@ public class SimulationStateManager {
     /** Method to set the simulation state to running. */
     public void startSimulation() {
         interrupted = false;
+        blockedUserStories.clear();
         List<Sprint> sprints = SprintStore.getInstance().getSprints();
         if (sprints.isEmpty()) {
             SwingUtilities.invokeLater(() -> {
@@ -93,22 +110,7 @@ public class SimulationStateManager {
                             String storyExecText = "  User Story " + userStory + " executing...";
                             SwingUtilities.invokeLater(() -> sprintDisplayArea.append(storyExecText + "\n"));
 
-                            //To do: The logic of blocker arising in a sprint should be written here
-
-                            //To do: and pass the blocker solution to the method
-                            //To do:pass the associated solution to the blocker in this method as parameter
-
-                            //To do:This should be removed once associated blockers and solutions are being passed.
-                            boolean foundSolution = evaluateBlockerAndSolution(new SprintBlockerSolution("name", "desc", 10, 20));
-
-                            //This text will have the if statement before displaying
-                            if (foundSolution) {
-                                String foundSolutionText = "  Found Solution of " + userStory + " to the blocker.";
-                                SwingUtilities.invokeLater(() -> sprintDisplayArea.append(foundSolutionText + "\n"));
-                            } else {
-                                String notFoundSolutionText = "  Couldn't find Solution of " + userStory + " to the blocker.";
-                                //To do: Provide option to update status of the blocker
-                            }
+                            handleBlocker(userStory, sprintDisplayArea);
 
                             int sleepTime = (actualStoryPoints < 10) ? 2000 : 3000;
                             Thread.sleep(sleepTime);
@@ -152,6 +154,14 @@ public class SimulationStateManager {
                         });
                     }
                 }
+
+                if (!executionFailed && !interrupted) {
+                    boolean allStoriesResolved = handleBlockedUserStories();
+                    if (!allStoriesResolved) {
+                        executionFailed = true;
+                    }
+                }
+
                 if (executionFailed) {
                     SwingUtilities.invokeLater(() -> {
                         sprintDisplayArea.append("Simulator execution failed\n");
@@ -188,7 +198,6 @@ public class SimulationStateManager {
     public void stopSimulation() {
         interrupted = true;
         setRunning(false);
-        // Add other logic for stopping the simulation
     }
 
     private void simulationUI() {
@@ -254,6 +263,69 @@ public class SimulationStateManager {
         }
     }
 
+    private boolean handleBlockedUserStories() throws Exception {
+        if (blockedUserStories.isEmpty()) {
+            return true;
+        }
+
+        for (Iterator<UserStory> iterator = blockedUserStories.iterator(); iterator.hasNext();) {
+            UserStory blockedStory = iterator.next();
+            
+            AtomicInteger choice = new AtomicInteger();
+            
+            SwingUtilities.invokeAndWait(() -> {
+                String message = String.format("User Story %s is blocked. Has a solution been found?", 
+                    blockedStory.toString());
+                Object[] options = {"Solved", "No solution available"};
+                int result = JOptionPane.showOptionDialog(
+                    frame,
+                    message,
+                    "Blocked User Story Resolution",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+                );
+                choice.set(result);
+            });
+
+            if (choice.get() == JOptionPane.YES_OPTION) {
+                List<SprintBlocker> blockers = blockedStory.getBlockers();
+                if (blockers != null) {
+                    for (SprintBlocker blocker : blockers) {
+                        if (!blocker.getStatus().equals("RESOLVED")) {
+                            blocker.setStatus("RESOLVED");
+                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + " RESOLVED\n");
+                        }
+                    }
+                }
+                iterator.remove();
+                sprintDisplayArea.append("User Story " + blockedStory + " has been unblocked\n");
+            } else {
+                
+                String userStoryText = "User Story " + blockedStory + " COMPLETED";
+                String updatedUserStoryText = "User Story " + blockedStory + " BLOCKED";
+                String sprintCompletedText = "Sprint " + blockedStory.getAssignedSprint().getName() + " COMPLETED";
+                String sprintIncompleteText = "Sprint " + blockedStory.getAssignedSprint().getName() + " INCOMPLETE";
+                
+                SwingUtilities.invokeLater(() -> {
+                    String currentText = sprintDisplayArea.getText();
+                    String updatedText = currentText.replace(userStoryText, updatedUserStoryText);
+                    
+                    updatedText = updatedText.replace(sprintCompletedText, sprintIncompleteText);
+                    
+                    sprintDisplayArea.setText(updatedText);
+                });
+                
+                sprintDisplayArea.append("No solution available for User Story " + blockedStory + 
+                    ". Simulation failed.\n");
+                return false;
+            }
+        }
+        return true;
+    }
+    
     private static void updateSimulationData(JSONObject updatedData) {
         try (OutputStreamWriter writer =
                      new OutputStreamWriter(
@@ -267,4 +339,33 @@ public class SimulationStateManager {
         double blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
+
+    private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
+        List<SprintBlocker> blockers = userStory.getBlockers();
+        if (blockers != null && !blockers.isEmpty()) {
+            for (SprintBlocker blocker : blockers) {
+                boolean foundBlocker = evaluateBlockerAndSolution(blocker);
+                if (foundBlocker) {
+                    SwingUtilities.invokeLater(() -> {
+                        sprintDisplayArea.append("  BLOCKER DETECTED for User Story " + userStory.toString() + ":\n");
+                        sprintDisplayArea.append("    Blocker: " + blocker.getName() + "\n");
+                        sprintDisplayArea.append("    Description: " + blocker.getDescription() + "\n");
+
+                        SprintBlockerSolution solution = blocker.getSolution();
+                        boolean foundSolution = evaluateBlockerAndSolution(solution);
+                        if (foundSolution){
+                            blocker.setStatus("RESOLVED");
+                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "RESOLVED"+"\n");
+                        }
+                        else{
+                            blockedUserStories.add(userStory);
+                            sprintDisplayArea.append("BLOCKER: " + blocker.getName() + " NOT RESOLVED - Added to blocked stories.\n");
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    
 }

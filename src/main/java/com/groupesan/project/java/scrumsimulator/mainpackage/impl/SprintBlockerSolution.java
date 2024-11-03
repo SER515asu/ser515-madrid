@@ -66,7 +66,16 @@ public class SprintBlockerSolution extends ScrumObject implements ProbabilityRan
         return blockerSolutionMinProbability;
     }
 
+    public void setBlockerSolutionMinProbability(int blockerSolutionMinProbability) {
+        this.blockerSolutionMinProbability = blockerSolutionMinProbability;
+    }
+
     public int getMaxProbability() {
         return blockerSolutionMaxProbability;
     }
+
+    public void setBlockerSolutionMaxProbability(int blockerSolutionMaxProbability) {
+        this.blockerSolutionMaxProbability = blockerSolutionMaxProbability;
+    }
+
 }

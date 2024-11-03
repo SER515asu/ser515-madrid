@@ -155,24 +155,63 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     }
 
     private void showUserStoryPopupMenu() {
-        // Clear existing popup menu items if already populated
         if (userStoryPopupMenu != null) {
             userStoryPopupMenu.removeAll();
         } else {
             userStoryPopupMenu = new JPopupMenu();
         }
 
-        // Allow to select multiple user stories for one blocker
+        ButtonGroup buttonGroup = new ButtonGroup();
+        
+        JRadioButtonMenuItem noneItem = new JRadioButtonMenuItem("None");
+        noneItem.setSelected(blocker.getUserStories().isEmpty());
+        noneItem.addActionListener(e -> clearUserStoryAssignments());
+        buttonGroup.add(noneItem);
+        userStoryPopupMenu.add(noneItem);
+        
+        userStoryPopupMenu.addSeparator();
+
         UserStoryStore userStoryStore = UserStoryStore.getInstance();
         for (UserStory userStory : userStoryStore.getUserStories()) {
-            JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(userStory.getName());
+            JRadioButtonMenuItem menuItem = new JRadioButtonMenuItem(userStory.getName());
+            
+            boolean isAssignedToOther = isUserStoryAssignedToOtherBlocker(userStory);
+            
+            menuItem.setEnabled(!isAssignedToOther);
+            
             menuItem.setSelected(blocker.getUserStories().contains(userStory));
+            
             menuItem.addActionListener(e -> updateSelectedUserStories(menuItem, userStory));
+            buttonGroup.add(menuItem);
             userStoryPopupMenu.add(menuItem);
         }
 
-        // Show the popup menu below the button
         userStoryPopupMenu.show(userStoryDropdownButton, 0, userStoryDropdownButton.getHeight());
+    }
+    
+    private boolean isUserStoryAssignedToOtherBlocker(UserStory userStory) {
+        for (SprintBlocker otherBlocker : BlockerStore.getInstance().getAllBlockers()) {
+            if (otherBlocker != this.blocker && otherBlocker.getUserStories().contains(userStory)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void clearUserStoryAssignments() {
+        for (UserStory userStory : blocker.getUserStories().toArray(new UserStory[0])) {
+            userStory.removeBlocker(blocker);
+            blocker.removeUserStory(userStory);
+        }
+    }
+
+    private void updateSelectedUserStories(JRadioButtonMenuItem menuItem, UserStory userStory) {
+        if (menuItem.isSelected()) {
+            clearUserStoryAssignments();
+            
+            blocker.addUserStory(userStory);
+            userStory.addBlocker(blocker);
+        }
     }
 
     private String truncateText(String text, int maxLength) {
@@ -201,14 +240,6 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         return blocker.getMinProbability() + "% - " + blocker.getMaxProbability() + "%";
     }
 
-    private void updateSelectedUserStories(JCheckBoxMenuItem menuItem, UserStory userStory) {
-        if (menuItem.isSelected()) {
-            blocker.addUserStory(userStory);
-        } else {
-            blocker.removeUserStory(userStory);
-        }
-    }
-
     public void setStateManager(SimulationStateManager simStateManager) {
         this.simStateManager = simStateManager;
     }
@@ -222,10 +253,13 @@ public class BlockerWidget extends JPanel implements BaseComponent {
     public void restoreSelectedUserStory() {
         if (userStoryPopupMenu != null) {
             for (Component component : userStoryPopupMenu.getComponents()) {
-                if (component instanceof JCheckBoxMenuItem) {
-                    JCheckBoxMenuItem menuItem = (JCheckBoxMenuItem) component;
-                    UserStory userStory = UserStoryStore.getInstance().getUserStoryByName(menuItem.getText());
-                    menuItem.setSelected(userStory != null && blocker.getUserStories().contains(userStory));
+                if (component instanceof JRadioButtonMenuItem) {
+                    JRadioButtonMenuItem menuItem = (JRadioButtonMenuItem) component;
+                    if (!menuItem.getText().equals("None")) {
+                        UserStory userStory = UserStoryStore.getInstance().getUserStoryByName(menuItem.getText());
+                        menuItem.setSelected(userStory != null && blocker.getUserStories().contains(userStory));
+                        menuItem.setEnabled(!isUserStoryAssignedToOtherBlocker(userStory));
+                    }
                 }
             }
         }
