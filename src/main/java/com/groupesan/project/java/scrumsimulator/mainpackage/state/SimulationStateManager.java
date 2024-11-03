@@ -350,7 +350,7 @@ public class SimulationStateManager {
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
         double probability = random.nextDouble();
         List<SprintBlocker> blockers = userStory.getBlockers();
-        if (probability <= 0.1) {
+        if (probability <= 0.01) {
             JOptionPane optionPane = new JOptionPane("Technical issue detected! Stopping the simulator...",
                     JOptionPane.WARNING_MESSAGE);
 
