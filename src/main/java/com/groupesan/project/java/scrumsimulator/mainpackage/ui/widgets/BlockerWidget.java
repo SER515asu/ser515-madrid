@@ -272,4 +272,11 @@ public class BlockerWidget extends JPanel implements BaseComponent {
         }
         return "No solution assigned";
     }
+    public SprintBlocker getBlocker() {
+        return blocker;
+    }
+    public void updateStatus(String newStatus) {
+        blocker.setStatus(newStatus);
+        status.setText(newStatus);
+    }
 }
