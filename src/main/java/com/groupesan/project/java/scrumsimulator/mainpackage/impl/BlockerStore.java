@@ -46,4 +46,8 @@ public class BlockerStore {
     public void clearBlockers() {
         blockers.clear();
     }
+
+    public SprintBlocker[] getAllBlockers() {
+        return blockers.toArray(new SprintBlocker[0]);
+    }
 }
