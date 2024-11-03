@@ -340,12 +340,23 @@ public class SimulationStateManager {
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
 
+    private void resetAllBlockersStatus() {
+        blockedUserStories.forEach(userStory -> {
+            List<SprintBlocker> blockers = userStory.getBlockers();
+            if (blockers != null) {
+                blockers.forEach(blocker -> blocker.setStatus("UNRESOLVED"));
+            }
+        });
+        sprintDisplayArea.append("All blockers have been reset to UNRESOLVED due to the technical issue.\n");
+    }
+
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
         SecureRandom random = new SecureRandom();
         double probability = random.nextDouble();
         List<SprintBlocker> blockers = userStory.getBlockers();
         if (probability <= 0.1) {
             JOptionPane.showMessageDialog(null, "Technical issue detected! Stopping the simulator...");
+            resetAllBlockersStatus();
             stopSimulation();
             return;
         }
