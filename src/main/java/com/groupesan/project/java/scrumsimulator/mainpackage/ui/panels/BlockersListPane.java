@@ -1,5 +1,6 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerUpdateListener;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
 import com.groupesan.project.java.scrumsimulator.mainpackage.impl.BlockerStore;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
@@ -11,7 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockersListPane extends JFrame implements BaseComponent {
+public class BlockersListPane extends JFrame implements BaseComponent, BlockerUpdateListener {
     private List<BlockerWidget> widgets = new ArrayList<>();
     private JPanel headerPanel;
     private JPanel blockersPanel;
@@ -23,6 +24,7 @@ public class BlockersListPane extends JFrame implements BaseComponent {
 
     public void setSimulationStateManager(SimulationStateManager simStateManager) {
         this.simStateManager = simStateManager;
+        simStateManager.addBlockerUpdateListener(this);
         // Update existing widgets with the state manager
         for (BlockerWidget widget : widgets) {
             widget.setStateManager(simStateManager);
@@ -150,5 +152,17 @@ public class BlockersListPane extends JFrame implements BaseComponent {
         
         blockersPanel.revalidate();
         blockersPanel.repaint();
+    }
+
+    @Override
+    public void onBlockerStatusChanged(SprintBlocker blocker, String newState) {
+        for (BlockerWidget widget : widgets) {
+            if (widget.getBlocker().getId().equals(blocker.getId())) {
+                widget.updateStatus(newState);
+                break;
+            }
+        }
+
+        refreshBlockersList();
     }
 }

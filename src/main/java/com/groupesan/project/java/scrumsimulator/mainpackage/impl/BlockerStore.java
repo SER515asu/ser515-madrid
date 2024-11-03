@@ -24,10 +24,10 @@ public class BlockerStore {
         BlockerFactory factory = BlockerFactory.getInstance();
         
         addBlocker(factory.createNewBlocker("Role Implementation", "The roles set by the user don't work right now.", "Open", 40, 45));
-        addBlocker(factory.createNewBlocker("Missing Design Specs", "UI team hasn't provided final design specifications.", "In Progress", 10, 40));
+        addBlocker(factory.createNewBlocker("Missing Design Specs", "UI team hasn't provided final design specifications.", "Open", 10, 40));
         addBlocker(factory.createNewBlocker("Simulation Window issue", "Simulation window should not pop up on first boot.", "Open", 60, 75));
-        addBlocker(factory.createNewBlocker("Edits reflect instantly", "Any edits made in the sprint variables should update in the list instantaneously.", "Resolved", 30, 45));
-        addBlocker(factory.createNewBlocker("Role heirarchy", "Need to implement role heirarchies.", "In Progress", 20, 30));
+        addBlocker(factory.createNewBlocker("Edits reflect instantly", "Any edits made in the sprint variables should update in the list instantaneously.", "Open", 30, 45));
+        addBlocker(factory.createNewBlocker("Role heirarchy", "Need to implement role heirarchies.", "Open", 20, 30));
     }
 
     public void addBlocker(SprintBlocker blocker) {
@@ -45,5 +45,9 @@ public class BlockerStore {
 
     public void clearBlockers() {
         blockers.clear();
+    }
+
+    public SprintBlocker[] getAllBlockers() {
+        return blockers.toArray(new SprintBlocker[0]);
     }
 }
