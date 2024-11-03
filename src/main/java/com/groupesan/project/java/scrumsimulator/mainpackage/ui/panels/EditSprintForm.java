@@ -146,6 +146,7 @@ public class EditSprintForm extends JFrame implements BaseComponent {
             // Clear existing sprint backlog
             sprint.getUserStories().clear();
             sprintListModel.clear();
+            sprint.removeAllUserStories();
 
             // Add new stories to sprint backlog
             for (UserStory userStory : sprintBacklog) {
