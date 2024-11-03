@@ -12,24 +12,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.impl.*;
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels.BlockersListPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.ProbabilityRange;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.ProbabilityUtils;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.Sprint;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlocker;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintBlockerSolution;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.UserStory;
 
 /**
  * SimulationStateManager manages the state of a simulation, including whether it is running and
@@ -44,6 +33,10 @@ public class SimulationStateManager {
     private static final SecureRandom secureRandom = new SecureRandom();
     private SimulationButtonStateInterface buttonStateListener;
     private List<UserStory> blockedUserStories;
+
+    private BlockersListPane blockersListPane;
+
+    SecureRandom random = new SecureRandom();
 
     /** Simulation State manager. Not running by default. */
     public SimulationStateManager() {
@@ -340,24 +333,34 @@ public class SimulationStateManager {
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
 
-    private void resetAllBlockersStatus() {
-        blockedUserStories.forEach(userStory -> {
-            List<SprintBlocker> blockers = userStory.getBlockers();
-            if (blockers != null) {
-                blockers.forEach(blocker -> blocker.setStatus("UNRESOLVED"));
+    private synchronized void resetAllBlockersStatus() {
+        List<SprintBlocker> blockersList =  BlockerStore.getInstance().getBlockers();
+
+        if(blockersList !=null && blockersList.size()>0){
+            for(SprintBlocker blocker : blockersList){
+                blocker.setStatus("Open");
             }
-        });
+        }
         sprintDisplayArea.append("All blockers have been reset to UNRESOLVED due to the technical issue.\n");
     }
 
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
-        SecureRandom random = new SecureRandom();
+
         double probability = random.nextDouble();
         List<SprintBlocker> blockers = userStory.getBlockers();
         if (probability <= 0.1) {
-            JOptionPane.showMessageDialog(null, "Technical issue detected! Stopping the simulator...");
+            JOptionPane optionPane = new JOptionPane("Technical issue detected! Stopping the simulator...",
+                    JOptionPane.WARNING_MESSAGE);
+
+            // Create the dialog
+            JDialog dialog = optionPane.createDialog("Warning");
+            dialog.setModal(true); // Make the dialog modal
+            dialog.setVisible(true);
+
             resetAllBlockersStatus();
+
             stopSimulation();
+            openBlockersPane();
             return;
         }
         if (blockers != null && !blockers.isEmpty()) {
@@ -372,8 +375,8 @@ public class SimulationStateManager {
                         SprintBlockerSolution solution = blocker.getSolution();
                         boolean foundSolution = evaluateBlockerAndSolution(solution);
                         if (foundSolution){
-                            blocker.setStatus("RESOLVED");
-                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "RESOLVED"+"\n");
+                            blocker.setStatus("Resolved");
+                            sprintDisplayArea.append("BLOCKER : " + blocker.getName() + "Resolved"+"\n");
                         }
                         else{
                             blockedUserStories.add(userStory);
@@ -382,6 +385,15 @@ public class SimulationStateManager {
                     });
                 }
             }
+        }
+    }
+
+    void openBlockersPane(){
+        if (blockersListPane == null || !blockersListPane.isDisplayable()) {
+            blockersListPane = new BlockersListPane();
+            blockersListPane.setVisible(true);
+        } else {
+            blockersListPane.toFront();
         }
     }
 
