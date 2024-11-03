@@ -104,7 +104,6 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
 
 
         } catch (NumberFormatException e) {
-            System.out.println("excpetion has occured"+e.toString());
             return null;
         }
     }
