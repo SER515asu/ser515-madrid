@@ -19,7 +19,6 @@ public class SpikeHandler {
         while (spikeOngoing) {
             Spike spike = createSpike();
             if (spike == null) {
-                System.out.println("Spike creation canceled.");
                 spikeOngoing = false;
                 break;
             }
@@ -39,14 +38,7 @@ public class SpikeHandler {
     private void handleSpike(Spike spike) {
         int spikeVal = spike.getSpikeValue();
 
-        System.out.println("Spike created with values: " +
-                "Upper Bound = " + spike.getUpperBound() +
-                ", Lower Bound = " + spike.getLowerBound() +
-                ", Spike Value = " + spike.getSpikeValue() +
-                ", Calculated Upper Bound = " + spike.getCalculatedUpperBound());
-
         if (spikeVal <= spike.getUpperBound()) {
-            System.out.println("Spike Resolved");
             status = TaskStatus.RESOLVED;
             spikeOngoing = false;
         } else if (spikeVal > spike.getUpperBound() && spikeVal <= spike.getCalculatedUpperBound()) {
@@ -62,11 +54,9 @@ public class SpikeHandler {
         String action = spikeActionPane.getAction();
         spikeActionPane.dispose();
 
-
         if ("reallocate".equals(action)) {
-            System.out.println("Reallocate resources");
+            // System.out.println("Reallocate resources");
         } else if ("conclude".equals(action)) {
-            System.out.println("Conclude Spike");
             status = TaskStatus.UNRESOLVED;
             spikeOngoing = false;
         }

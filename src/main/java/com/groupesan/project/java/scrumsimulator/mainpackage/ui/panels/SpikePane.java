@@ -126,6 +126,8 @@ public class SpikePane extends JFrame implements BaseComponent {
                         continue;
                     }
 
+                    story.setStatus("");
+
                     JPanel storyPanel = new JPanel(new GridBagLayout());
                     GridBagConstraints gbc = new GridBagConstraints();
                     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -161,41 +163,22 @@ public class SpikePane extends JFrame implements BaseComponent {
     
                     JButton createSpikeButton = new JButton("Create Spike");
                     createSpikeButton.addActionListener(e -> {
-//                        CreateNewSpikeForm createNewSpikeForm = new CreateNewSpikeForm();
-//                        createNewSpikeForm.setModal(true);
-//                        createNewSpikeForm.setVisible(true);
-//                        Spike spike = createNewSpikeForm.getSpike();
-//                        if (spike != null) {
-//                            story.setStatus("Unresolved");
-//                            statusLabel.setText("Unresolved");
-//                            System.out.println("Spike created and status updated for story: " + story.getId());
-//
-//                            statusLabel.revalidate();
-//                            statusLabel.repaint();
-//
-//                            System.out.println("Spike created with values: " +
-//                                    "Upper Bound = " + spike.getUpperBound() +
-//                                    ", Lower Bound = " + spike.getLowerBound() +
-//                                    ", Spike Value = " + spike.getSpikeValue() +
-//                                    ", Calculated Upper Bound = " + spike.getCalculatedUpperBound() +
-//                                    ", Status = " + story.getStatus());
-//                        }
                         SpikeHandler spikeHandler = new SpikeHandler();
                         TaskStatus spikeStatus = spikeHandler.getSpikeStatus();
-                        spikeHandler=null;
+                        spikeHandler = null;
 
-                        String userStoryStatus= spikeStatus.toString();
-                        if(userStoryStatus!=null && (userStoryStatus.equals("RESOLVED")|| userStoryStatus.equals("UNRESOLVED"))){
-                            createSpikeButton.setEnabled(false);
-
+                        if (spikeStatus != null) {
+                            String userStoryStatus = spikeStatus.toString();
+                            if (userStoryStatus.equals("RESOLVED") || userStoryStatus.equals("UNRESOLVED")) {
+                                createSpikeButton.setEnabled(false);
+                            } else {
+                                createSpikeButton.setEnabled(true);
+                            }
+                            story.setStatus(userStoryStatus);
+                            statusLabel.setText(userStoryStatus);
+                            statusLabel.revalidate();
+                            statusLabel.repaint();
                         }
-                        else{
-                            createSpikeButton.setEnabled(true);
-                        }
-                        story.setStatus(userStoryStatus.toString());
-                        statusLabel.setText(userStoryStatus.toString());
-                        statusLabel.revalidate();
-                        statusLabel.repaint();
                     });
     
                     gbc.gridx = 6;
