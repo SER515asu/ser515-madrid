@@ -1,8 +1,14 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.impl;
 
+import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BlockerSolutionsWidget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class BlockerSolutionsStoreTest {
@@ -20,6 +26,19 @@ public class BlockerSolutionsStoreTest {
         BlockerSolutionsStore instance2 = BlockerSolutionsStore.getInstance();
         assertNotNull(instance1);
         assertSame(instance1, instance2, "getInstance should always return the same instance");
+    }
+    @Test
+    public void testProbabilityRangeDisplay() throws NoSuchFieldException, IllegalAccessException {
+        // Test if the probability range label displays correctly in a widget
+        SprintBlockerSolution blockerSolution = new SprintBlockerSolution("Test Blocker solution", "description", 10, 30);
+        blockerSolution.doRegister();
+
+        BlockerSolutionsWidget widget = new BlockerSolutionsWidget(blockerSolution);
+        Field probabilityRangeField = BlockerSolutionsWidget.class.getDeclaredField("probabilityRange");
+        probabilityRangeField.setAccessible(true);
+
+        JLabel probabilityRangeLabel = (JLabel) probabilityRangeField.get(widget);
+        assertEquals("10% - 30%", probabilityRangeLabel.getText(), "Probability range should display correctly");
     }
 
     @Test
