@@ -71,6 +71,8 @@ public class EditBlockerSolutionForm extends JFrame implements BaseComponent {
         submitButton.addActionListener(e -> {
             blockerSolution.setName(nameField.getText());
             blockerSolution.setDescription(descArea.getText());
+            blockerSolution.setBlockerSolutionMinProbability(minProbabilitySlider.getValue());
+            blockerSolution.setBlockerSolutionMaxProbability(maxProbabilitySlider.getValue());
             dispose();
         });
 
