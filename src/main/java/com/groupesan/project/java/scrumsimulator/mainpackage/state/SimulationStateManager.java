@@ -348,7 +348,6 @@ public class SimulationStateManager {
     }
 
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
-        SecureRandom random = new SecureRandom();
         double probability = random.nextDouble();
         List<SprintBlocker> blockers = userStory.getBlockers();
         if (probability <= 0.1) {
