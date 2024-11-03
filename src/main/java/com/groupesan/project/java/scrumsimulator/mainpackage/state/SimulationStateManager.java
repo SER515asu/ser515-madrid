@@ -341,7 +341,14 @@ public class SimulationStateManager {
     }
 
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
+        SecureRandom random = new SecureRandom();
+        double probability = random.nextDouble();
         List<SprintBlocker> blockers = userStory.getBlockers();
+        if (probability <= 0.1) {
+            JOptionPane.showMessageDialog(null, "Technical issue detected! Stopping the simulator...");
+            stopSimulation();
+            return;
+        }
         if (blockers != null && !blockers.isEmpty()) {
             for (SprintBlocker blocker : blockers) {
                 boolean foundBlocker = evaluateBlockerAndSolution(blocker);
