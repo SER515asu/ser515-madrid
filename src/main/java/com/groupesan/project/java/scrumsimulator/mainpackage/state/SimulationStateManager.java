@@ -336,16 +336,15 @@ public class SimulationStateManager {
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
 
-    private synchronized void resetAllBlockersStatus() {
+    synchronized void resetAllBlockersStatus() {
         List<SprintBlocker> blockersList =  BlockerStore.getInstance().getBlockers();
 
         if(blockersList !=null && blockersList.size()>0){
-            for(SprintBlocker blocker : blockersList){
+            for(SprintBlocker blocker : BlockerStore.getInstance().getBlockers()){
                 blocker.setStatus("Open");
                 notifyBlockerStatusChanged(blocker,"Open");
             }
         }
-        sprintDisplayArea.append("All blockers have been reset to UNRESOLVED due to the technical issue.\n");
     }
 
     private void handleBlocker(UserStory userStory, JTextArea sprintDisplayArea) {
@@ -362,6 +361,7 @@ public class SimulationStateManager {
             dialog.setVisible(true);
 
             resetAllBlockersStatus();
+            sprintDisplayArea.append("All blockers have been reset to UNRESOLVED due to the technical issue.\n");
 
             stopSimulation();
            // openBlockersPane();
