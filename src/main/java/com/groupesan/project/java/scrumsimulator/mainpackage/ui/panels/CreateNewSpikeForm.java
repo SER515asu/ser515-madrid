@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.SecureRandom;
+import java.util.Random;
 public class CreateNewSpikeForm extends JDialog implements BaseComponent {
     private JTextArea createSpikeDisplay;
     private JTextField upperBoundField;
@@ -68,6 +69,9 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
         add(panel);
     }
     public Spike createSpike(){
+        Random random = new Random();
+        int approvalNumber = random.nextInt(100) + 1;
+
         try {
             if (lowerBoundField.getText().isEmpty() || upperBoundField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter values for both bounds.", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -95,6 +99,12 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
                 upperBoundField.setText("");
                 return null;
             }
+
+            if (approvalNumber < 25) {
+            JOptionPane.showMessageDialog(this, "Management could not approve the required effort story points. Please try again later.", "Approval Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+            }
+
             int diff = upperBound - lowerBound;
             int calculatedUpperBound = upperBound + diff;
             
