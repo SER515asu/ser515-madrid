@@ -82,10 +82,7 @@ public class EditBlockerSolutionForm extends JFrame implements BaseComponent {
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
             if (validateProbability()) {
-                blockerSolution.setName(nameField.getText());
-                blockerSolution.setDescription(descArea.getText());
-                blockerSolution.setBlockerSolutionMinProbability(minProbabilitySlider.getValue());
-                blockerSolution.setBlockerSolutionMaxProbability(maxProbabilitySlider.getValue());
+                setBlockerSolution();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "min Probability should be less than Max Probability", "Error", JOptionPane.ERROR_MESSAGE);
@@ -98,13 +95,24 @@ public class EditBlockerSolutionForm extends JFrame implements BaseComponent {
         add(myJpanel);
     }
 
+    private void setBlockerSolution() {
+        int minProbability;
+        blockerSolution.setName(nameField.getText());
+        blockerSolution.setDescription(descArea.getText());
+        if (randomizeProbabilityCheckBox.isSelected()) {
+            minProbability= generateRandomProbability(0, 90);
+            blockerSolution.setBlockerSolutionMinProbability(minProbability);
+            blockerSolution.setBlockerSolutionMaxProbability(generateRandomProbability(minProbability + 1, 100));
+        } else {
+            blockerSolution.setBlockerSolutionMinProbability(minProbabilitySlider.getValue());
+            blockerSolution.setBlockerSolutionMaxProbability(maxProbabilitySlider.getValue());
+        }
+
+    }
+
     private boolean validateProbability() {
         int minProbability;
         int maxProbability;
-        if (randomizeProbabilityCheckBox.isSelected()) {
-            minProbability = generateRandomProbability(0, 90);
-            maxProbability = generateRandomProbability(minProbability + 1, 100);
-        }
         minProbability = minProbabilitySlider.getValue();
         maxProbability = maxProbabilitySlider.getValue();
         return minProbability < maxProbability;
