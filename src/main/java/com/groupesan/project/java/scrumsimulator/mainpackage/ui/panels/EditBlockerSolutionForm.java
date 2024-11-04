@@ -2,6 +2,7 @@ package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.security.SecureRandom;
 
 import javax.swing.*;
 
@@ -19,6 +20,7 @@ public class EditBlockerSolutionForm extends JFrame implements BaseComponent {
     private JLabel minProbabilityLabel = new JLabel("20%");
     private JLabel maxProbabilityLabel = new JLabel("80%");
     private JCheckBox randomizeProbabilityCheckBox = new JCheckBox("Randomize Probability");
+    SecureRandom secRandom = new SecureRandom();
 
     public EditBlockerSolutionForm(SprintBlockerSolution blockerSolution) {
         this.blockerSolution = blockerSolution;
@@ -109,7 +111,7 @@ public class EditBlockerSolutionForm extends JFrame implements BaseComponent {
     }
 
     private int generateRandomProbability(int min, int max) {
-        return min + (int) (Math.random() * (max - min + 1));
+        return min + secRandom.nextInt(max - min + 1);
     }
 
     private void probabilityRangeSelection() {

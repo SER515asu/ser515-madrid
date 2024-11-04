@@ -7,6 +7,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.SecureRandom;
 
 public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
 
@@ -18,6 +19,7 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
     private JLabel maxProbabilityLabel = new JLabel("80%");
     private boolean isFormSubmitted = false;
     private JCheckBox randomizeProbabilityCheckBox = new JCheckBox("Randomize Probability");
+    SecureRandom secRandom = new SecureRandom();
 
 
     public NewBlockerSolutionForm() {
@@ -135,7 +137,7 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
     }
 
     private int generateRandomProbability(int min, int max) {
-        return min + (int) (Math.random() * (max - min + 1));
+        return min + secRandom.nextInt(max - min + 1);
     }
 
     private void probabilityRangeSelection() {
