@@ -332,13 +332,10 @@ public class SimulationStateManager {
         }
     }
     public boolean evaluateBlockerAndSolution(ProbabilityRange blockerOrSolution) {
-        double blockerOrSolutionProbability;
-        try {
-            blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
-        } catch (NullPointerException e) {
-            System.err.println("Error: ProbabilityRange cannot be null. Defaulting to failure scenario.");
-            return false;
+        if (blockerOrSolution == null) {
+            throw new IllegalArgumentException("ProbabilityRange for blocker or solution cannot be null");
         }
+        double blockerOrSolutionProbability = ProbabilityUtils.generateRandomProbability(blockerOrSolution);
         return ProbabilityUtils.checkTheSuccessScenario(blockerOrSolutionProbability);
     }
 
