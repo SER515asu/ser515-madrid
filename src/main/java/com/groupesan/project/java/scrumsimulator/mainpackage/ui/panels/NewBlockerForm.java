@@ -127,7 +127,6 @@ public class NewBlockerForm extends JFrame implements BaseComponent {
         SprintBlocker blocker = blockerFactory.createNewBlocker(title, description, status, minProbability, maxProbability);
         blocker.doRegister();
 
-        System.out.println(blocker);
         return blocker;
     }
 }

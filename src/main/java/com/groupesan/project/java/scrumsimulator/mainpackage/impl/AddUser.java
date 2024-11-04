@@ -53,7 +53,7 @@ public class AddUser {
             fileWriter = new FileWriter(file, StandardCharsets.UTF_8);
             fileWriter.write(root.toString(4));
 
-            System.out.println("User added successfully");
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
