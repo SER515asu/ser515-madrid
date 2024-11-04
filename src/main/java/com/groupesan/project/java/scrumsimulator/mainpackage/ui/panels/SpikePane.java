@@ -169,7 +169,7 @@ public class SpikePane extends JFrame implements BaseComponent {
 
                         if (spikeStatus != null) {
                             String userStoryStatus = spikeStatus.toString();
-                            if (userStoryStatus.equals("RESOLVED") || userStoryStatus.equals("UNRESOLVED")) {
+                            if (userStoryStatus.equals("RESOLVED")) {
                                 createSpikeButton.setEnabled(false);
                             } else {
                                 createSpikeButton.setEnabled(true);
