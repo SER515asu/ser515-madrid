@@ -7,6 +7,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.SecureRandom;
 
 public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
 
@@ -17,6 +18,9 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
     private JLabel minProbabilityLabel = new JLabel("20%");
     private JLabel maxProbabilityLabel = new JLabel("80%");
     private boolean isFormSubmitted = false;
+    private JCheckBox randomizeProbabilityCheckBox = new JCheckBox("Randomize Probability");
+    SecureRandom secRandom = new SecureRandom();
+
 
     public NewBlockerSolutionForm() {
         this.init();
@@ -43,7 +47,6 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
         minProbabilitySlider.setPaintLabels(true);
         minProbabilitySlider.addChangeListener(e -> {
             minProbabilityLabel.setText(minProbabilitySlider.getValue() + "%");
-            validateProbability();
         });
         myJpanel.add(minProbabilitySlider, new CustomConstraints(1, 2, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
         myJpanel.add(minProbabilityLabel, new CustomConstraints(1, 3, GridBagConstraints.WEST, GridBagConstraints.NONE));
@@ -55,10 +58,12 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
         maxProbabilitySlider.setPaintLabels(true);
         maxProbabilitySlider.addChangeListener(e -> {
             maxProbabilityLabel.setText(maxProbabilitySlider.getValue() + "%");
-            validateProbability();
         });
         myJpanel.add(maxProbabilitySlider, new CustomConstraints(1, 4, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
         myJpanel.add(maxProbabilityLabel, new CustomConstraints(1, 5, GridBagConstraints.WEST, GridBagConstraints.NONE));
+
+        randomizeProbabilityCheckBox.addActionListener(e -> probabilityRangeSelection());
+        myJpanel.add(randomizeProbabilityCheckBox, new CustomConstraints(0, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         JButton cancelButton = new JButton("Cancel");
 
@@ -70,7 +75,7 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
 
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            if (validateForm() && validateProbability()) {
+            if (validateForm()) {
                 isFormSubmitted = true;
                 SprintBlockerSolution blockerSolution = getBlockerSolutionObject();
                 if (blockerSolution != null) {
@@ -82,16 +87,10 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
 
         });
 
-        myJpanel.add(cancelButton, new CustomConstraints(0, 6, GridBagConstraints.EAST, GridBagConstraints.NONE));
-        myJpanel.add(submitButton, new CustomConstraints(1, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        myJpanel.add(cancelButton, new CustomConstraints(0, 7, GridBagConstraints.EAST, GridBagConstraints.NONE));
+        myJpanel.add(submitButton, new CustomConstraints(1, 7, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         add(myJpanel);
-    }
-
-    private boolean validateProbability() {
-        int min = minProbabilitySlider.getValue();
-        int max = maxProbabilitySlider.getValue();
-        return min < max;
     }
 
 
@@ -99,8 +98,12 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
         String title = nameField.getText();
         String description = descArea.getText();
 
-        if (title.isEmpty() || description.isEmpty() || minProbabilitySlider.getValue() > maxProbabilitySlider.getValue()) {
+        if (title.isEmpty() || description.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!randomizeProbabilityCheckBox.isSelected() && minProbabilitySlider.getValue() >= maxProbabilitySlider.getValue()) {
+            JOptionPane.showMessageDialog(this, "Min Probability should be less than Max Probability", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -114,11 +117,34 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
         String title = nameField.getText();
         String description = descArea.getText();
 
+        int minProbability;
+        int maxProbability;
+
+        if (randomizeProbabilityCheckBox.isSelected()) {
+            minProbability = generateRandomProbability(0, 90);
+            maxProbability = generateRandomProbability(minProbability + 1, 100);
+        } else {
+            minProbability = minProbabilitySlider.getValue();
+            maxProbability = maxProbabilitySlider.getValue();
+        }
+
         BlockerSolutionsFactory blockerSolutionsFactory = BlockerSolutionsFactory.getInstance();
-        SprintBlockerSolution blockerSolution = blockerSolutionsFactory.createNewBlockerSolution(title, description, minProbabilitySlider.getValue(), maxProbabilitySlider.getValue());
+        SprintBlockerSolution blockerSolution = blockerSolutionsFactory.createNewBlockerSolution(title, description, minProbability, maxProbability);
         blockerSolution.doRegister();
 
 
         return blockerSolution;
+    }
+
+    private int generateRandomProbability(int min, int max) {
+        return min + secRandom.nextInt(max - min + 1);
+    }
+
+    private void probabilityRangeSelection() {
+        boolean isRandomizeSelected = randomizeProbabilityCheckBox.isSelected();
+        minProbabilitySlider.setEnabled(!isRandomizeSelected);
+        maxProbabilitySlider.setEnabled(!isRandomizeSelected);
+        minProbabilityLabel.setEnabled(!isRandomizeSelected);
+        maxProbabilityLabel.setEnabled(!isRandomizeSelected);
     }
 }
