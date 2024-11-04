@@ -1,25 +1,19 @@
 package com.groupesan.project.java.scrumsimulator.mainpackage.ui.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Player;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.ScrumRole;
 import com.groupesan.project.java.scrumsimulator.mainpackage.core.Simulation;
-import com.groupesan.project.java.scrumsimulator.mainpackage.impl.SprintStore;
-import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.state.SimulationStateManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.utils.WizardManager;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.BaseComponent;
 import com.groupesan.project.java.scrumsimulator.mainpackage.ui.widgets.WizardHandler;
 import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstraints;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DemoPane extends JFrame implements BaseComponent {
     private Player player = new Player("bob", new ScrumRole("demo"));
@@ -143,7 +137,6 @@ public class DemoPane extends JFrame implements BaseComponent {
                             @Override
                             public void onSubmit(Simulation data) {
                                 // Handle the created simulation
-                                System.out.println("New simulation created: " + data.getSimulationName());
                                 // You can add more logic here to handle the new simulation
                             }
                         });
@@ -217,7 +210,6 @@ public class DemoPane extends JFrame implements BaseComponent {
                                 currentRole = newRole;
                                 simulationPanel.setRole(currentRole);
                                 newSimulationButton.setEnabled("Scrum Master".equals(currentRole));
-                                System.out.println("Role Updated to: " + currentRole);
                                 simulationPanel.setRole(currentRole);
                                 spikePaneButton.setEnabled(!"Product Owner".equals(currentRole));
                             }

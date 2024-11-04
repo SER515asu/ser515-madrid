@@ -68,6 +68,8 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
         add(panel);
     }
     public Spike createSpike(){
+        int approvalNumber = random.nextInt(100) + 1;
+
         try {
             if (lowerBoundField.getText().isEmpty() || upperBoundField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter values for both bounds.", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -95,6 +97,12 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
                 upperBoundField.setText("");
                 return null;
             }
+
+            if (approvalNumber < 25) {
+            JOptionPane.showMessageDialog(this, "Management could not approve the required effort story points. Please try again later.", "Approval Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+            }
+
             int diff = upperBound - lowerBound;
             int calculatedUpperBound = upperBound + diff;
             

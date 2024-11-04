@@ -156,7 +156,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                     public void actionPerformed(ActionEvent e) {
                         List<UserStory> userStoryList =  UserStoryStore.getInstance().getUserStories();
                         if (userStoryList.isEmpty()) {
-                            System.out.println("No user stories available.");
                             JOptionPane.showMessageDialog(myJpanel, "No user stories available.", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
 
@@ -170,7 +169,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
 
                         listModel.clear();
                         for (UserStory userStory : sprintBacklog) {
-                            System.out.println("userstory: "+userStory.getName());
                             listModel.addElement(userStory.toString());
 
                         }
@@ -302,7 +300,6 @@ public class NewSprintForm extends JFrame implements BaseComponent {
                 }
             }
         }
-        System.out.println(mySprint);
 
         return mySprint;
     }

@@ -57,7 +57,7 @@ public class UserStoryListPane extends JFrame implements BaseComponent {
     
         // Add "New User Story" button
         JButton newSprintButton = new JButton("New User Story");
-        System.out.println("Current role :" + currentRole);
+
         if (currentRole != null && currentRole.equalsIgnoreCase("Scrum Master")) {
             newSprintButton.setEnabled(true);
         } else {

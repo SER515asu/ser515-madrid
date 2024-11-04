@@ -132,7 +132,7 @@ public class NewBlockerSolutionForm extends JFrame implements BaseComponent {
         SprintBlockerSolution blockerSolution = blockerSolutionsFactory.createNewBlockerSolution(title, description, minProbability, maxProbability);
         blockerSolution.doRegister();
 
-        System.out.println(blockerSolution);
+
         return blockerSolution;
     }
 
