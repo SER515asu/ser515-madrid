@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.SecureRandom;
-import java.util.Random;
 public class CreateNewSpikeForm extends JDialog implements BaseComponent {
     private JTextArea createSpikeDisplay;
     private JTextField upperBoundField;
@@ -69,7 +68,6 @@ public class CreateNewSpikeForm extends JDialog implements BaseComponent {
         add(panel);
     }
     public Spike createSpike(){
-        Random random = new Random();
         int approvalNumber = random.nextInt(100) + 1;
 
         try {
