@@ -83,6 +83,7 @@ public class SprintVariablePane extends JFrame implements BaseComponent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    SprintStore.getInstance().clearSprintList();
                     int numberOfSprints = Integer.parseInt(numberOfSprintsField.getText());
 
                     int lowerBound = Integer.parseInt(sprintDurationField1.getText());

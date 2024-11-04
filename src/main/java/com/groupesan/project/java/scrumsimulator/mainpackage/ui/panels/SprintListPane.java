@@ -69,10 +69,9 @@ public class SprintListPane extends JFrame implements BaseComponent {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        SprintStore.getInstance().clearSprintList();
-                        refreshSprintList();
                         SprintVariablePane sprintVariablePane = new SprintVariablePane(SprintListPane.this);
                         sprintVariablePane.setVisible(true);
+                        refreshSprintList();
                     }
                 });
         myJpanel.add(
