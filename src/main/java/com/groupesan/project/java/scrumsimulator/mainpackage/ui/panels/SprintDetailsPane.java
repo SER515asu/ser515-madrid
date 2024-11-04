@@ -103,7 +103,6 @@ public class SprintDetailsPane extends JFrame{
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Edit button clicked");
                 EditSprintForm form = new EditSprintForm(sprint, SprintDetailsPane.this);
                 form.setVisible(true);
             }
