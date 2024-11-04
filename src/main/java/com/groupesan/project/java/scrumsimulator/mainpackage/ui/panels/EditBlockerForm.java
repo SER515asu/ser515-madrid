@@ -6,6 +6,7 @@ import com.groupesan.project.java.scrumsimulator.mainpackage.utils.CustomConstra
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.SecureRandom;
 
 public class EditBlockerForm extends JFrame implements BaseComponent {
 
@@ -17,6 +18,8 @@ public class EditBlockerForm extends JFrame implements BaseComponent {
     private JSlider maxProbabilitySlider = new JSlider(0, 100, 80);
     private JLabel minProbabilityLabel = new JLabel("20%");
     private JLabel maxProbabilityLabel = new JLabel("80%");
+    private JCheckBox randomizeProbabilityCheckBox = new JCheckBox("Randomize Probability");
+    SecureRandom secRandom = new SecureRandom();
 
     public EditBlockerForm(SprintBlocker blocker) {
         this.blocker = blocker;
@@ -72,6 +75,9 @@ public class EditBlockerForm extends JFrame implements BaseComponent {
         myJpanel.add(maxProbabilitySlider, new CustomConstraints(1, 5, GridBagConstraints.EAST, 1.0, 0.0, GridBagConstraints.HORIZONTAL));
         myJpanel.add(maxProbabilityLabel, new CustomConstraints(1, 6, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
+        randomizeProbabilityCheckBox.addActionListener(e -> probabilityRangeSelection());
+        myJpanel.add(randomizeProbabilityCheckBox, new CustomConstraints(0, 7, GridBagConstraints.WEST, GridBagConstraints.NONE));
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
 
@@ -81,16 +87,28 @@ public class EditBlockerForm extends JFrame implements BaseComponent {
                 blocker.setName(nameField.getText());
                 blocker.setDescription(descArea.getText());
                 blocker.setStatus((String) statusCombo.getSelectedItem());
-                blocker.setBlockerMinProbability(minProbabilitySlider.getValue());
-                blocker.setBlockerMaxProbability(maxProbabilitySlider.getValue());
+
+                int minProbability;
+                int maxProbability;
+
+                if (randomizeProbabilityCheckBox.isSelected()) {
+                    minProbability = generateRandomProbability(0, 90);
+                    maxProbability = generateRandomProbability(minProbability + 1, 100);
+                } else {
+                    minProbability = minProbabilitySlider.getValue();
+                    maxProbability = maxProbabilitySlider.getValue();
+                }
+
+                blocker.setBlockerMinProbability(minProbability);
+                blocker.setBlockerMaxProbability(maxProbability);
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "min Probability should be less than Max Probability", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        myJpanel.add(cancelButton, new CustomConstraints(0, 7, GridBagConstraints.EAST, GridBagConstraints.NONE));
-        myJpanel.add(submitButton, new CustomConstraints(1, 7, GridBagConstraints.WEST, GridBagConstraints.NONE));
+        myJpanel.add(cancelButton, new CustomConstraints(0, 8, GridBagConstraints.EAST, GridBagConstraints.NONE));
+        myJpanel.add(submitButton, new CustomConstraints(1, 8, GridBagConstraints.WEST, GridBagConstraints.NONE));
 
         add(myJpanel);
     }
@@ -99,5 +117,17 @@ public class EditBlockerForm extends JFrame implements BaseComponent {
         int min = minProbabilitySlider.getValue();
         int max = maxProbabilitySlider.getValue();
         return min < max;
+    }
+
+    private int generateRandomProbability(int min, int max) {
+        return min + secRandom.nextInt(max - min + 1);
+    }
+
+    private void probabilityRangeSelection() {
+        boolean isRandomizeSelected = randomizeProbabilityCheckBox.isSelected();
+        minProbabilitySlider.setEnabled(!isRandomizeSelected);
+        maxProbabilitySlider.setEnabled(!isRandomizeSelected);
+        minProbabilityLabel.setEnabled(!isRandomizeSelected);
+        maxProbabilityLabel.setEnabled(!isRandomizeSelected);
     }
 }
